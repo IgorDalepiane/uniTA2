@@ -2,26 +2,34 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/empresa/Contato/Contato.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/empresa/Contato/ContatoController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/empresa/Empresa.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/empresa/Endereco/Endereco.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/empresa/Endereco/EnderecoController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/empresa/Pessoa/Cliente/Cliente.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/empresa/Pessoa/Funcionario/Funcionario.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/empresa/Pessoa/Pessoa.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/empresa/Pessoa/PessoaController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/empresa/Produto/Produto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/empresa/Produto/ProdutoController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/empresa/Relatorio/RelatorioController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/empresa/Servicos/Servico.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/empresa/Servicos/ServicoController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/empresa/Servicos/ServicoPrestado.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/empresa/Servicos/ServicoPrestadoController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Empresa/ForgotPw.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Empresa/HomeController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Empresa/forgotPw.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Empresa/home.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/Controller.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/empresa/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/sample.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/empresa/empresa.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/uniTrab2/META-INF/uniTrab2.kotlin_module" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/uniTrab2/empresa/Controller.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/uniTrab2/empresa/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/uniTrab2/empresa/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/uniTrab2/empresa/sample.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/empresa/Contato/Contato.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Empresa/Contato/Contato.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/empresa/Contato/ContatoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Empresa/Contato/ContatoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/empresa/Empresa.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Empresa/Empresa.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/empresa/Endereco/Endereco.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Empresa/Endereco/Endereco.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/empresa/Endereco/EnderecoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Empresa/Endereco/EnderecoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/empresa/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Empresa/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/empresa/Pessoa/Cliente/Cliente.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Empresa/Pessoa/Cliente/Cliente.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/empresa/Pessoa/Funcionario/Funcionario.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Empresa/Pessoa/Funcionario/Funcionario.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/empresa/Pessoa/Pessoa.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Empresa/Pessoa/Pessoa.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/empresa/Pessoa/PessoaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Empresa/Pessoa/PessoaController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/empresa/Produto/Produto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Empresa/Produto/Produto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/empresa/Produto/ProdutoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Empresa/Produto/ProdutoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/empresa/Relatorio/RelatorioController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Empresa/Relatorio/RelatorioController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/empresa/Servicos/Servico.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Empresa/Servicos/Servico.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/empresa/Servicos/ServicoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Empresa/Servicos/ServicoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/empresa/Servicos/ServicoPrestado.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Empresa/Servicos/ServicoPrestado.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/empresa/Servicos/ServicoPrestadoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Empresa/Servicos/ServicoPrestadoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/empresa/empresa.fxml" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -76,6 +84,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="FxmlFile" />
         <option value="Class" />
       </list>
     </option>
@@ -107,10 +116,12 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="dynamic.classpath" value="false" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.2" />
     <property name="recentsLimit" value="5" />
+    <property name="restartRequiresConfirmation" value="false" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RunDashboard">
@@ -145,12 +156,12 @@
       </method>
     </configuration>
     <configuration name="Main" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="empresa.Main" />
+      <option name="MAIN_CLASS_NAME" value="Empresa.Main" />
       <module name="uniTrab2" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="empresa.*" />
+          <option name="PATTERN" value="Empresa.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -210,6 +221,7 @@
       <updated>1359379246138</updated>
       <workItem from="1359379250712" duration="1302000" />
       <workItem from="1571022164593" duration="3269000" />
+      <workItem from="1571259416025" duration="9606000" />
     </task>
     <servers />
   </component>
@@ -221,7 +233,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>

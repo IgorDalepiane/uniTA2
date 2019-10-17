@@ -1,4 +1,4 @@
-package empresa.Servicos;
+package Empresa.Servicos;
 
 public class ServicoPrestado {
 }

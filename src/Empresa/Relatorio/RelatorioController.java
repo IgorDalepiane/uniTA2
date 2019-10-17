@@ -1,4 +1,4 @@
-package empresa.Relatorio;
+package Empresa.Relatorio;
 
 public class RelatorioController {
 }

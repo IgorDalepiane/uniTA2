@@ -1,4 +1,4 @@
-package empresa.Pessoa;
+package Empresa.Pessoa;
 
 import java.util.List;
 

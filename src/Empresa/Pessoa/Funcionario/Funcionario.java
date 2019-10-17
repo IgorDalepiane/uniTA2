@@ -1,8 +1,8 @@
-package empresa.Pessoa.Funcionario;
+package Empresa.Pessoa.Funcionario;
 
-import empresa.Contato.Contato;
-import empresa.Endereco.Endereco;
-import empresa.Pessoa.Pessoa;
+import Empresa.Contato.Contato;
+import Empresa.Endereco.Endereco;
+import Empresa.Pessoa.Pessoa;
 
 public class Funcionario extends Pessoa {
     private double valorHora;

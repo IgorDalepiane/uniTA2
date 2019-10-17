@@ -1,4 +1,4 @@
-package empresa.Contato;
+package Empresa.Contato;
 
 import java.util.List;
 
