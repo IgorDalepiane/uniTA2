@@ -2,34 +2,54 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Empresa/ForgotPw.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Empresa/HomeController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Empresa/forgotPw.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Empresa/home.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/uniTrab2/META-INF/uniTrab2.kotlin_module" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/uniTrab2/empresa/Controller.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/uniTrab2/empresa/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/uniTrab2/empresa/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/uniTrab2/empresa/sample.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/empresa/Contato/Contato.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Empresa/Contato/Contato.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/empresa/Contato/ContatoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Empresa/Contato/ContatoController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/empresa/Empresa.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Empresa/Empresa.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/empresa/Endereco/Endereco.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Empresa/Endereco/Endereco.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/empresa/Endereco/EnderecoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Empresa/Endereco/EnderecoController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/empresa/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Empresa/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/empresa/Pessoa/Cliente/Cliente.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Empresa/Pessoa/Cliente/Cliente.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/empresa/Pessoa/Funcionario/Funcionario.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Empresa/Pessoa/Funcionario/Funcionario.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/empresa/Pessoa/Pessoa.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Empresa/Pessoa/Pessoa.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/empresa/Pessoa/PessoaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Empresa/Pessoa/PessoaController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/empresa/Produto/Produto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Empresa/Produto/Produto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/empresa/Produto/ProdutoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Empresa/Produto/ProdutoController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/empresa/Relatorio/RelatorioController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Empresa/Relatorio/RelatorioController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/empresa/Servicos/Servico.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Empresa/Servicos/Servico.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/empresa/Servicos/ServicoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Empresa/Servicos/ServicoController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/empresa/Servicos/ServicoPrestado.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Empresa/Servicos/ServicoPrestado.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/empresa/Servicos/ServicoPrestadoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Empresa/Servicos/ServicoPrestadoController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/empresa/empresa.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/uniTrab2/empresa/Controller/ContatoController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/uniTrab2/empresa/Controller/EmpresaController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/uniTrab2/empresa/Controller/EnderecoController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/uniTrab2/empresa/Controller/HomeController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/uniTrab2/empresa/Controller/HomeController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/uniTrab2/empresa/Controller/PessoaController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/uniTrab2/empresa/Controller/ProdutoController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/uniTrab2/empresa/Controller/RelatorioController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/uniTrab2/empresa/Controller/ServicoController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/uniTrab2/empresa/Controller/ServicoPrestadoController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/uniTrab2/empresa/Empresa.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/uniTrab2/empresa/ForgotPw.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/uniTrab2/empresa/HomeController$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/uniTrab2/empresa/HomeController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/uniTrab2/empresa/Model/Cliente.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/uniTrab2/empresa/Model/Contato.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/uniTrab2/empresa/Model/Empresa.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/uniTrab2/empresa/Model/Endereco.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/uniTrab2/empresa/Model/Funcionario.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/uniTrab2/empresa/Model/Pessoa.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/uniTrab2/empresa/Model/Produto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/uniTrab2/empresa/Model/Servico.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/uniTrab2/empresa/Model/ServicoPrestado.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/uniTrab2/empresa/Model/domain/Cliente.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/uniTrab2/empresa/Model/domain/Cliente.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/uniTrab2/empresa/Model/domain/Contato.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/uniTrab2/empresa/Model/domain/Empresa.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/uniTrab2/empresa/Model/domain/Empresa.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/uniTrab2/empresa/Model/domain/Endereco.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/uniTrab2/empresa/Model/domain/Endereco.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/uniTrab2/empresa/Model/domain/Funcionario.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/uniTrab2/empresa/Model/domain/Funcionario.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/uniTrab2/empresa/Model/domain/Pessoa.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/uniTrab2/empresa/Model/domain/Pessoa.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/uniTrab2/empresa/Model/domain/Produto.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/uniTrab2/empresa/Model/domain/Produto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/uniTrab2/empresa/Model/domain/Servico.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/uniTrab2/empresa/Model/domain/Servico.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/uniTrab2/empresa/Model/domain/ServicoPrestado.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/uniTrab2/empresa/Model/domain/ServicoPrestado.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/uniTrab2/empresa/forgotPw.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/uniTrab2/empresa/home.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/empresa/Controller/HomeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/empresa/Controller/HomeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/empresa/Model/dao/AptidaoDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/empresa/Model/dao/AptidaoDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/empresa/Model/dao/CelularDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/empresa/Model/dao/CelularDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/empresa/Model/dao/ClienteDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/empresa/Model/dao/ClienteDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/empresa/Model/dao/EmpresaDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/empresa/Model/dao/EmpresaDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/empresa/Model/dao/EnderecoDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/empresa/Model/dao/EnderecoDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/empresa/Model/dao/EstoqueDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/empresa/Model/dao/EstoqueDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/empresa/Model/dao/FuncionarioDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/empresa/Model/dao/FuncionarioDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/empresa/Model/dao/PessoaDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/empresa/Model/dao/PessoaDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/empresa/Model/dao/ProdutoDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/empresa/Model/dao/ProdutoDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/empresa/Model/dao/Serv_ProdDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/empresa/Model/dao/Serv_ProdDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/empresa/Model/dao/ServicoDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/empresa/Model/dao/ServicoDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/empresa/Model/dao/ServicoPrestadoDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/empresa/Model/dao/ServicoPrestadoDAO.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -39,6 +59,20 @@
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
   </component>
   <component name="DebuggerManager">
     <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true" converted="true">
@@ -84,7 +118,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="FxmlFile" />
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -106,6 +140,7 @@
     <option name="STATE" value="0" />
   </component>
   <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="mysql" />
     <property name="GoToClass.includeLibraries" value="false" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="GoToFile.includeJavaFiles" value="false" />
@@ -113,16 +148,24 @@
     <property name="MemberChooser.showClasses" value="true" />
     <property name="MemberChooser.sorted" value="false" />
     <property name="OverrideImplement.combined" value="false" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="dynamic.classpath" value="false" />
-    <property name="project.structure.last.edited" value="Project" />
-    <property name="project.structure.proportion" value="0.0" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/JavaFX-MVC-Parte5a-RelatoriosQuantidadeProdutos" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.20625" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="recentsLimit" value="5" />
-    <property name="restartRequiresConfirmation" value="false" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
     <property name="show.migrate.to.gradle.popup" value="false" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="Empresa.Exception" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\1801560700\Documents\Trabalho2POO\uniTA2\src\Empresa\View" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -156,9 +199,9 @@
       </method>
     </configuration>
     <configuration name="Main" type="Application" factoryName="Application">
+      <option name="ALTERNATIVE_JRE_PATH" value="11" />
       <option name="MAIN_CLASS_NAME" value="Empresa.Main" />
       <module name="uniTrab2" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="Empresa.*" />
@@ -209,6 +252,26 @@
       </method>
     </configuration>
   </component>
+  <component name="ServiceViewManager">
+    <option name="allServicesViewState">
+      <serviceView>
+        <treeState>
+          <expand>
+            <path>
+              <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@cac881ee" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+            </path>
+            <path>
+              <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@cac881ee" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceNode@b3d33" type="9fbbdea:ServiceModel$ServiceNode" />
+            </path>
+          </expand>
+          <select />
+        </treeState>
+      </serviceView>
+    </option>
+  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -221,7 +284,10 @@
       <updated>1359379246138</updated>
       <workItem from="1359379250712" duration="1302000" />
       <workItem from="1571022164593" duration="3269000" />
-      <workItem from="1571259416025" duration="9606000" />
+      <workItem from="1571265959526" duration="4481000" />
+      <workItem from="1571598815073" duration="2214000" />
+      <workItem from="1571801309237" duration="9044000" />
+      <workItem from="1571868482048" duration="6186000" />
     </task>
     <servers />
   </component>
