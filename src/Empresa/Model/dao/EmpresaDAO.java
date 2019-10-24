@@ -3,6 +3,7 @@ package Empresa.Model.dao;
 import Empresa.Exception.CadastroException;
 import Empresa.Exception.LoginInvalidoException;
 import Empresa.Model.InterfaceDAO;
+import Empresa.Model.Session;
 import Empresa.Model.domain.Empresa;
 
 import java.sql.Connection;
@@ -96,12 +97,13 @@ public class EmpresaDAO implements InterfaceDAO {
         return retorno;
     }
 
-    public boolean login(Empresa empresa) throws LoginInvalidoException {
+    public boolean logar(Empresa empresa) throws LoginInvalidoException {
         Empresa empBD = buscar(empresa);
         System.out.println(empBD.getSenha());
         System.out.println(empresa.getSenha());
         if (empBD.getEmail() != null) {
             if (empresa.getSenha().equals(empBD.getSenha())) {
+                Session.set(empBD);
                 return true;
             } else {
                 throw new LoginInvalidoException("Senha inválida.");
