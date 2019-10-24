@@ -25,6 +25,7 @@ public class ForgotPwController implements Initializable {
             scene = new Scene(root, 300, 275);
         Main.stage.setTitle("Recuperar senha");
         Main.stage.setScene(scene);
+        Main.center();
     }
 
     public void handlePassRecovery(ActionEvent actionEvent) {

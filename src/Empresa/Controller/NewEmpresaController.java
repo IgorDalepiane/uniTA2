@@ -48,6 +48,7 @@ public class NewEmpresaController implements Initializable {
             scene = new Scene(root, 350,275);
         Main.stage.setTitle("Nova conta");
         Main.stage.setScene(scene);
+        Main.center();
     }
 
     public void handleSubmit(ActionEvent actionEvent) throws IOException {
