@@ -5,8 +5,9 @@ import java.util.List;
 
 public class Celular implements Serializable {
     private int id;
-    private String numFixo;
-    private List<String> numsCel;
+    private String num;
+    private boolean isFixo;
+    private int idPessoa;
 
     public Celular(int id) {
         this.id = id;
@@ -23,21 +24,27 @@ public class Celular implements Serializable {
         this.id = id;
     }
 
-    public String getNumFixo() {
-        return numFixo;
+    public String getNum() {
+        return num;
     }
 
-    public void setNumFixo(String numFixo) {
-        this.numFixo = numFixo;
+    public void setNum(String num) {
+        this.num = num;
     }
 
-    public List<String> getNumsCel() {
-        return numsCel;
+    public boolean isFixo() {
+        return isFixo;
     }
 
-    public void setNumsCel(List<String> numsCel) {
-        this.numsCel = numsCel;
+    public void setIsFixo(boolean fixo) {
+        isFixo = fixo;
     }
 
+    public int getIdPessoa() {
+        return idPessoa;
+    }
 
+    public void setIdPessoa(int idPessoa) {
+        this.idPessoa = idPessoa;
+    }
 }

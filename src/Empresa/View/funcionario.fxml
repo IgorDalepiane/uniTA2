@@ -56,18 +56,22 @@
                         <Label text="Nome" GridPane.halignment="LEFT" GridPane.rowIndex="1" />
                         <Label text="RG" GridPane.halignment="LEFT" GridPane.rowIndex="2" />
                         <Label text="Email" GridPane.halignment="LEFT" GridPane.rowIndex="3" />
-                        <Label text="Endereço" GridPane.halignment="LEFT" GridPane.rowIndex="4" />
-                        <Label text="Celular" GridPane.halignment="LEFT" GridPane.rowIndex="5" />
-                        <Label text="Valor hora" GridPane.halignment="LEFT" GridPane.rowIndex="6" />
-                        <Label text="Cargo" GridPane.halignment="LEFT" GridPane.rowIndex="7" />
+                        <Label text="Endereço" GridPane.halignment="LEFT" GridPane.rowSpan="3" GridPane.rowIndex="4" />
+                        <Label text="Tels. Celulares" GridPane.halignment="LEFT" GridPane.rowIndex="7" />
+                        <Label text="Tels. Fixos" GridPane.halignment="LEFT" GridPane.rowIndex="8" />
+                        <Label text="Valor hora" GridPane.halignment="LEFT" GridPane.rowIndex="9" />
+                        <Label text="Cargo" GridPane.halignment="LEFT" GridPane.rowIndex="10" />
+
+
                         <Label fx:id="labelID" GridPane.columnIndex="1" GridPane.rowIndex="0" />
                         <Label fx:id="labelNome" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <Label fx:id="labelRG" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                         <Label fx:id="labelEmail" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                        <Label fx:id="labelEndereco" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                        <Label fx:id="labelCel" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                        <Label fx:id="labelValorHora" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                        <Label fx:id="labelCargo" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                        <Label fx:id="labelEndereco" GridPane.columnIndex="1" GridPane.rowSpan="3" GridPane.rowIndex="4" wrapText="true"/>
+                        <Label fx:id="labelCel" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                         <Label fx:id="labelFix" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                        <Label fx:id="labelValorHora" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                        <Label fx:id="labelCargo" GridPane.columnIndex="1" GridPane.rowIndex="10" />
                      </children>
                   </GridPane>
                   <Group AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0">
