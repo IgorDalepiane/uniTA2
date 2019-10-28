@@ -75,8 +75,10 @@ public class PagInicialController implements Initializable {
         System.out.println("a");
     }
 
-    public void handleCliente(ActionEvent actionEvent) {
-
+    public void handleCliente(ActionEvent actionEvent) throws IOException {
+        AnchorPane root = FXMLLoader.load(PagInicialController.class.getResource("../View/cliente.fxml"));
+        anchor.getChildren().setAll(root);
+        System.out.println("b");
     }
 
     public void handleServico(ActionEvent actionEvent) {

@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="adicionado método center() no showView()">
-      <change afterPath="$PROJECT_DIR$/src/Empresa/Controller/FuncionarioController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Empresa/View/funcionario.fxml" afterDir="false" />
+    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="funcionario view/controller">
+      <change afterPath="$PROJECT_DIR$/src/Empresa/Controller/ClienteController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Empresa/View/cliente.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Empresa/Controller/NewEmpresaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Empresa/Controller/NewEmpresaController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Empresa/Controller/PagInicialController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Empresa/Controller/PagInicialController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Empresa/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Empresa/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Empresa/View/pagInicial.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/Empresa/View/pagInicial.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Empresa/View/funcionario.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/Empresa/View/funcionario.fxml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -122,7 +120,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="dynamic.classpath" value="false" />
-    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/JavaFX-MVC-Parte5a-RelatoriosQuantidadeProdutos" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/Empresa/View" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.20625" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -132,11 +130,14 @@
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RecentsManager">
-    <key name="CreateClassDialog.RecentsKey">
-      <recent name="Empresa.Exception" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\1801560700\Documents\Trabalho2POO\uniTA2\src\Empresa\View" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Lucas\IdeaProjects\uniTA2\src\Empresa\View" />
+    </key>
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="Empresa.Exception" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -264,7 +265,7 @@
       <workItem from="1572268124612" duration="4563000" />
       <workItem from="1572273588503" duration="155000" />
       <workItem from="1572273769038" duration="29000" />
-      <workItem from="1572273823610" duration="2179000" />
+      <workItem from="1572273823610" duration="2812000" />
     </task>
     <task id="LOCAL-00001" summary="criação da classe Session e da view pagInicial">
       <created>1571948885885</created>
@@ -301,7 +302,14 @@
       <option name="project" value="LOCAL" />
       <updated>1571949045953</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="funcionario view/controller">
+      <created>1572279747000</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1572279747000</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -327,7 +335,8 @@
     <MESSAGE value="renomeado login para logar" />
     <MESSAGE value="removido refresh() e TODOS" />
     <MESSAGE value="adicionado método center() no showView()" />
-    <option name="LAST_COMMIT_MESSAGE" value="adicionado método center() no showView()" />
+    <MESSAGE value="funcionario view/controller" />
+    <option name="LAST_COMMIT_MESSAGE" value="funcionario view/controller" />
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
