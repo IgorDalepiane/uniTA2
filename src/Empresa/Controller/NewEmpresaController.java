@@ -52,7 +52,6 @@ public class NewEmpresaController implements Initializable {
     }
 
     public void handleSubmit(ActionEvent actionEvent) throws IOException {
-        //TODO enviar os dados do usuário ao banco de dados
         if (validarEntradaDeDados()) {
             empresa.setNome(nomeEmpresa.getText());
             empresa.setEmail(emailEmpresa.getText());

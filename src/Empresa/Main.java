@@ -12,6 +12,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         HomeController.showView();
+        stage.setResizable(false);
         stage.show();
         center();
     }
