@@ -16,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class FuncionarioDAO implements InterfaceDAO {
+    //driver de conexão com o banco de dados
     private Connection connection;
 
     @Override
@@ -28,10 +29,14 @@ public class FuncionarioDAO implements InterfaceDAO {
         this.connection = connection;
     }
 
+    /**
+     * Insere um registro no banco de dados
+     * @param func o objeto a ser inserido como registro
+     * @return true se a operação foi concluída com sucesso, false se não
+     */
     public boolean inserir(Funcionario func) {
         String sql = "INSERT INTO funcionario(valorHora, idCargo, idEmp, idPessoa) VALUES(?,?,?,?)";
         try {
-
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setDouble(1, func.getValorHora());
             stmt.setInt(2, func.getCargo().getId());
@@ -41,11 +46,16 @@ public class FuncionarioDAO implements InterfaceDAO {
             stmt.execute();
             return true;
         } catch (SQLException ex) {
-            Logger.getLogger(FuncionarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
             return false;
         }
     }
 
+    /**
+     * Altera um registro do banco de dados
+     * @param func o registro a ser alterado
+     * @return true se a operação foi concluída com sucesso, false se não
+     */
     public boolean alterar(Funcionario func) {
         String sql = "UPDATE funcionario SET valorHora=?, idCargo=?, idEmp=? WHERE idPessoa=?";
         try {
@@ -57,11 +67,16 @@ public class FuncionarioDAO implements InterfaceDAO {
             stmt.execute();
             return true;
         } catch (SQLException ex) {
-            Logger.getLogger(ProdutoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
             return false;
         }
     }
 
+    /**
+     * Remove um registro do banco de dados
+     * @param func o registro a ser removido
+     * @return true se a operação foi concluída com sucesso, false se não
+     */
     public boolean remover(Funcionario func) {
         String sql = "DELETE FROM funcionario WHERE idPessoa=?";
         try {
@@ -70,11 +85,16 @@ public class FuncionarioDAO implements InterfaceDAO {
             stmt.execute();
             return true;
         } catch (SQLException ex) {
-            Logger.getLogger(FuncionarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
             return false;
         }
     }
 
+    /**
+     * Busca um registro no banco de dados
+     * @param func o registro (incompleto) a ser buscado
+     * @return o registro com todas as informações armazenadas no banco de dados
+     */
     public Funcionario buscar(Funcionario func) {
         String sql = "SELECT * FROM funcionario WHERE idPessoa=?";
         Funcionario retorno = new Funcionario();
@@ -112,11 +132,15 @@ public class FuncionarioDAO implements InterfaceDAO {
                 retorno = funcionario;
             }
         } catch (SQLException ex) {
-            Logger.getLogger(FuncionarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
         return retorno;
     }
 
+    /**
+     * Lista todos os registros da tabela do banco de dados
+     * @return List com os registros
+     */
     public List<Funcionario> listar() {
         String sql = "SELECT * FROM funcionario WHERE funcionario.idEmp=" + Session.get().getId();
         List<Funcionario> retorno = new ArrayList<>();
@@ -130,7 +154,7 @@ public class FuncionarioDAO implements InterfaceDAO {
                 retorno.add(buscar(funcionario));
             }
         } catch (SQLException ex) {
-            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
         return retorno;
     }

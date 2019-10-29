@@ -14,8 +14,7 @@ import javafx.stage.Stage;
 import Empresa.Model.domain.Funcionario;
 
 public class FuncionarioDialogController implements Initializable {
-    private static Scene scene = null;
-    //pessoa
+    //campospessoa
     @FXML
     private TextField textFieldNome;
     @FXML
@@ -25,10 +24,6 @@ public class FuncionarioDialogController implements Initializable {
     @FXML
     private TextField textFieldEmail;
     //contato
-    @FXML
-    private Label labelCelular;
-    @FXML
-    private Label labelResidencial;
     @FXML
     private TextField textFieldCelular;
     @FXML
@@ -55,10 +50,6 @@ public class FuncionarioDialogController implements Initializable {
     private TextField textFieldEstado;
     @FXML
     private TextField textFieldCEP;
-    @FXML
-    private Button btnConfirmar;
-    @FXML
-    private Button btnCancelar;
 
     private Stage dialogStage;
     private boolean buttonConfirmarClicked = false;
@@ -80,9 +71,6 @@ public class FuncionarioDialogController implements Initializable {
 
     public Funcionario getFuncionario() {
         return this.func;
-    }
-    public Funcionario getFunc() {
-        return func;
     }
 
     public void setFunc(Funcionario func) {
@@ -119,9 +107,11 @@ public class FuncionarioDialogController implements Initializable {
         }
 
     }
+
     public boolean isButtonConfirmarClicked() {
         return buttonConfirmarClicked;
     }
+
     @FXML
     public void handleButtonConfirmar() {
         if (validarEntradaDeDados()) {

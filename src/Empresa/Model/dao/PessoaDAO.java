@@ -14,6 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class PessoaDAO implements InterfaceDAO {
+    //driver de conexão com o banco de dados
     private Connection connection;
     @Override
     public Connection getConnection() {
@@ -25,6 +26,11 @@ public class PessoaDAO implements InterfaceDAO {
         this.connection = connection;
     }
 
+    /**
+     * Insere um registro no banco de dados
+     * @param pess o objeto a ser inserido como registro
+     * @return true se a operação foi concluída, false se não
+     */
     public boolean inserir(Pessoa pess) {
         String sql = "INSERT INTO pessoa(nome, email, RG, CPF,idEnd,celular,residencial) VALUES(?,?,?,?,?,?,?)";
         try {
@@ -39,11 +45,16 @@ public class PessoaDAO implements InterfaceDAO {
             stmt.execute();
             return true;
         } catch (SQLException ex) {
-            Logger.getLogger(PessoaDAO.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
             return false;
         }
     }
 
+    /**
+     * Altera um registro no banco de dados
+     * @param pess o registro a ser alterado
+     * @return true se a operação foi concluída, false se não
+     */
     public boolean alterar(Pessoa pess) {
         String sql = "UPDATE pessoa SET nome=?, email=?, RG=?, CPF=?,celular=?,residencial=? WHERE id=?";
         try {
@@ -58,24 +69,35 @@ public class PessoaDAO implements InterfaceDAO {
             stmt.execute();
             return true;
         } catch (SQLException ex) {
-            Logger.getLogger(ProdutoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
             return false;
         }
     }
 
+    /**
+     * Remove um registro do banco de dados
+     * @param pess o objeto a ser removido do banco
+     * @return true se a operação foi concluída com sucesso, false se não
+     */
     public boolean remover(Pessoa pess) {
         String sql = "DELETE FROM pessoa WHERE id=?";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setInt(1, pess.getId());
             stmt.execute();
+
             return true;
         } catch (SQLException ex) {
-            Logger.getLogger(PessoaDAO.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
             return false;
         }
     }
 
+    /**
+     * Busca um registro no banco de dados
+     * @param pess o registro (incompleto) a ser buscado no banco de dados
+     * @return o registro completo, de acordo com o que está armazenado no bd
+     */
     public Pessoa buscar(Pessoa pess) {
         String sql = "SELECT * FROM pessoa WHERE id=?";
         Pessoa retorno = new Pessoa();
@@ -103,17 +125,21 @@ public class PessoaDAO implements InterfaceDAO {
                 retorno = pessoa;
             }
         } catch (SQLException ex) {
-            Logger.getLogger(PessoaDAO.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
         return retorno;
 
 
     }
 
-    public List<Pessoa> listar() {
-        return null;
-    }
+//    public List<Pessoa> listar() {
+//        return null;
+//    }
 
+    /**
+     * Busca o último registro inserido no bd através do método inserir()
+     * @return o registro
+     */
     public Pessoa buscarUltimaPess() {
         String sql = "SELECT max(id) FROM pessoa";
         Pessoa retorno = new Pessoa();
@@ -126,7 +152,7 @@ public class PessoaDAO implements InterfaceDAO {
                 return buscar(retorno);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(PessoaDAO.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
         return retorno;
     }

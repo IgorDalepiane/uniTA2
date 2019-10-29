@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class CargoDAO implements InterfaceDAO {
+    //driver de conexão com o banco de dados
     private Connection connection;
     @Override
     public Connection getConnection() {
@@ -24,15 +25,20 @@ public class CargoDAO implements InterfaceDAO {
         this.connection = connection;
     }
 
+    /**
+     * Insere um registro no banco de dados
+     * @param cargo o registro a ser inserido
+     * @return true se a operação foi concluída com sucesso, false se não
+     */
     public boolean inserir(Cargo cargo) {
-        String sql = "INSERT INTO cargo(cargo) VALUES(?)";
+        String sql = "INSERT INTO cargo (cargo) VALUES(?)";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, cargo.getCargoText());
             stmt.execute();
             return true;
         } catch (SQLException ex) {
-            Logger.getLogger(PessoaDAO.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
             return false;
         }
     }
@@ -45,6 +51,12 @@ public class CargoDAO implements InterfaceDAO {
 //        return false;
 //    }
 //
+
+    /**
+     * Busca um registro no banco de dados
+     * @param carg o registro (incompleto) a ser buscado
+     * @return o registro com todas as informações armazenadas no banco
+     */
     public Cargo buscar(Cargo carg) {
         String sql = "SELECT * FROM cargo WHERE id=?";
         Cargo retorno = new Cargo();
@@ -60,10 +72,16 @@ public class CargoDAO implements InterfaceDAO {
                 retorno = cargo;
             }
         } catch (SQLException ex) {
-            Logger.getLogger(CargoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
         return retorno;
     }
+
+    /**
+     * Busca um registro pelo nome no banco de dados
+     * @param carg o registro incompleto a ser buscado
+     * @return o registro completo retornado pelo banco de dados
+     */
     public Cargo buscarPeloNome(String carg) {
         String sql = "SELECT * FROM cargo WHERE cargo LIKE ?";
         Cargo retorno = null;
@@ -79,10 +97,15 @@ public class CargoDAO implements InterfaceDAO {
                 retorno = cargo;
             }
         } catch (SQLException ex) {
-            Logger.getLogger(CargoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
         return retorno;
     }
+
+    /**
+     * Busca o último registro inserido no banco pelo método inserir()
+     * @return o registro
+     */
     public Cargo buscarUltimoCargo() {
         String sql = "SELECT max(id) FROM cargo";
         Cargo retorno = new Cargo();
@@ -95,7 +118,7 @@ public class CargoDAO implements InterfaceDAO {
                 return buscar(retorno);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(CargoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
         return retorno;
     }

@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class EstoqueController implements Initializable {
@@ -173,5 +174,31 @@ public class EstoqueController implements Initializable {
     }
 
     public void handleBtnRemover(ActionEvent actionEvent) {
+        Estoque esTable = (Estoque) tableView.getSelectionModel().getSelectedItem();
+        int idProd = esTable.getProdId();
+        if (esTable != null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmação de exclusão");
+            alert.setHeaderText("Deseja excluir este produto?");
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK){
+                estoqueDAO.setConnection(connection);
+                empresaDAO.setConnection(connection);
+                produtoDAO.setConnection(connection);
+
+                esTable.setProdId(idProd);
+                estoqueDAO.remover(esTable);
+
+                populaTabela();
+            } else {
+                alert.close();
+            }
+
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Por favor, escolha um produto na Tabela!");
+            alert.show();
+        }
     }
 }

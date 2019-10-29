@@ -16,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class EmpresaDAO implements InterfaceDAO {
+    //driver de conexão com o banco
     private Connection connection;
 
     @Override
@@ -28,6 +29,12 @@ public class EmpresaDAO implements InterfaceDAO {
         this.connection = connection;
     }
 
+    /**
+     * Insere um registro no banco de dados
+     * @param empresa o registro a ser inserido no banco de dados
+     * @return true se a operação foi concluída com sucesso, false se não
+     * @throws CadastroException se o email já existe no sistema
+     */
     public boolean inserir(Empresa empresa) throws CadastroException {
         if (buscar(empresa).getEmail()==null) {
             String sql = "INSERT INTO empresa(nome, email, senha) VALUES(?,?,?)";
@@ -47,14 +54,19 @@ public class EmpresaDAO implements InterfaceDAO {
         }
     }
 
-    public boolean alterar(Empresa empresa) {
-        return false;
-    }
+//    public boolean alterar(Empresa empresa) {
+//        return false;
+//    }
+//
+//    public boolean remover(Empresa empresa) {
+//        return false;
+//    }
 
-    public boolean remover(Empresa empresa) {
-        return false;
-    }
-
+    /**
+     * Busca um registro no banco de dados
+     * @param empresa o registro (incompleto) a ser buscado
+     * @return o registro completo com as informações do banco
+     */
     public Empresa buscar(Empresa empresa) {
         String sql = "SELECT * FROM empresa WHERE email=?";
         Empresa retorno = new Empresa();
@@ -77,26 +89,33 @@ public class EmpresaDAO implements InterfaceDAO {
 
     }
 
-    public List<Empresa> listar() {
-        String sql = "SELECT * FROM empresa";
-        List<Empresa> retorno = new ArrayList<>();
-        try {
-            PreparedStatement stmt = connection.prepareStatement(sql);
-            ResultSet resultado = stmt.executeQuery();
-            while (resultado.next()) {
-                Empresa empresa = new Empresa();
-                empresa.setId(resultado.getInt("id"));
-                empresa.setNome(resultado.getString("nome"));
-                //cliente.setCpf(resultado.getString("cpf"));
-                //cliente.setTelefone(resultado.getString("telefone"));
-                retorno.add(empresa);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(EmpresaDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return retorno;
-    }
 
+//    public List<Empresa> listar() {
+//        String sql = "SELECT * FROM empresa";
+//        List<Empresa> retorno = new ArrayList<>();
+//        try {
+//            PreparedStatement stmt = connection.prepareStatement(sql);
+//            ResultSet resultado = stmt.executeQuery();
+//            while (resultado.next()) {
+//                Empresa empresa = new Empresa();
+//                empresa.setId(resultado.getInt("id"));
+//                empresa.setNome(resultado.getString("nome"));
+//                //cliente.setCpf(resultado.getString("cpf"));
+//                //cliente.setTelefone(resultado.getString("telefone"));
+//                retorno.add(empresa);
+//            }
+//        } catch (SQLException ex) {
+//            Logger.getLogger(EmpresaDAO.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        return retorno;
+//    }
+
+    /**
+     * Acessa o sistema através de email + senha
+     * @param empresa a empresa efetuando o login
+     * @return true se a operação foi concluída com sucesso, false se não
+     * @throws LoginInvalidoException se a combinação email/senha não existe no banco de dados
+     */
     public boolean logar(Empresa empresa) throws LoginInvalidoException {
         Empresa empBD = buscar(empresa);
         System.out.println(empBD.getSenha());
@@ -112,6 +131,4 @@ public class EmpresaDAO implements InterfaceDAO {
             throw new LoginInvalidoException("Email inexistente.");
         }
     }
-
-
 }

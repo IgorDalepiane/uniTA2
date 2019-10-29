@@ -28,6 +28,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class FuncionarioController implements Initializable {
+    //tabela lateral esquerda
     @FXML
     private TableView tableView;
     @FXML
@@ -35,6 +36,7 @@ public class FuncionarioController implements Initializable {
     @FXML
     private TableColumn tableColumnNome;
 
+    //itens da grid a direita
     @FXML
     private Label labelID;
     @FXML
@@ -54,10 +56,10 @@ public class FuncionarioController implements Initializable {
     @FXML
     private Label labelCargo;
 
+    //lista de funcionários
     private List<Funcionario> listFuncionario;
+    //lista de funcionários para mostrar na tela
     private ObservableList<Funcionario> observableListFuncionario;
-
-    private Empresa empresa = Session.get();
 
     //Atributos para manipulação de Banco de Dados
     private final Database database = DatabaseFactory.getDatabase("mysql");
@@ -77,6 +79,10 @@ public class FuncionarioController implements Initializable {
                 (observable, oldValue, newValue) -> selecionarItemTableView((Funcionario) newValue));
     }
 
+    /**
+     * Método que popula a tabela a esquerda com informações
+     * resumidas dos registros no banco de dados
+     */
     public void populaTabela() {
         tableColumnNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
         tableColumnCPF.setCellValueFactory(new PropertyValueFactory<>("CPF"));
@@ -87,6 +93,10 @@ public class FuncionarioController implements Initializable {
         tableView.setItems(observableListFuncionario);
     }
 
+    /**
+     * Mostra as informações detalhadas do registro selecionado na grid à direita
+     * @param funcionario o registro selecionado
+     */
     public void selecionarItemTableView(Funcionario funcionario) {
         if (funcionario != null) {
             labelID.setText(String.valueOf(funcionario.getId()));
@@ -112,13 +122,24 @@ public class FuncionarioController implements Initializable {
         }
     }
 
-
+    /**
+     * Reutilização de código, o método mostra um Alerta
+     *
+     * @param texto o corpo da mensagem
+     */
     private void alerta(String texto) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setHeaderText(texto);
         alert.show();
     }
 
+    /**
+     * Método que lida com o clique do botão de inserir
+     * Chama o diálogo de inserção, verifica os dados e envia ao banco de dados
+     *
+     * @param actionEvent listener
+     * @throws IOException pois carrega um arquivo fxml
+     */
     public void handleBtnInserir(ActionEvent actionEvent) throws IOException {
         Funcionario funcionario = new Funcionario();
         boolean buttonConfirmarClicked = mostraCadastroFunc(funcionario);
@@ -162,8 +183,16 @@ public class FuncionarioController implements Initializable {
         }
     }
 
+    /**
+     * Método que lida com o clique do botão de alterar
+     * Chama o diálogo de alteração com os dados do registro atual,
+     * verifica os dados alterados e envia ao banco de dados
+     *
+     * @param actionEvent listener
+     * @throws IOException pois carrega um arquivo fxml
+     */
     public void handleBtnAlterar(ActionEvent actionEvent) throws IOException {
-        Funcionario funcionario = (Funcionario) tableView.getSelectionModel().getSelectedItem();//Obtendo cliente selecionado
+        Funcionario funcionario = (Funcionario) tableView.getSelectionModel().getSelectedItem();
         if (funcionario != null) {
             boolean buttonConfirmarClicked = mostraCadastroFunc(funcionario);
             if (buttonConfirmarClicked) {
@@ -176,7 +205,6 @@ public class FuncionarioController implements Initializable {
 
                 //Adiciona a pessoa
                 pessoaDAO.alterar(funcionario);
-
 
                 //Verifica se existe um cargo com este nome
                 Cargo cargoBD = cargoDAO.buscarPeloNome(funcionario.getCargo().getCargoText());
@@ -197,14 +225,20 @@ public class FuncionarioController implements Initializable {
                 populaTabela();
             }
         } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText("Por favor, escolha um cliente na Tabela!");
-            alert.show();
+            alerta("Por favor, escolha um cliente na Tabela!");
         }
     }
 
+    /**
+     * Método que lida com o clique do botão de remoção
+     * Chama o diálogo de confirmação de exclusão e apaga
+     * o registro que o usuário selecionou do banco de dados
+     *
+     * @param actionEvent listener
+     * @throws IOException pois carrega um arquivo fxml
+     */
     public void handleBtnRemover(ActionEvent actionEvent) {
-        Funcionario funcionario = (Funcionario) tableView.getSelectionModel().getSelectedItem();//Obtendo cliente selecionado
+        Funcionario funcionario = (Funcionario) tableView.getSelectionModel().getSelectedItem();
         if (funcionario != null) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Confirmação de exclusão");
@@ -217,25 +251,26 @@ public class FuncionarioController implements Initializable {
                 cargoDAO.setConnection(connection);
 
                 enderecoDAO.remover(funcionario.getEndereco());
-
-                //Adiciona a pessoa
                 pessoaDAO.remover(funcionario);
-
-                //Adiciona o funcionario
                 funcionarioDAO.remover(funcionario);
-                //Atualiza a tabela
+
                 populaTabela();
             } else {
                alert.close();
             }
-
         } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText("Por favor, escolha um cliente na Tabela!");
-            alert.show();
+            alerta("Por favor, escolha um cliente na Tabela!");
         }
     }
 
+    /**
+     * Mostra o diálogo de inserção/alteração de dados e espera
+     * o usuário interagir com ele
+     *
+     * @param funcionario o objeto a ser setado após a manipulação dos campos pelo usuário
+     * @return true se o botão de confirmar foi clicado, senão false
+     * @throws IOException pois carrega um arquivo fxml
+     */
     public boolean mostraCadastroFunc(Funcionario funcionario) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(FuncionarioDialogController.class.getResource("../View/funcionarioDialog.fxml"));
@@ -257,6 +292,5 @@ public class FuncionarioController implements Initializable {
         dialogStage.showAndWait();
 
         return controller.isButtonConfirmarClicked();
-
     }
 }
