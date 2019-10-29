@@ -1,7 +1,6 @@
 package Empresa.Model.dao;
 
 import Empresa.Model.InterfaceDAO;
-import Empresa.Model.domain.Celular;
 import Empresa.Model.domain.Endereco;
 import Empresa.Model.domain.Pessoa;
 
@@ -27,7 +26,7 @@ public class PessoaDAO implements InterfaceDAO {
     }
 
     public boolean inserir(Pessoa pess) {
-        String sql = "INSERT INTO pessoa(nome, email, RG, CPF,idEnd) VALUES(?,?,?,?,?)";
+        String sql = "INSERT INTO pessoa(nome, email, RG, CPF,idEnd,celular,residencial) VALUES(?,?,?,?,?,?,?)";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, pess.getNome());
@@ -35,6 +34,8 @@ public class PessoaDAO implements InterfaceDAO {
             stmt.setString(3, pess.getRG());
             stmt.setString(4, pess.getCPF());
             stmt.setInt(5, pess.getEndereco().getId());
+            stmt.setString(6, pess.getCelular());
+            stmt.setString(7, pess.getResidencial());
             stmt.execute();
             return true;
         } catch (SQLException ex) {
@@ -44,14 +45,16 @@ public class PessoaDAO implements InterfaceDAO {
     }
 
     public boolean alterar(Pessoa pess) {
-        String sql = "UPDATE pessoa SET nome=?, email=?, RG=?, CPF=? WHERE id=?";
+        String sql = "UPDATE pessoa SET nome=?, email=?, RG=?, CPF=?,celular=?,residencial=? WHERE id=?";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, pess.getNome());
             stmt.setString(2, pess.getEmail());
             stmt.setString(3, pess.getRG());
             stmt.setString(4, pess.getCPF());
-            stmt.setInt(5, pess.getId());
+            stmt.setString(5, pess.getCelular());
+            stmt.setString(6, pess.getResidencial());
+            stmt.setInt(7, pess.getId());
             stmt.execute();
             return true;
         } catch (SQLException ex) {
@@ -74,23 +77,19 @@ public class PessoaDAO implements InterfaceDAO {
             if (resultado.next()) {
                 Pessoa pessoa = new Pessoa();
                 Endereco endereco = new Endereco();
-                List<Celular> celulares = new ArrayList();
                 pessoa.setId(resultado.getInt("id"));
                 pessoa.setRG(resultado.getString("RG"));
                 pessoa.setCPF(resultado.getString("CPF"));
                 pessoa.setNome(resultado.getString("nome"));
                 pessoa.setEmail(resultado.getString("email"));
+                pessoa.setCelular(resultado.getString("celular"));
+                pessoa.setResidencial(resultado.getString("residencial"));
 
                 endereco.setId(resultado.getInt("idEnd"));
                 EnderecoDAO enderecoDAO = new EnderecoDAO();
                 enderecoDAO.setConnection(connection);
                 endereco = enderecoDAO.buscar(endereco);
                 pessoa.setEndereco(endereco);
-
-                CelularDAO celularDAO = new CelularDAO();
-                celularDAO.setConnection(connection);
-                celulares = celularDAO.listarPorPessoa(pessoa);
-                pessoa.setCelulares(celulares);
 
                 retorno = pessoa;
             }

@@ -62,7 +62,6 @@ public class FuncionarioController implements Initializable {
     private final Database database = DatabaseFactory.getDatabase("mysql");
     private final Connection connection = database.conectar();
     private final FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
-    private final CelularDAO celularDAO = new CelularDAO();
     private final EnderecoDAO enderecoDAO = new EnderecoDAO();
     private final PessoaDAO pessoaDAO = new PessoaDAO();
     private final CargoDAO cargoDAO = new CargoDAO();
@@ -95,18 +94,8 @@ public class FuncionarioController implements Initializable {
             labelEmail.setText(funcionario.getEmail());
             Endereco end = funcionario.getEndereco();
             labelEndereco.setText(end.getEstado() + ", " + end.getCidade() + ", " + end.getBairro() + ", " + end.getLogradouro() + ", " + end.getNumero() + ", " + end.getComplemento() + ", " + end.getCEP());
-            List<Celular> celulares = funcionario.getCelulares();
-            String celularesStr = "";
-            String fixosStr = "";
-            for (Celular cel : celulares) {
-                    if (cel.isFixo()) {
-                        fixosStr += cel.getNum() + " ";
-                    } else {
-                        celularesStr += cel.getNum() + " ";
-                    }
-            }
-            labelCel.setText(celularesStr);
-            labelFix.setText(fixosStr);
+            labelCel.setText(funcionario.getCelular());
+            labelFix.setText(funcionario.getResidencial());
             labelValorHora.setText("R$ " + String.valueOf(funcionario.getValorHora()));
             labelCargo.setText(funcionario.getCargo().getCargoText());
         } else {
@@ -136,7 +125,6 @@ public class FuncionarioController implements Initializable {
 
             //Conexao com as DAOs Utilizadas
             enderecoDAO.setConnection(connection);
-            celularDAO.setConnection(connection);
             pessoaDAO.setConnection(connection);
             cargoDAO.setConnection(connection);
 
@@ -152,13 +140,6 @@ public class FuncionarioController implements Initializable {
             //Atualiza o idPessoa de funcionario com a ultima pessoa adicionada
             funcionario.setId(pessoaDAO.buscarUltimaPess().getId());
 
-            //Percorre todos os celulares do funcionario
-            for (Celular c:funcionario.getCelulares()) {
-                //Define a qual pessoa pertence
-                c.setIdPessoa(funcionario.getId());
-                //Insere no banco
-                celularDAO.inserir(c);
-            }
 
             //Verifica se existe um cargo com este nome
             Cargo cargoBD = cargoDAO.buscarPeloNome(funcionario.getCargo().getCargoText());
@@ -183,27 +164,20 @@ public class FuncionarioController implements Initializable {
     public void handleBtnAlterar(ActionEvent actionEvent) throws IOException {
         Funcionario funcionario = (Funcionario) tableView.getSelectionModel().getSelectedItem();//Obtendo cliente selecionado
         if (funcionario != null) {
-
+            Funcionario funcAtual=funcionario;
             boolean buttonConfirmarClicked = mostraCadastroFunc(funcionario);
             if (buttonConfirmarClicked) {
                 enderecoDAO.setConnection(connection);
-                celularDAO.setConnection(connection);
                 pessoaDAO.setConnection(connection);
                 cargoDAO.setConnection(connection);
 
                 //Insere endereço no Banco
-                funcionario.getEndereco().setId(pessoaDAO.buscar(funcionario).getEndereco().getId());
+                funcionario.getEndereco().setId(funcAtual.getEndereco().getId());
                 enderecoDAO.alterar(funcionario.getEndereco());
 
                 //Adiciona a pessoa
                 pessoaDAO.alterar(funcionario);
 
-                //Percorre todos os celulares do funcionario
-                for (Celular c:funcionario.getCelulares()) {
-                    //TODO verificar se existe celulares adicionais
-                    //Insere no banco
-                    celularDAO.alterar(c);
-                }
 
                 //Verifica se existe um cargo com este nome
                 Cargo cargoBD = cargoDAO.buscarPeloNome(funcionario.getCargo().getCargoText());

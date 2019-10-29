@@ -89,7 +89,8 @@ public class FuncionarioDAO implements InterfaceDAO {
                 funcionario.setEmail(pessoa.getEmail());
                 funcionario.setRG(pessoa.getRG());
                 funcionario.setEndereco(pessoa.getEndereco());
-                funcionario.setCelulares(pessoa.getCelulares());
+                funcionario.setCelular(pessoa.getCelular());
+                funcionario.setResidencial(pessoa.getResidencial());
                 retorno.add(funcionario);
             }
         } catch (SQLException ex) {

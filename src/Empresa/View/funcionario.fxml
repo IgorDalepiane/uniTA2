@@ -57,8 +57,8 @@
                         <Label text="RG" GridPane.halignment="LEFT" GridPane.rowIndex="2" />
                         <Label text="Email" GridPane.halignment="LEFT" GridPane.rowIndex="3" />
                         <Label text="Endereço" GridPane.halignment="LEFT" GridPane.rowSpan="3" GridPane.rowIndex="4" />
-                        <Label text="Tels. Celulares" GridPane.halignment="LEFT" GridPane.rowIndex="7" />
-                        <Label text="Tels. Fixos" GridPane.halignment="LEFT" GridPane.rowIndex="8" />
+                        <Label text="Tel. Celular" GridPane.halignment="LEFT" GridPane.rowIndex="7" />
+                        <Label text="Tel. Fixo" GridPane.halignment="LEFT" GridPane.rowIndex="8" />
                         <Label text="Valor hora" GridPane.halignment="LEFT" GridPane.rowIndex="9" />
                         <Label text="Cargo" GridPane.halignment="LEFT" GridPane.rowIndex="10" />
 

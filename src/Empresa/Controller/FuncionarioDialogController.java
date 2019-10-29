@@ -1,25 +1,12 @@
 package Empresa.Controller;
 
-import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
-import Empresa.Main;
-import Empresa.Model.dao.EnderecoDAO;
-import Empresa.Model.dao.FuncionarioDAO;
-import Empresa.Model.dao.PessoaDAO;
-import Empresa.Model.database.Database;
-import Empresa.Model.database.DatabaseFactory;
 import Empresa.Model.domain.Cargo;
-import Empresa.Model.domain.Celular;
 import Empresa.Model.domain.Endereco;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -112,30 +99,8 @@ public class FuncionarioDialogController implements Initializable {
             this.textFieldBairro.setText(func.getEndereco().getBairro());
             this.textFieldCidade.setText(func.getEndereco().getCidade());
             this.textFieldEstado.setText(func.getEndereco().getEstado());
-            String cels = "";
-            String fixs = "";
-            for (Celular c:func.getCelulares()) {
-                if(!c.isFixo()){
-                    cels+=c.getNum()+", ";
-                }else{
-                    fixs+=c.getNum()+", ";
-                }
-            }
-            if (cels.length()>0) {
-                String cels1 = cels.substring(0, cels.length() - 1);
-                String cels2 = cels1.substring(0, cels1.length() - 1);
-                this.textFieldCelular.setText(cels2);
-            }else{
-                this.textFieldCelular.setText(cels);
-            }
-
-            if (fixs.length()>0) {
-                String fixs1 = fixs.substring(0, fixs.length() - 1);
-                String fixs2 = fixs1.substring(0, fixs1.length() - 1);
-                this.textFieldResidencial.setText(fixs2);
-            }else{
-                this.textFieldResidencial.setText(fixs);
-            }
+           this.textFieldCelular.setText(func.getCelular());
+            this.textFieldResidencial.setText(func.getResidencial());
 
             if (func.getEndereco().getComplemento().equals("N/I")){
                 this.textFieldComplemento.setText("");
@@ -160,24 +125,8 @@ public class FuncionarioDialogController implements Initializable {
             func.setRG(textFieldRG.getText());
             func.setCPF(textFieldCPF.getText());
             func.setEmail(textFieldEmail.getText());
-            List<Celular> celulares = new ArrayList();
-            String celTexto = textFieldCelular.getText();
-            String[] cels = celTexto.split(", ");
-            for (String c:cels) {
-                Celular cel = new Celular();
-                cel.setNum(c);
-                cel.setIsFixo(false);
-                celulares.add(cel);
-            }
-            String residenTexto = textFieldResidencial.getText();
-            String[] fixos = residenTexto.split(", ");
-            for (String f:fixos) {
-                Celular fixo = new Celular();
-                fixo.setNum(f);
-                fixo.setIsFixo(true);
-                celulares.add(fixo);
-            }
-            func.setCelulares(celulares);
+            func.setCelular(textFieldCelular.getText());
+            func.setResidencial(textFieldResidencial.getText());
             Cargo cargo = new Cargo();
             cargo.setCargo(textFieldCargo.getText());
             func.setCargo(cargo);

@@ -10,7 +10,8 @@ public class Pessoa implements Serializable {
     private String RG;
     private String email;
     private Endereco endereco;
-    private List<Celular> celulares;
+    private String celular;
+    private String residencial;
 
     public Pessoa(int id, String nome, String CPF, String RG) {
         this.nome = nome;
@@ -61,13 +62,22 @@ public class Pessoa implements Serializable {
         this.endereco = endereco;
     }
 
-    public List<Celular> getCelulares() {
-        return celulares;
+    public String getCelular() {
+        return celular;
     }
 
-    public void setCelulares(List<Celular> celulares) {
-        this.celulares = celulares;
+    public void setCelular(String celular) {
+        this.celular = celular;
     }
+
+    public String getResidencial() {
+        return residencial;
+    }
+
+    public void setResidencial(String residencial) {
+        this.residencial = residencial;
+    }
+
     public int getId() {
         return id;
     }
