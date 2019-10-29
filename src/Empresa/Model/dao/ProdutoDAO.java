@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ProdutoDAO implements InterfaceDAO {
+    //driver de conexão com o banco de dados
     private Connection connection;
 
     @Override
@@ -25,6 +26,11 @@ public class ProdutoDAO implements InterfaceDAO {
         this.connection = connection;
     }
 
+    /**
+     * Insere um registro no banco de dados
+     * @param prod o registro a ser inserido
+     * @return true se a operação foi concluída com sucesso, false se não
+     */
     public boolean inserir(Produto prod) {
         String sql = "insert into produto (nome, descricao, preco) values (?, ?, ?)";
         try {
@@ -41,6 +47,11 @@ public class ProdutoDAO implements InterfaceDAO {
         return false;
     }
 
+    /**
+     * Altera um registro no banco de dados
+     * @param prod o registro a ser alterado
+     * @return true se a operação foi concluída com sucesso, false se não
+     */
     public boolean alterar(Produto prod) {
         String sql = "update produto set nome=?, descricao=?, preco=? where id = " + prod.getId();
         try {
@@ -58,10 +69,9 @@ public class ProdutoDAO implements InterfaceDAO {
     }
 
     /**
-     * Remove o produto da tabela Estoque e da tabela Produto
-     *
-     * @param prod
-     * @return
+     * Remove o registro do banco de dados
+     * @param prod o registro a ser removido
+     * @return true se a operação foi concluída com sucesso, false se não
      */
     public boolean remover(Produto prod) {
         String sql = "DELETE FROM produto WHERE id=?";
@@ -77,10 +87,9 @@ public class ProdutoDAO implements InterfaceDAO {
     }
 
     /**
-     * Busca um produto no banco de dados
-     *
-     * @param prod
-     * @return
+     * Busca um registro no banco de dados
+     * @param prod o registro (incompleto) a ser buscado
+     * @return o registro com todos os campos do banco de dados
      */
     public Produto buscar(Produto prod) {
         String sql = "select * from produto where id = ?";
@@ -104,6 +113,10 @@ public class ProdutoDAO implements InterfaceDAO {
         return retorno;
     }
 
+    /**
+     * Busca o último registro inserido pelo método inserir() no banco de dados
+     * @return o registro
+     */
     public Produto buscarUltimo() {
         String sql = "select max(id), nome, descricao, preco from produto";
         Produto retorno = new Produto();

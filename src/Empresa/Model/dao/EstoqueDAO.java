@@ -16,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class EstoqueDAO implements InterfaceDAO {
+    //driver de conexão com o banco de dados
     private Connection connection;
 
     @Override
@@ -28,6 +29,12 @@ public class EstoqueDAO implements InterfaceDAO {
         this.connection = connection;
     }
 
+    /**
+     * Insere um registro no banco de dados
+     *
+     * @param est o registro a ser inserido
+     * @return true se a operação foi concluída com sucesso, false se não
+     */
     public boolean inserir(Estoque est) {
         String sql = "insert into estoque (idEmp, idProd, quantidade) values (?, ?, ?)";
         try {
@@ -44,6 +51,12 @@ public class EstoqueDAO implements InterfaceDAO {
         return false;
     }
 
+    /**
+     * Altera um registro no banco de dados
+     *
+     * @param est o registro a ser alterado
+     * @return true se a operação foi concluída com sucesso, false se não
+     */
     public boolean alterar(Estoque est) {
         String sql = "update estoque set quantidade=? where idProd = " + est.getProd().getId();
         try {
@@ -58,6 +71,12 @@ public class EstoqueDAO implements InterfaceDAO {
         return false;
     }
 
+    /**
+     * Remove um registro do banco de dados
+     *
+     * @param est o registro a ser removido
+     * @return true se a operação foi concluída com sucesso, false se não
+     */
     public boolean remover(Estoque est) {
         String sql = "DELETE FROM estoque WHERE idEmp=? and idProd=?";
         try {
@@ -66,20 +85,29 @@ public class EstoqueDAO implements InterfaceDAO {
             stmt.setInt(2, est.getProdId());
             stmt.execute();
 
+            /*
+            Como a tabela Produto e Estoque estão ligadas,
+            ao remover da Estoque, é necessário remover também da Produto
+             */
             ProdutoDAO produtoDAO = new ProdutoDAO();
             produtoDAO.setConnection(connection);
 
             produtoDAO.remover(est.getProd());
             return true;
         } catch (SQLException ex) {
-            Logger.getLogger(PessoaDAO.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
             return false;
         }
     }
 
+    /**
+     * Busca um registro no banco de dados
+     * @param est o registro (incompleto) a ser buscado
+     * @return o registro com as informações armazenadas no banco
+     */
     public Estoque buscar(Estoque est) {
         String sql = "select * from estoque where idProd = ? and idEmp = ?";
-        Estoque retorno = null;
+        Estoque retorno = new Estoque();
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setInt(1, est.getProd().getId());
@@ -87,27 +115,25 @@ public class EstoqueDAO implements InterfaceDAO {
             ResultSet resultado = stmt.executeQuery();
 
             //estoque precisa da empresa e do produto
-            EmpresaDAO empresaDAO = new EmpresaDAO();
-            empresaDAO.setConnection(connection);
-            Empresa emp = empresaDAO.buscar(est.getEmpresa());
 
             ProdutoDAO produtoDAO = new ProdutoDAO();
             produtoDAO.setConnection(connection);
             Produto prod = produtoDAO.buscar(est.getProd());
 
-            Estoque estBanco = new Estoque();
-            estBanco.setEmpresa(emp);
-            estBanco.setProd(prod);
-            estBanco.setQuant(resultado.getInt("quantidade"));
+            retorno.setEmpresa(Session.get());
+            retorno.setProd(prod);
+            retorno.setQuant(resultado.getInt("quantidade"));
 
-            //estoque precisa de empresa e produto
-            retorno = estBanco;
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return retorno;
     }
 
+    /**
+     * Lista os registros da tabela do banco de dados
+     * @return Uma List com todos os registros
+     */
     public List<Estoque> listar() {
         String sql = "select * from estoque where idEmp = " + Session.get().getId();
         List<Estoque> retorno = new ArrayList<>();
@@ -130,7 +156,7 @@ public class EstoqueDAO implements InterfaceDAO {
                 retorno.add(est);
             }
         } catch (SQLException e) {
-            Logger.getLogger(ProdutoDAO.class.getName()).log(Level.SEVERE, "Erro ao listar estoque: ", e);
+            e.printStackTrace();
         }
         return retorno;
     }

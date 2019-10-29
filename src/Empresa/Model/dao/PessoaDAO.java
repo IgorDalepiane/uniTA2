@@ -69,6 +69,7 @@ public class PessoaDAO implements InterfaceDAO {
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setInt(1, pess.getId());
             stmt.execute();
+
             return true;
         } catch (SQLException ex) {
             Logger.getLogger(PessoaDAO.class.getName()).log(Level.SEVERE, null, ex);
