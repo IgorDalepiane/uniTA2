@@ -1,9 +1,11 @@
 package Empresa.Model.dao;
 
 import Empresa.Model.InterfaceDAO;
+import Empresa.Model.Session;
 import Empresa.Model.domain.Apto;
 import Empresa.Model.domain.Funcionario;
 import Empresa.Model.domain.Servico;
+import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -26,8 +28,20 @@ public class AptidaoDAO implements InterfaceDAO {
         this.connection = connection;
     }
 
-    public boolean inserir(Apto apto) {
-        return false;
+    public boolean inserir(Apto apto) throws MySQLIntegrityConstraintViolationException {
+
+        String sql = "INSERT INTO aptidao(idFunc, idServ) VALUES(?,?)";
+        try {
+
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, apto.getFuncionario().getId());
+            stmt.setInt(2, apto.getServico().getId());
+
+            stmt.execute();
+            return true;
+        } catch (SQLException ex) {
+            throw new MySQLIntegrityConstraintViolationException("Funcionário já está apto!");
+        }
     }
 
     public boolean alterar(Apto apto) {
@@ -35,8 +49,19 @@ public class AptidaoDAO implements InterfaceDAO {
     }
 
     public boolean remover(Apto apto) {
-        return false;
+        String sql = "DELETE FROM aptidao WHERE idServ=?";
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, apto.getServico().getId());
+
+            stmt.execute();
+            return true;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }
     }
+
 
     public Apto buscar(Apto apto) {
         return null;

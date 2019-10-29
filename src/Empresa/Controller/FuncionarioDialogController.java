@@ -135,7 +135,7 @@ public class FuncionarioDialogController implements Initializable {
             cargo.setCargo(textFieldCargo.getText());
             func.setCargo(cargo);
             func.setValorHora(Double.parseDouble(textFieldValorHora.getText()));
-            if (this.textFieldIdEndereco.getText()!=null){
+            if (this.textFieldIdEndereco.getText().length()>0){
                 end.setId(Integer.parseInt(this.textFieldIdEndereco.getText()));
             }
             end.setLogradouro(textFieldLogradouro.getText());

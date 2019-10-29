@@ -68,7 +68,9 @@
                         </GridPane>
                         <Group AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0">
                             <children>
-                                <Button fx:id="buttonInserir" layoutX="97.0" layoutY="293.0" mnemonicParsing="false" onAction="#handleBtnInserir" prefHeight="25.0" prefWidth="64.0" text="Inserir" />
+                                <Button fx:id="buttonInserir" layoutX="11.0" layoutY="293.0" mnemonicParsing="false" onAction="#handleBtnInserir" prefHeight="25.0" prefWidth="64.0" text="Inserir" />
+                                <Button fx:id="buttonInserirApto" layoutX="86.0" layoutY="250" mnemonicParsing="false" onAction="#handleBtnInserirApto" prefHeight="25.0" prefWidth="80.0" text="Inserir Apto" />
+                                <Button fx:id="buttonRemoverApto" layoutX="86.0" layoutY="293.0" mnemonicParsing="false" onAction="#handleBtnRemoverApto" prefHeight="25.0" prefWidth="80.0" text="Remover Apto" />
                                 <Button fx:id="buttonAlterar" layoutX="169.0" layoutY="293.0" mnemonicParsing="false" onAction="#handleBtnAlterar" prefHeight="25.0" prefWidth="64.0" text="Alterar" />
                                 <Button fx:id="buttonRemover" layoutX="240.0" layoutY="293.0" mnemonicParsing="false" onAction="#handleBtnRemover" text="Remover" />
                             </children>
