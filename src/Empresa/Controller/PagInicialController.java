@@ -72,16 +72,16 @@ public class PagInicialController implements Initializable {
     public void handleFuncionario(ActionEvent actionEvent) throws IOException {
         AnchorPane root = FXMLLoader.load(PagInicialController.class.getResource("../View/funcionario.fxml"));
         anchor.getChildren().setAll(root);
-        System.out.println("a");
     }
 
     public void handleCliente(ActionEvent actionEvent) throws IOException {
         AnchorPane root = FXMLLoader.load(PagInicialController.class.getResource("../View/cliente.fxml"));
         anchor.getChildren().setAll(root);
-        System.out.println("b");
     }
 
-    public void handleServico(ActionEvent actionEvent) {
+    public void handleServico(ActionEvent actionEvent) throws IOException {
+        AnchorPane root = FXMLLoader.load(PagInicialController.class.getResource("../View/servico.fxml"));
+        anchor.getChildren().setAll(root);
     }
 
     public void handleServicoPrestado(ActionEvent actionEvent) {

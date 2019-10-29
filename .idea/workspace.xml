@@ -2,13 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/src/Empresa/Controller/ServicoController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Empresa/Controller/ServicoDialogController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Empresa/View/servico.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Empresa/View/servicoDialog.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Empresa/Controller/FuncionarioController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Empresa/Controller/FuncionarioController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Empresa/Controller/FuncionarioDialogController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Empresa/Controller/FuncionarioDialogController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Empresa/Model/dao/EnderecoDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Empresa/Model/dao/EnderecoDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Empresa/Controller/PagInicialController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Empresa/Controller/PagInicialController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Empresa/Model/dao/AptidaoDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Empresa/Model/dao/AptidaoDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Empresa/Model/dao/FuncionarioDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Empresa/Model/dao/FuncionarioDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Empresa/Model/dao/PessoaDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Empresa/Model/dao/PessoaDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Empresa/View/funcionarioDialog.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/Empresa/View/funcionarioDialog.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Empresa/Model/dao/ServicoDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Empresa/Model/dao/ServicoDAO.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -269,7 +272,7 @@
       <workItem from="1572273588503" duration="155000" />
       <workItem from="1572273769038" duration="29000" />
       <workItem from="1572273823610" duration="2812000" />
-      <workItem from="1572284904795" duration="28319000" />
+      <workItem from="1572284904795" duration="35846000" />
     </task>
     <task id="LOCAL-00001" summary="criação da classe Session e da view pagInicial">
       <created>1571948885885</created>
@@ -346,24 +349,39 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Empresa/Controller/FuncionarioController.java</url>
-          <line>194</line>
-          <option name="timeStamp" value="45" />
+          <url>file://$PROJECT_DIR$/src/Empresa/Controller/ServicoController.java</url>
+          <line>84</line>
+          <option name="timeStamp" value="54" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Empresa/Model/dao/EnderecoDAO.java</url>
-          <line>56</line>
-          <option name="timeStamp" value="46" />
+          <url>file://$PROJECT_DIR$/src/Empresa/Controller/ServicoController.java</url>
+          <line>83</line>
+          <option name="timeStamp" value="55" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Empresa/Model/dao/EnderecoDAO.java</url>
+          <url>file://$PROJECT_DIR$/src/Empresa/Model/dao/AptidaoDAO.java</url>
+          <line>64</line>
+          <option name="timeStamp" value="56" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Empresa/Model/dao/AptidaoDAO.java</url>
+          <line>62</line>
+          <option name="timeStamp" value="57" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Empresa/Model/dao/AptidaoDAO.java</url>
+          <line>61</line>
+          <option name="timeStamp" value="61" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Empresa/Model/dao/AptidaoDAO.java</url>
           <line>55</line>
-          <option name="timeStamp" value="47" />
+          <option name="timeStamp" value="62" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Empresa/Model/dao/EnderecoDAO.java</url>
+          <url>file://$PROJECT_DIR$/src/Empresa/Model/dao/AptidaoDAO.java</url>
           <line>54</line>
-          <option name="timeStamp" value="48" />
+          <option name="timeStamp" value="63" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
