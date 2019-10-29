@@ -1,21 +1,31 @@
 package Empresa.Model.domain;
 
 import java.io.Serializable;
+import java.sql.Time;
 import java.util.Date;
 
 public class Serv_Prod implements Serializable {
     private Produto prod;
     private Empresa emp;
     private Cliente cli;
-    private Date data;
+    private String data;
+    private Time hrInicio;
     private int qnt;
 
-    public Serv_Prod(Produto prod, Empresa emp, Cliente cli, Date data, int qnt) {
+    public Serv_Prod(Produto prod, Empresa emp, Cliente cli, String data, int qnt) {
         this.prod = prod;
         this.emp = emp;
         this.cli = cli;
         this.data = data;
         this.qnt = qnt;
+    }
+
+    public Time getHrInicio() {
+        return hrInicio;
+    }
+
+    public void setHrInicio(Time hrInicio) {
+        this.hrInicio = hrInicio;
     }
 
     public Serv_Prod() {
@@ -45,11 +55,11 @@ public class Serv_Prod implements Serializable {
         this.cli = cli;
     }
 
-    public Date getData() {
+    public String getData() {
         return data;
     }
 
-    public void setData(Date data) {
+    public void setData(String data) {
         this.data = data;
     }
 

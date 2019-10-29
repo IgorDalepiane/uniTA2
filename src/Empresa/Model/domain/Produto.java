@@ -1,5 +1,8 @@
 package Empresa.Model.domain;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 import java.io.Serializable;
 
 public class Produto implements Serializable {
@@ -8,9 +11,10 @@ public class Produto implements Serializable {
     private String descricao;
     private Float preco;
 
-    public Produto(int id, String nome, Float preco) {
+    public Produto(int id, String nome, String descricao, Float preco) {
         this.id = id;
         this.nome = nome;
+        this.descricao = descricao;
         this.preco = preco;
     }
 

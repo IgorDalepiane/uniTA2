@@ -5,14 +5,14 @@ import java.io.Serializable;
 public class Endereco implements Serializable {
     private int id;
     private String logradouro;
-    private String numero;
+    private int numero;
     private String complemento;
     private String bairro;
     private String cidade;
     private String estado;
     private String CEP;
 
-    public Endereco(int id,String logradouro, String numero, String bairro, String cidade, String estado) {
+    public Endereco(int id,String logradouro, int numero, String bairro, String cidade, String estado) {
         this.id = id;
         this.logradouro = logradouro;
         this.numero = numero;
@@ -25,6 +25,14 @@ public class Endereco implements Serializable {
     public Endereco() {
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getLogradouro() {
         return logradouro;
     }
@@ -33,11 +41,11 @@ public class Endereco implements Serializable {
         this.logradouro = logradouro;
     }
 
-    public String getNumero() {
+    public int getNumero() {
         return numero;
     }
 
-    public void setNumero(String numero) {
+    public void setNumero(int numero) {
         this.numero = numero;
     }
 

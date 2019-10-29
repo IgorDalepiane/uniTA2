@@ -19,6 +19,7 @@ import javafx.scene.control.TextField;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class NewEmpresaController implements Initializable {
@@ -48,10 +49,10 @@ public class NewEmpresaController implements Initializable {
             scene = new Scene(root, 350,275);
         Main.stage.setTitle("Nova conta");
         Main.stage.setScene(scene);
+        Main.center();
     }
 
     public void handleSubmit(ActionEvent actionEvent) throws IOException {
-        //TODO enviar os dados do usuário ao banco de dados
         if (validarEntradaDeDados()) {
             empresa.setNome(nomeEmpresa.getText());
             empresa.setEmail(emailEmpresa.getText());
@@ -60,7 +61,7 @@ public class NewEmpresaController implements Initializable {
                 empresaDAO.inserir(empresa);
                 limpaCampos();
                 HomeController.showView();
-            } catch (CadastroException e) {
+            } catch (CadastroException | SQLException e) {
                 alerta(e.getMessage());
             }
         }

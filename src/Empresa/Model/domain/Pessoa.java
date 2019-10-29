@@ -1,15 +1,17 @@
 package Empresa.Model.domain;
 
 import java.io.Serializable;
+import java.util.List;
 
-public abstract class Pessoa implements Serializable {
+public class Pessoa implements Serializable {
     private int id;
     private String nome;
     private String CPF;
     private String RG;
     private String email;
     private Endereco endereco;
-    private Celular celular;
+    private String celular;
+    private String residencial;
 
     public Pessoa(int id, String nome, String CPF, String RG) {
         this.nome = nome;
@@ -60,12 +62,20 @@ public abstract class Pessoa implements Serializable {
         this.endereco = endereco;
     }
 
-    public Celular getCelular() {
+    public String getCelular() {
         return celular;
     }
 
-    public void setCelular(Celular celular) {
+    public void setCelular(String celular) {
         this.celular = celular;
+    }
+
+    public String getResidencial() {
+        return residencial;
+    }
+
+    public void setResidencial(String residencial) {
+        this.residencial = residencial;
     }
 
     public int getId() {

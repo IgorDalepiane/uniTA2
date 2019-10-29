@@ -6,8 +6,6 @@ import Empresa.Model.database.Database;
 import Empresa.Model.database.DatabaseFactory;
 import Empresa.Model.dao.EmpresaDAO;
 import Empresa.Model.domain.Empresa;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,15 +13,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.util.StringConverter;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
-import java.util.List;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class HomeController implements Initializable {
@@ -54,21 +50,19 @@ public class HomeController implements Initializable {
             scene = new Scene(root, 300, 275);
         Main.stage.setTitle("Login");
         Main.stage.setScene(scene);
+        Main.center();
     }
 
-    public void handleLogin(ActionEvent actionEvent) {
-        //TODO validação do usuário com o banco de dados
+    public void handleLogin(ActionEvent actionEvent) throws IOException {
         if(validarLogin()){
             Empresa empresa = new Empresa();
             empresa.setEmail(emailEmpresa.getText());
             empresa.setSenha(senhaEmpresa.getText());
             try {
-                if (empresaDAO.login(empresa)){
-                    System.out.println("DEU CERTOOOOOO");
-                    //TODO pagina inicial pós login
-                    //TODO variavel de seção
+                if (empresaDAO.logar(empresa)){
+                    PagInicialController.showView();
                 }
-            } catch (LoginInvalidoException e) {
+            } catch (LoginInvalidoException | SQLException e) {
                 alerta(e.getMessage());
             }
         }
@@ -97,15 +91,10 @@ public class HomeController implements Initializable {
         alert.show();
     }
     public void handleNewacc(ActionEvent actionEvent) throws IOException {
-        //TODO criação do usuário no banco de dados
         NewEmpresaController.showView();
     }
 
     public void handleForgotPw(ActionEvent actionEvent) throws IOException {
         ForgotPwController.showView();
-    }
-
-    public void refresh(ActionEvent actionEvent) {
-        initialize(null, null);
     }
 }
