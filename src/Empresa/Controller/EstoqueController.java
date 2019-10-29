@@ -24,6 +24,7 @@ import javafx.util.Callback;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -63,14 +64,18 @@ public class EstoqueController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         estoqueDAO.setConnection(connection);
-        populaTabela();
+        try {
+            populaTabela();
+        } catch (SQLException e) {
+            alerta(e.getMessage());
+        }
         selecionarItemTableView(null);
 
         tableView.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> selecionarItemTableView((Estoque) newValue));
     }
 
-    public void populaTabela() {
+    public void populaTabela() throws SQLException {
         tableColumnNome.setCellValueFactory(new PropertyValueFactory<>("prodNome"));
         tableColumnID.setCellValueFactory(new PropertyValueFactory<>("prodId"));
 
@@ -102,7 +107,7 @@ public class EstoqueController implements Initializable {
         alert.show();
     }
 
-    public void handleBtnInserir(ActionEvent actionEvent) throws IOException {
+    public void handleBtnInserir(ActionEvent actionEvent) throws IOException, SQLException {
         Estoque estoque = new Estoque();
         boolean buttonConfirmarClicked = mostraCadastroEst(estoque);
         if (buttonConfirmarClicked) {
@@ -146,7 +151,7 @@ public class EstoqueController implements Initializable {
         return controller.isButtonConfirmarClicked();
     }
 
-    public void handleBtnAlterar(ActionEvent actionEvent) throws IOException {
+    public void handleBtnAlterar(ActionEvent actionEvent) throws IOException, SQLException {
         Estoque esTable = (Estoque) tableView.getSelectionModel().getSelectedItem();
         int prodId = esTable.getProdId();
         if (esTable != null) {
@@ -173,7 +178,7 @@ public class EstoqueController implements Initializable {
         }
     }
 
-    public void handleBtnRemover(ActionEvent actionEvent) {
+    public void handleBtnRemover(ActionEvent actionEvent) throws SQLException {
         Estoque esTable = (Estoque) tableView.getSelectionModel().getSelectedItem();
         int idProd = esTable.getProdId();
         if (esTable != null) {

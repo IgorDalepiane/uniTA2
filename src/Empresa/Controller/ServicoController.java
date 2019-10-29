@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -58,14 +59,18 @@ public class ServicoController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         servicoDAO.setConnection(connection);
         aptidaoDAO.setConnection(connection);
-        populaTabela();
+        try {
+            populaTabela();
+        } catch (SQLException e) {
+            alerta(e.getMessage());
+        }
         selecionarItemTableView(null);
 
         tableView.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> selecionarItemTableView((Servico) newValue));
     }
 
-    public void populaTabela() {
+    public void populaTabela() throws SQLException {
         tableColumnNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
         tableColumnPreco.setCellValueFactory(new PropertyValueFactory<>("preco"));
 
@@ -109,7 +114,7 @@ public class ServicoController implements Initializable {
         alert.show();
     }
 
-    public void handleBtnInserir(ActionEvent actionEvent) throws IOException, MySQLIntegrityConstraintViolationException {
+    public void handleBtnInserir(ActionEvent actionEvent) throws IOException, SQLException {
         Servico servico = new Servico();
         boolean buttonConfirmarClicked = mostraCadastroServ(servico, 1);
         if (buttonConfirmarClicked) {
@@ -131,8 +136,8 @@ public class ServicoController implements Initializable {
         }
     }
 
-    public void handleBtnAlterar(ActionEvent actionEvent) throws IOException {
-        Servico servico = (Servico) tableView.getSelectionModel().getSelectedItem();//Obtendo cliente selecionado
+    public void handleBtnAlterar(ActionEvent actionEvent) throws IOException, SQLException {
+        Servico servico = (Servico) tableView.getSelectionModel().getSelectedItem();
         if (servico != null) {
             boolean buttonConfirmarClicked = mostraCadastroServ(servico, 2);
             if (buttonConfirmarClicked) {
@@ -149,7 +154,7 @@ public class ServicoController implements Initializable {
         }
     }
 
-    public void handleBtnRemover(ActionEvent actionEvent) {
+    public void handleBtnRemover(ActionEvent actionEvent) throws SQLException {
         Servico servico = (Servico) tableView.getSelectionModel().getSelectedItem();
         if (servico != null) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -175,7 +180,7 @@ public class ServicoController implements Initializable {
         }
     }
 
-    public boolean mostraCadastroServ(Servico servico, int state) throws IOException {
+    public boolean mostraCadastroServ(Servico servico, int state) throws IOException, SQLException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(ServicoDialogController.class.getResource("../View/servicoDialog.fxml"));
         AnchorPane page = (AnchorPane) loader.load();
@@ -200,7 +205,7 @@ public class ServicoController implements Initializable {
 
     }
 
-    public void handleBtnInserirApto(ActionEvent actionEvent) throws IOException {
+    public void handleBtnInserirApto(ActionEvent actionEvent) throws IOException, SQLException {
         Servico servico = (Servico) tableView.getSelectionModel().getSelectedItem();
         if (servico != null) {
             Apto apto = new Apto();
@@ -224,7 +229,7 @@ public class ServicoController implements Initializable {
         }
     }
 
-    public boolean mostraAptoServ(Apto apto) throws IOException {
+    public boolean mostraAptoServ(Apto apto) throws IOException, SQLException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(ServicoAptoDialogController.class.getResource("../View/servicoAptoDialog.fxml"));
         AnchorPane page = (AnchorPane) loader.load();
@@ -245,7 +250,7 @@ public class ServicoController implements Initializable {
         return controller.isButtonConfirmarClicked();
     }
 
-    public void handleBtnRemoverApto(ActionEvent actionEvent) throws IOException {
+    public void handleBtnRemoverApto(ActionEvent actionEvent) throws IOException, SQLException {
         Servico servico = (Servico) tableView.getSelectionModel().getSelectedItem();
         if (servico != null) {
             Apto apto = new Apto();

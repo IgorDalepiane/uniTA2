@@ -35,20 +35,14 @@ public class EstoqueDAO implements InterfaceDAO {
      * @param est o registro a ser inserido
      * @return true se a operação foi concluída com sucesso, false se não
      */
-    public boolean inserir(Estoque est) {
+    public boolean inserir(Estoque est) throws SQLException {
         String sql = "insert into estoque (idEmp, idProd, quantidade) values (?, ?, ?)";
-        try {
-            PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setInt(1, Session.get().getId());
-            stmt.setInt(2, est.getProd().getId());
-            stmt.setInt(3, est.getQuant());
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        stmt.setInt(1, Session.get().getId());
+        stmt.setInt(2, est.getProd().getId());
+        stmt.setInt(3, est.getQuant());
 
-            stmt.execute();
-            return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
+        return stmt.execute();
     }
 
     /**
@@ -57,18 +51,12 @@ public class EstoqueDAO implements InterfaceDAO {
      * @param est o registro a ser alterado
      * @return true se a operação foi concluída com sucesso, false se não
      */
-    public boolean alterar(Estoque est) {
+    public boolean alterar(Estoque est) throws SQLException {
         String sql = "update estoque set quantidade=? where idProd = " + est.getProd().getId();
-        try {
-            PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setInt(1, est.getQuant());
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        stmt.setInt(1, est.getQuant());
 
-            stmt.execute();
-            return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
+        return stmt.execute();
     }
 
     /**
@@ -77,86 +65,73 @@ public class EstoqueDAO implements InterfaceDAO {
      * @param est o registro a ser removido
      * @return true se a operação foi concluída com sucesso, false se não
      */
-    public boolean remover(Estoque est) {
+    public boolean remover(Estoque est) throws SQLException {
         String sql = "DELETE FROM estoque WHERE idEmp=? and idProd=?";
-        try {
-            PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setInt(1, Session.get().getId());
-            stmt.setInt(2, est.getProdId());
-            stmt.execute();
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        stmt.setInt(1, Session.get().getId());
+        stmt.setInt(2, est.getProdId());
 
-            /*
-            Como a tabela Produto e Estoque estão ligadas,
-            ao remover da Estoque, é necessário remover também da Produto
-             */
-            ProdutoDAO produtoDAO = new ProdutoDAO();
-            produtoDAO.setConnection(connection);
+        /*
+        Como a tabela Produto e Estoque estão ligadas,
+        ao remover da Estoque, é necessário remover também da Produto
+         */
+        ProdutoDAO produtoDAO = new ProdutoDAO();
+        produtoDAO.setConnection(connection);
 
-            produtoDAO.remover(est.getProd());
-            return true;
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            return false;
-        }
+        return stmt.execute() && produtoDAO.remover(est.getProd());
     }
 
     /**
      * Busca um registro no banco de dados
+     *
      * @param est o registro (incompleto) a ser buscado
      * @return o registro com as informações armazenadas no banco
      */
-    public Estoque buscar(Estoque est) {
+    public Estoque buscar(Estoque est) throws SQLException {
         String sql = "select * from estoque where idProd = ? and idEmp = ?";
         Estoque retorno = new Estoque();
-        try {
-            PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setInt(1, est.getProd().getId());
-            stmt.setInt(2, est.getEmpresa().getId());
-            ResultSet resultado = stmt.executeQuery();
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        stmt.setInt(1, est.getProd().getId());
+        stmt.setInt(2, est.getEmpresa().getId());
+        ResultSet resultado = stmt.executeQuery();
 
-            //estoque precisa da empresa e do produto
+        //estoque precisa da empresa e do produto
 
-            ProdutoDAO produtoDAO = new ProdutoDAO();
-            produtoDAO.setConnection(connection);
-            Produto prod = produtoDAO.buscar(est.getProd());
+        ProdutoDAO produtoDAO = new ProdutoDAO();
+        produtoDAO.setConnection(connection);
+        Produto prod = produtoDAO.buscar(est.getProd());
 
-            retorno.setEmpresa(Session.get());
-            retorno.setProd(prod);
-            retorno.setQuant(resultado.getInt("quantidade"));
+        retorno.setEmpresa(Session.get());
+        retorno.setProd(prod);
+        retorno.setQuant(resultado.getInt("quantidade"));
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
         return retorno;
     }
 
     /**
      * Lista os registros da tabela do banco de dados
+     *
      * @return Uma List com todos os registros
      */
-    public List<Estoque> listar() {
+    public List<Estoque> listar() throws SQLException {
         String sql = "select * from estoque where idEmp = " + Session.get().getId();
         List<Estoque> retorno = new ArrayList<>();
-        try {
-            PreparedStatement stmt = connection.prepareStatement(sql);
-            ResultSet resultado = stmt.executeQuery();
-            while (resultado.next()) {
-                //produtoDAO
-                ProdutoDAO produtoDAO = new ProdutoDAO();
-                produtoDAO.setConnection(connection);
-                Produto prod = new Produto();
-                prod.setId(resultado.getInt("idProd"));
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        ResultSet resultado = stmt.executeQuery();
+        while (resultado.next()) {
+            //produtoDAO
+            ProdutoDAO produtoDAO = new ProdutoDAO();
+            produtoDAO.setConnection(connection);
+            Produto prod = new Produto();
+            prod.setId(resultado.getInt("idProd"));
 
-                Estoque est = new Estoque();
+            Estoque est = new Estoque();
 
-                est.setProd(produtoDAO.buscar(prod));
-                est.setEmpresa(Session.get());
-                est.setQuant(resultado.getInt("quantidade"));
+            est.setProd(produtoDAO.buscar(prod));
+            est.setEmpresa(Session.get());
+            est.setQuant(resultado.getInt("quantidade"));
 
-                retorno.add(est);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+            retorno.add(est);
         }
         return retorno;
     }
