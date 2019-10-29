@@ -47,7 +47,19 @@ public class FuncionarioDAO implements InterfaceDAO {
     }
 
     public boolean alterar(Funcionario func) {
-        return false;
+        String sql = "UPDATE funcionario SET valorHora=?, idCargo=?, idEmp=? WHERE idPessoa=?";
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setDouble(1, func.getValorHora());
+            stmt.setInt(2, func.getCargo().getId());
+            stmt.setInt(3, Session.get().getId());
+            stmt.setInt(4, func.getId());
+            stmt.execute();
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(ProdutoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
     }
 
     public boolean remover(Funcionario func) {
