@@ -109,15 +109,22 @@ public class ServicoController implements Initializable {
         alert.show();
     }
 
-    public void handleBtnInserir(ActionEvent actionEvent) throws IOException {
+    public void handleBtnInserir(ActionEvent actionEvent) throws IOException, MySQLIntegrityConstraintViolationException {
         Servico servico = new Servico();
-        boolean buttonConfirmarClicked = mostraCadastroServ(servico);
+        boolean buttonConfirmarClicked = mostraCadastroServ(servico, 1);
         if (buttonConfirmarClicked) {
             //Conexao com as DAOs Utilizadas
             servicoDAO.setConnection(connection);
+            aptidaoDAO.setConnection(connection);
 
             //Insere o servico no banco
             servicoDAO.inserir(servico);
+            Servico ultimo = servicoDAO.buscarUltimo();
+
+            Apto apto = new Apto();
+            apto.setServico(ultimo);
+            apto.setFuncionario(servico.getAptos().get(0));
+            aptidaoDAO.inserir(apto);
 
             //Atualiza a tabela
             populaTabela();
@@ -127,7 +134,7 @@ public class ServicoController implements Initializable {
     public void handleBtnAlterar(ActionEvent actionEvent) throws IOException {
         Servico servico = (Servico) tableView.getSelectionModel().getSelectedItem();//Obtendo cliente selecionado
         if (servico != null) {
-            boolean buttonConfirmarClicked = mostraCadastroServ(servico);
+            boolean buttonConfirmarClicked = mostraCadastroServ(servico, 2);
             if (buttonConfirmarClicked) {
                 servicoDAO.setConnection(connection);
 
@@ -168,7 +175,7 @@ public class ServicoController implements Initializable {
         }
     }
 
-    public boolean mostraCadastroServ(Servico servico) throws IOException {
+    public boolean mostraCadastroServ(Servico servico, int state) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(ServicoDialogController.class.getResource("../View/servicoDialog.fxml"));
         AnchorPane page = (AnchorPane) loader.load();
@@ -182,7 +189,8 @@ public class ServicoController implements Initializable {
 
         // Setando o funcionario no Controller.
         ServicoDialogController controller = loader.getController();
-        controller.setDialogStage(dialogStage);
+        //estados diferentes para cadastrar e alterar
+        controller.setDialogStage(dialogStage, state);
         controller.setServ(servico);
 
         // Mostra o Dialog e espera até que o usuário o feche
@@ -247,7 +255,7 @@ public class ServicoController implements Initializable {
             if (buttonConfirmarClicked) {
                 aptidaoDAO.setConnection(connection);
                 //Remove o servico do banco
-                aptidaoDAO.remover(apto);
+                aptidaoDAO.removerApto(apto);
                 //Atualiza a tabela
                 populaTabela();
             }

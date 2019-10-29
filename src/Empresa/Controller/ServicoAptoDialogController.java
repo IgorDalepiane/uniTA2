@@ -26,15 +26,9 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class ServicoAptoDialogController implements Initializable {
-    private static Scene scene = null;
 
     @FXML
     private ComboBox comboBoxAptos;
-    //contato
-    @FXML
-    private Button btnConfirmar;
-    @FXML
-    private Button btnCancelar;
 
     private List<Funcionario> listFuncionarios;
     private List<Funcionario> listAptos;
@@ -72,7 +66,6 @@ public class ServicoAptoDialogController implements Initializable {
 
         listFuncionarios = funcionarioDAO.listar();
         listAptos=aptidaoDAO.buscarPorServico(this.apto.getServico());
-
 
         observableListFuncionarios = FXCollections.observableArrayList(listFuncionarios);
         comboBoxAptos.setItems(observableListFuncionarios);

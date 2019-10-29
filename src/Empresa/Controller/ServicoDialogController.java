@@ -4,10 +4,7 @@ import Empresa.Model.dao.FuncionarioDAO;
 import Empresa.Model.dao.ServicoDAO;
 import Empresa.Model.database.Database;
 import Empresa.Model.database.DatabaseFactory;
-import Empresa.Model.domain.Cargo;
-import Empresa.Model.domain.Endereco;
-import Empresa.Model.domain.Funcionario;
-import Empresa.Model.domain.Servico;
+import Empresa.Model.domain.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -20,12 +17,13 @@ import javafx.util.StringConverter;
 
 import java.net.URL;
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
 
 public class ServicoDialogController implements Initializable {
-    private static Scene scene = null;
+
     //pessoa
     @FXML
     private TextField textFieldNome;
@@ -34,12 +32,11 @@ public class ServicoDialogController implements Initializable {
     @FXML
     private TextField textFieldPreco;
     @FXML
+    private Label labelAptoCadastro;
+    @FXML
+    private ComboBox comboBoxAptoCadastro;
+    @FXML
     private ComboBox comboBoxAptos;
-    //contato
-    @FXML
-    private Button btnConfirmar;
-    @FXML
-    private Button btnCancelar;
 
     private List<Funcionario> listFuncionarios;
     private ObservableList<Funcionario> observableListFuncionarios;
@@ -51,9 +48,11 @@ public class ServicoDialogController implements Initializable {
     private Stage dialogStage;
     private boolean buttonConfirmarClicked = false;
     private Servico serv;
+    private Apto cadApto;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        funcionarioDAO.setConnection(connection);
     }
 
 
@@ -61,7 +60,14 @@ public class ServicoDialogController implements Initializable {
         return dialogStage;
     }
 
-    public void setDialogStage(Stage dialogStage) {
+    public void setDialogStage(Stage dialogStage, int s) {
+        if (s == 2) {
+            labelAptoCadastro.setVisible(false);
+            comboBoxAptoCadastro.setVisible(false);
+        } else {
+            labelAptoCadastro.setVisible(true);
+            comboBoxAptoCadastro.setVisible(true);
+        }
         this.dialogStage = dialogStage;
     }
 
@@ -74,6 +80,25 @@ public class ServicoDialogController implements Initializable {
         this.textFieldNome.setText(serv.getNome());
         this.textFieldDescricao.setText(serv.getDescricao());
         this.textFieldPreco.setText(serv.getPreco() == null ? "" : String.valueOf(serv.getPreco()));
+
+        listFuncionarios = funcionarioDAO.listar();
+        observableListFuncionarios = FXCollections.observableArrayList(listFuncionarios);
+
+        comboBoxAptoCadastro.setItems(observableListFuncionarios);
+
+        comboBoxAptoCadastro.setConverter(new StringConverter<Funcionario>() {
+            @Override
+            public String toString(Funcionario object) {
+                if (object != null)
+                    return object.getNome();
+                return null;
+            }
+
+            @Override
+            public Funcionario fromString(String string) {
+                return null;
+            }
+        });
     }
 
     public boolean isButtonConfirmarClicked() {
@@ -86,6 +111,10 @@ public class ServicoDialogController implements Initializable {
             serv.setNome(textFieldNome.getText());
             serv.setDescricao(textFieldDescricao.getText());
             serv.setPreco(Float.valueOf(textFieldPreco.getText()));
+
+            List<Funcionario> cadApto = new ArrayList<>();
+            cadApto.add((Funcionario) comboBoxAptoCadastro.getSelectionModel().getSelectedItem());
+            serv.setAptos(cadApto);
 
             buttonConfirmarClicked = true;
             dialogStage.close();
@@ -102,14 +131,15 @@ public class ServicoDialogController implements Initializable {
 
         if (textFieldNome.getText() == null || textFieldNome.getText().length() == 0)
             errorMessage += "Nome inválido!\n";
-        if (textFieldDescricao.getText() == null || textFieldDescricao.getText().length() == 0)
-            errorMessage += "Descrição inválida!\n";
         try {
             if (Float.parseFloat(textFieldPreco.getText()) <= 0 || textFieldPreco.getText().length() == 0)
                 errorMessage += "Preço inválido!\n";
         } catch (NumberFormatException e) {
-            alerta("Somente números no campo Preço!");
+            errorMessage += "Somente números no campo Preço!\n";
         }
+        if (comboBoxAptoCadastro.getSelectionModel().getSelectedItem() == null
+                && comboBoxAptoCadastro.isVisible())
+            errorMessage += "Você deve escolher um funcionário apto!\n";
 
         if (errorMessage.length() == 0) {
             return true;

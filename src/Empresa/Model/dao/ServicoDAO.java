@@ -104,10 +104,31 @@ public class ServicoDAO implements InterfaceDAO {
                 retorno=servico;
             }
         } catch (SQLException ex) {
-            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
         return retorno;
 
+    }
+
+    /**
+     * Busca o último registro inserido no bd através do método inserir()
+     * @return o registro
+     */
+    public Servico buscarUltimo() {
+        String sql = "SELECT max(id) FROM servico";
+        Servico retorno = new Servico();
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            ResultSet resultado = stmt.executeQuery();
+
+            if (resultado.next()) {
+                retorno.setId(resultado.getInt("max(id)"));
+                return buscar(retorno);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return retorno;
     }
 
     public List<Servico> listar() {

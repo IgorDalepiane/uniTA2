@@ -32,7 +32,6 @@ public class AptidaoDAO implements InterfaceDAO {
 
         String sql = "INSERT INTO aptidao(idFunc, idServ) VALUES(?,?)";
         try {
-
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setInt(1, apto.getFuncionario().getId());
             stmt.setInt(2, apto.getServico().getId());
@@ -53,6 +52,20 @@ public class AptidaoDAO implements InterfaceDAO {
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setInt(1, apto.getServico().getId());
+
+            stmt.execute();
+            return true;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
+    public boolean removerApto(Apto apto) {
+        String sql = "DELETE FROM aptidao WHERE idServ=? AND idFunc=?";
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, apto.getServico().getId());
+            stmt.setInt(2, apto.getFuncionario().getId());
 
             stmt.execute();
             return true;
