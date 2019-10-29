@@ -217,8 +217,8 @@ public class ServicoController implements Initializable {
                     aptidaoDAO.setConnection(connection);
                     //Insere o servico no banco
                     aptidaoDAO.inserir(apto);
-                } catch (MySQLIntegrityConstraintViolationException e) {
-                    alerta(e.getMessage());
+                } catch (com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException e) {
+                    alerta("Funcionario já está apto.");
                 }
 
                 //Atualiza a tabela

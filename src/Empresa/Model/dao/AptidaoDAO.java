@@ -32,11 +32,7 @@ public class AptidaoDAO implements InterfaceDAO {
         PreparedStatement stmt = connection.prepareStatement(sql);
         stmt.setInt(1, apto.getFuncionario().getId());
         stmt.setInt(2, apto.getServico().getId());
-
-        if (stmt.execute())
-            return true;
-        else
-            throw new MySQLIntegrityConstraintViolationException("Funcionário já está apto!");
+        return stmt.execute();
     }
 
 //    public boolean alterar(Apto apto) {

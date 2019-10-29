@@ -29,7 +29,12 @@ public class ServicoPrestado implements Serializable {
 
     public ServicoPrestado() {
     }
-
+    public String getNomeServico(){
+        return this.servico.getNome();
+    }
+    public String getNomeCliente(){
+        return this.cliente.getNome();
+    }
     public int getId() {
         return id;
     }
