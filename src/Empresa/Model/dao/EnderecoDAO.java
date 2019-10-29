@@ -25,11 +25,43 @@ public class EnderecoDAO implements InterfaceDAO {
     }
 
     public boolean inserir(Endereco end) {
-        return false;
+        String sql = "INSERT INTO endereco(logradouro, numero, complemento, bairro, cidade, estado, CEP) VALUES(?,?,?,?,?,?,?)";
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, end.getLogradouro());
+            stmt.setInt(2, end.getNumero());
+            stmt.setString(3, end.getComplemento());
+            stmt.setString(4, end.getBairro());
+            stmt.setString(5, end.getCidade());
+            stmt.setString(6, end.getEstado());
+            stmt.setString(7, end.getCEP());
+            stmt.execute();
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(PessoaDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
     }
 
     public boolean alterar(Endereco end) {
-        return false;
+        String sql = "UPDATE endereco SET logradouro=?, numero=?, complemento=?, bairro=?,cidade=?,estado=?,CEP=? WHERE id=?";
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, end.getLogradouro());
+            stmt.setInt(2, end.getNumero());
+            stmt.setString(3, end.getComplemento());
+            stmt.setString(4, end.getBairro());
+            stmt.setString(5, end.getCidade());
+            stmt.setString(6, end.getEstado());
+            stmt.setString(7, end.getCEP());
+            stmt.setInt(8, end.getId());
+
+            stmt.execute();
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(ProdutoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
     }
 
     public boolean remover(Endereco end) {
@@ -72,5 +104,22 @@ public class EnderecoDAO implements InterfaceDAO {
 
     public List<Endereco> listar() {
         return null;
+    }
+
+    public Endereco buscarUltimoEnd() {
+        String sql = "SELECT max(id) FROM endereco";
+        Endereco retorno = new Endereco();
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            ResultSet resultado = stmt.executeQuery();
+
+            if (resultado.next()) {
+                retorno.setId(resultado.getInt("max(id)"));
+                return buscar(retorno);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(EnderecoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return retorno;
     }
 }

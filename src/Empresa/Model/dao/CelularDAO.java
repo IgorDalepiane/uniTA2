@@ -26,11 +26,33 @@ public class CelularDAO implements InterfaceDAO {
     }
 
     public boolean inserir(Celular celular) {
-        return false;
+        String sql = "INSERT INTO celular(num, isFixo, idPessoa) VALUES(?,?,?)";
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, celular.getNum());
+            stmt.setBoolean(2, celular.isFixo());
+            stmt.setInt(3, celular.getIdPessoa());
+            stmt.execute();
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(CelularDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+
     }
 
     public boolean alterar(Celular celular) {
-        return false;
+        String sql = "UPDATE celular SET num=? WHERE id=?";
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, celular.getNum());
+            stmt.setInt(2, celular.getIdPessoa());
+            stmt.execute();
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(ProdutoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
     }
 
     public boolean remover(Celular celular) {

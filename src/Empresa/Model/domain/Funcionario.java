@@ -5,10 +5,10 @@ import java.io.Serializable;
 public class Funcionario extends Pessoa implements Serializable {
     private int id;
     private double valorHora;
-    private String cargo;
+    private Cargo cargo;
     private Empresa empresa;
 
-    public Funcionario(int id, String nome, String CPF, String RG, double valorHora, String cargo) {
+    public Funcionario(int id, String nome, String CPF, String RG, double valorHora, Cargo cargo) {
         super(id,nome, CPF, RG);
         this.valorHora = valorHora;
         this.cargo = cargo;
@@ -41,11 +41,11 @@ public class Funcionario extends Pessoa implements Serializable {
         this.valorHora = valorHora;
     }
 
-    public String getCargo() {
+    public Cargo getCargo() {
         return cargo;
     }
 
-    public void setCargo(String cargo) {
+    public void setCargo(Cargo cargo) {
         this.cargo = cargo;
     }
 }

@@ -27,11 +27,37 @@ public class PessoaDAO implements InterfaceDAO {
     }
 
     public boolean inserir(Pessoa pess) {
-        return false;
+        String sql = "INSERT INTO pessoa(nome, email, RG, CPF,idEnd) VALUES(?,?,?,?,?)";
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, pess.getNome());
+            stmt.setString(2, pess.getEmail());
+            stmt.setString(3, pess.getRG());
+            stmt.setString(4, pess.getCPF());
+            stmt.setInt(5, pess.getEndereco().getId());
+            stmt.execute();
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(PessoaDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
     }
 
     public boolean alterar(Pessoa pess) {
-        return false;
+        String sql = "UPDATE pessoa SET nome=?, email=?, RG=?, CPF=? WHERE id=?";
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, pess.getNome());
+            stmt.setString(2, pess.getEmail());
+            stmt.setString(3, pess.getRG());
+            stmt.setString(4, pess.getCPF());
+            stmt.setInt(5, pess.getId());
+            stmt.execute();
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(ProdutoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
     }
 
     public boolean remover(Pessoa pess) {
@@ -78,5 +104,22 @@ public class PessoaDAO implements InterfaceDAO {
 
     public List<Pessoa> listar() {
         return null;
+    }
+
+    public Pessoa buscarUltimaPess() {
+        String sql = "SELECT max(id) FROM pessoa";
+        Pessoa retorno = new Pessoa();
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            ResultSet resultado = stmt.executeQuery();
+
+            if (resultado.next()) {
+                retorno.setId(resultado.getInt("max(id)"));
+                return buscar(retorno);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(PessoaDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return retorno;
     }
 }

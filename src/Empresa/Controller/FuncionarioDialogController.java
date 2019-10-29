@@ -2,9 +2,20 @@ package Empresa.Controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import Empresa.Main;
+import Empresa.Model.dao.EnderecoDAO;
+import Empresa.Model.dao.FuncionarioDAO;
+import Empresa.Model.dao.PessoaDAO;
+import Empresa.Model.database.Database;
+import Empresa.Model.database.DatabaseFactory;
+import Empresa.Model.domain.Cargo;
+import Empresa.Model.domain.Celular;
+import Empresa.Model.domain.Endereco;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -59,32 +70,27 @@ public class FuncionarioDialogController implements Initializable {
     @FXML
     private Button btnCancelar;
 
-    private static Stage dialogStage = new Stage();
-    private boolean btnConfirmarClicked = false;
+    private Stage dialogStage;
+    private boolean buttonConfirmarClicked = false;
     private Funcionario func;
+    private Endereco end= new Endereco();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
     }
 
-    public static void showView() throws IOException {
-        Parent root = FXMLLoader.load(FuncionarioDialogController.class.getResource("../View/funcionarioDialog.fxml"));
-        if (scene == null)
-            scene = new Scene(root);
-        dialogStage.setTitle("Novo Funcionário");
-        dialogStage.setScene(scene);
-        dialogStage.show();
-        Main.center();
+
+    public Stage getDialogStage() {
+        return dialogStage;
     }
 
-    public boolean isBtnConfirmarClicked() {
-        return btnConfirmarClicked;
+    public void setDialogStage(Stage dialogStage) {
+        this.dialogStage = dialogStage;
     }
 
-    public void setBtnConfirmarClicked(boolean btnConfirmarClicked) {
-        this.btnConfirmarClicked = btnConfirmarClicked;
+    public Funcionario getFuncionario() {
+        return this.func;
     }
-
     public Funcionario getFunc() {
         return func;
     }
@@ -93,21 +99,105 @@ public class FuncionarioDialogController implements Initializable {
         this.func = func;
         this.textFieldNome.setText(func.getNome());
         this.textFieldCPF.setText(func.getCPF());
-        //this.textFieldCelular.setText(f.getTelefone());
-    }
 
+        if (func.getEndereco()!=null) {
+            this.textFieldValorHora.setText(String.valueOf(func.getValorHora()));
+            this.textFieldCargo.setText(func.getCargo().getCargoText());
+            this.textFieldRG.setText(func.getRG());
+            this.textFieldEmail.setText(func.getEmail());
+
+            this.textFieldLogradouro.setText(func.getEndereco().getLogradouro());
+            this.textFieldNumero.setText(String.valueOf(func.getEndereco().getNumero()));
+
+            this.textFieldBairro.setText(func.getEndereco().getBairro());
+            this.textFieldCidade.setText(func.getEndereco().getCidade());
+            this.textFieldEstado.setText(func.getEndereco().getEstado());
+            String cels = "";
+            String fixs = "";
+            for (Celular c:func.getCelulares()) {
+                if(!c.isFixo()){
+                    cels+=c.getNum()+", ";
+                }else{
+                    fixs+=c.getNum()+", ";
+                }
+            }
+            if (cels.length()>0) {
+                String cels1 = cels.substring(0, cels.length() - 1);
+                String cels2 = cels1.substring(0, cels1.length() - 1);
+                this.textFieldCelular.setText(cels2);
+            }else{
+                this.textFieldCelular.setText(cels);
+            }
+
+            if (fixs.length()>0) {
+                String fixs1 = fixs.substring(0, fixs.length() - 1);
+                String fixs2 = fixs1.substring(0, fixs1.length() - 1);
+                this.textFieldResidencial.setText(fixs2);
+            }else{
+                this.textFieldResidencial.setText(fixs);
+            }
+
+            if (func.getEndereco().getComplemento().equals("N/I")){
+                this.textFieldComplemento.setText("");
+            }else{
+                this.textFieldComplemento.setText(func.getEndereco().getComplemento());
+            }
+            if (func.getEndereco().getCEP().equals("N/I")){
+                this.textFieldCEP.setText("");
+            }else{
+                this.textFieldCEP.setText(func.getEndereco().getCEP());
+            }
+        }
+
+    }
+    public boolean isButtonConfirmarClicked() {
+        return buttonConfirmarClicked;
+    }
     @FXML
     public void handleButtonConfirmar() {
         if (validarEntradaDeDados()) {
-            //TODO
             func.setNome(textFieldNome.getText());
+            func.setRG(textFieldRG.getText());
             func.setCPF(textFieldCPF.getText());
-            //funcionario.setTelefone(textFieldCelular.getText());
+            func.setEmail(textFieldEmail.getText());
+            List<Celular> celulares = new ArrayList();
+            String celTexto = textFieldCelular.getText();
+            String[] cels = celTexto.split(", ");
+            for (String c:cels) {
+                Celular cel = new Celular();
+                cel.setNum(c);
+                cel.setIsFixo(false);
+                celulares.add(cel);
+            }
+            String residenTexto = textFieldResidencial.getText();
+            String[] fixos = residenTexto.split(", ");
+            for (String f:fixos) {
+                Celular fixo = new Celular();
+                fixo.setNum(f);
+                fixo.setIsFixo(true);
+                celulares.add(fixo);
+            }
+            func.setCelulares(celulares);
+            Cargo cargo = new Cargo();
+            cargo.setCargo(textFieldCargo.getText());
+            func.setCargo(cargo);
+            func.setValorHora(Double.parseDouble(textFieldValorHora.getText()));
 
-            btnConfirmarClicked = true;
+            end.setLogradouro(textFieldLogradouro.getText());
+            end.setNumero(Integer.parseInt(textFieldNumero.getText()));
+            end.setBairro(textFieldBairro.getText());
+            end.setCidade(textFieldCidade.getText());
+            end.setEstado(textFieldEstado.getText());
+            if (textFieldComplemento.getText().length()>0)
+                end.setComplemento(textFieldComplemento.getText());
+            if (textFieldCEP.getText().length()>0)
+                end.setCEP(textFieldCEP.getText());
+
+            func.setEndereco(end);
+
+            buttonConfirmarClicked = true;
             dialogStage.close();
         }
-
     }
 
     @FXML
