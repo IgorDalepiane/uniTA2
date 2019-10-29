@@ -4,15 +4,15 @@ import Empresa.Model.InterfaceDAO;
 import Empresa.Model.Session;
 import Empresa.Model.domain.*;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ServicoPrestadoDAO implements InterfaceDAO {
     private Connection connection;
+
     @Override
     public Connection getConnection() {
         return connection;
@@ -23,8 +23,16 @@ public class ServicoPrestadoDAO implements InterfaceDAO {
         this.connection = connection;
     }
 
-    public boolean inserir(ServicoPrestado servP) {
-        return false;
+    public boolean inserir(ServicoPrestado servP) throws SQLException, ParseException {
+        String sql = "INSERT INTO servicoprestado (idCliente, idServ, idFunc, data, horaInicio, horaFim,idEmp) VALUES(?,?,?,?,?,?,"+Session.get().getId()+")";
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        stmt.setInt(1, servP.getCliente().getId());
+        stmt.setInt(2, servP.getServico().getId());
+        stmt.setInt(3, servP.getFunc().getId());
+        stmt.setDate(4, Date.valueOf(servP.getData()));
+        stmt.setTime(5, servP.getHrInicial());
+        stmt.setTime(6, servP.getHrFinal());
+        return stmt.execute();
     }
 
     public boolean alterar(ServicoPrestado servP) {
@@ -70,7 +78,7 @@ public class ServicoPrestadoDAO implements InterfaceDAO {
             cliente.setId(resultado.getInt("idCliente"));
             servicoPrestado.setCliente(clienteDAO.buscar(cliente));
 
-            servicoPrestado.setData(resultado.getDate("data"));
+            servicoPrestado.setData(String.valueOf(resultado.getDate("data")));
             servicoPrestado.setHrInicial(resultado.getTime("horaInicio"));
             servicoPrestado.setHrFinal(resultado.getTime("horaFim"));
 

@@ -7,7 +7,7 @@ import Empresa.Model.dao.ServicoPrestadoDAO;
 import Empresa.Model.database.Database;
 import Empresa.Model.database.DatabaseFactory;
 import Empresa.Model.domain.*;
-import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -20,10 +20,15 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+import javax.swing.text.DateFormatter;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -90,7 +95,9 @@ public class ServicoPrestadoController implements Initializable {
             labelServico.setText(servicoPrestado.getNomeServico());
             labelFuncionario.setText(servicoPrestado.getFunc().getNome());
             labelCliente.setText(servicoPrestado.getNomeCliente());
-            labelData.setText(String.valueOf(servicoPrestado.getData()));
+            SimpleDateFormat format = new SimpleDateFormat("dd-MM-YYYY");
+            String dateString = format.format(Date.valueOf(servicoPrestado.getData()));
+            labelData.setText(dateString);
             labelHrInicio.setText(String.valueOf(servicoPrestado.getHrInicial()));
             labelHrFim.setText(String.valueOf(servicoPrestado.getHrFinal()));
             String produtosNomes = "";
@@ -129,10 +136,12 @@ public class ServicoPrestadoController implements Initializable {
             //Conexao com as DAOs Utilizadas
             servicoPrestadoDAO.setConnection(connection);
             servProdDAO.setConnection(connection);
-
             //Insere o servico no banco
-            //servicoPrestadoDAO.inserir(servicoPrestado);
-
+            try {
+                servicoPrestadoDAO.inserir(servicoPrestado);
+            } catch (MySQLIntegrityConstraintViolationException | ParseException e) {
+                alerta("Servico já prestado.");
+            }
             //Atualiza a tabela
             populaTabela();
         }
@@ -145,7 +154,52 @@ public class ServicoPrestadoController implements Initializable {
     public void handleBtnRemover(ActionEvent actionEvent) {
 
     }
+    public void handleBtnAddProd(ActionEvent actionEvent) throws IOException, SQLException {
+        ServicoPrestado servicoPrestado = (ServicoPrestado) tableView.getSelectionModel().getSelectedItem();
+        if (servicoPrestado != null) {
+            Serv_Prod serv_prod = new Serv_Prod();
+            serv_prod.setCli(servicoPrestado.getCliente());
+            serv_prod.setData(servicoPrestado.getData());
+            serv_prod.setEmp(servicoPrestado.getEmpresa());
+            serv_prod.setHrInicio(servicoPrestado.getHrInicial());
 
+            boolean buttonConfirmarClicked = mostraProdUti(serv_prod);
+            if (buttonConfirmarClicked) {
+                try {
+                    servProdDAO.setConnection(connection);
+                    //Insere o servico no banco
+                    servProdDAO.inserir(serv_prod);
+                } catch (com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException e) {
+                    alerta("Produto já adicionado");
+                }
+
+                //Atualiza a tabela
+                populaTabela();
+            }
+        } else {
+            alerta("Por favor, escolha um serviço na Tabela!");
+        }
+    }
+    public boolean mostraProdUti(Serv_Prod serv_prod) throws IOException, SQLException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(ServicoPresProdDialogController.class.getResource("../View/servicoPresProdDialog.fxml"));
+        AnchorPane page = (AnchorPane) loader.load();
+        // Criando um Estágio de Diálogo (Stage Dialog)
+        Stage dialogStage = new Stage();
+        dialogStage.setTitle("Produto Utilizado");
+        Scene scene = new Scene(page);
+        dialogStage.setScene(scene);
+
+        // Setando o funcionario no Controller.
+        ServicoPresProdDialogController controller = loader.getController();
+        controller.setDialogStage(dialogStage);
+        controller.setServProd(serv_prod);
+
+        // Mostra o Dialog e espera até que o usuário o feche
+        dialogStage.showAndWait();
+
+        return controller.isButtonConfirmarClicked();
+    }
     public boolean mostraCadastroServPres(ServicoPrestado servicoPres, int state) throws IOException, SQLException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(ServicoPrestadoDialogController.class.getResource("../View/servicoPrestadoDialog.fxml"));

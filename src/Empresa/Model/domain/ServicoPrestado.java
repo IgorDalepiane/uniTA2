@@ -11,12 +11,12 @@ public class ServicoPrestado implements Serializable {
     private Funcionario func;
     private Empresa empresa;
     private Cliente cliente;
-    private Date data;
+    private String data;
     private Time hrInicial;
     private Time hrFinal;
     private List<Produto> prodUtiliz;
 
-    public ServicoPrestado(int id, Servico servico, Funcionario func, Empresa empresa, Cliente cliente, Date data, Time hrInicial, Time hrFinal) {
+    public ServicoPrestado(int id, Servico servico, Funcionario func, Empresa empresa, Cliente cliente, String data, Time hrInicial, Time hrFinal) {
         this.id = id;
         this.servico = servico;
         this.func = func;
@@ -75,11 +75,11 @@ public class ServicoPrestado implements Serializable {
         this.cliente = cliente;
     }
 
-    public Date getData() {
+    public String getData() {
         return data;
     }
 
-    public void setData(Date data) {
+    public void setData(String data) {
         this.data = data;
     }
 
