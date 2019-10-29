@@ -63,7 +63,16 @@ public class FuncionarioDAO implements InterfaceDAO {
     }
 
     public boolean remover(Funcionario func) {
-        return false;
+        String sql = "DELETE FROM funcionario WHERE idPessoa=?";
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, func.getId());
+            stmt.execute();
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(FuncionarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
     }
 
     public Funcionario buscar(Funcionario func) {

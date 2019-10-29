@@ -103,6 +103,7 @@
                 <TextField fx:id="textFieldValorHora" GridPane.columnIndex="1" GridPane.rowIndex="8" />
                 <!-- /Funcionario -->
                 <!-- Endereço -->
+                <TextField fx:id="textFieldIdEndereco" GridPane.columnIndex="0" GridPane.rowIndex="0" visible="false"/>
                 <TextField fx:id="textFieldLogradouro" layoutX="55.0" layoutY="13.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
                 <TextField fx:id="textFieldNumero" layoutX="293.0" layoutY="13.0" maxWidth="-Infinity" prefHeight="25.0" prefWidth="49.0" GridPane.columnIndex="3" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="2" />
                 <TextField fx:id="textFieldComplemento" layoutX="293.0" layoutY="13.0" GridPane.columnIndex="3" GridPane.rowIndex="3" />

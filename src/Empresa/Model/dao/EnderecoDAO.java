@@ -65,7 +65,16 @@ public class EnderecoDAO implements InterfaceDAO {
     }
 
     public boolean remover(Endereco end) {
-        return false;
+        String sql = "DELETE FROM endereco WHERE id=?";
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, end.getId());
+            stmt.execute();
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(EnderecoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
     }
 
     public Endereco buscar(Endereco end) {
