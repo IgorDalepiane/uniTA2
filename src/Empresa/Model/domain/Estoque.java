@@ -28,6 +28,15 @@ public class Estoque implements Serializable {
         return prod;
     }
 
+    //estes dois getters são para a tableview de produtos
+    public String getProdNome() {
+        return prod.getNome();
+    }
+
+    public int getProdId() {
+        return prod.getId();
+    }
+
     public void setProd(Produto prod) {
         this.prod = prod;
     }

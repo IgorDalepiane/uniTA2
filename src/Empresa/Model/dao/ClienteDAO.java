@@ -35,6 +35,7 @@ public class ClienteDAO implements InterfaceDAO {
     }
 
     public List<Cliente> listar() {
+        String sql = "select * from pessoa p inner join cliente c on c.id = p.id";
         return null;
     }
 }

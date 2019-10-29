@@ -16,5 +16,11 @@
         <property name="serverTimezone" value="UTC" />
       </driver-properties>
     </data-source>
+    <data-source source="LOCAL" name="new_file" uuid="0a4c36eb-ec89-4afe-8827-550ce02f68ec">
+      <driver-ref>derby.embedded</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.apache.derby.jdbc.EmbeddedDriver</jdbc-driver>
+      <jdbc-url>jdbc:derby:$PROJECT_DIR$/new_file</jdbc-url>
+    </data-source>
   </component>
 </project>
