@@ -39,6 +39,8 @@ public class FuncionarioDialogController implements Initializable {
     private TextField textFieldValorHora;
     //email
     @FXML
+    private TextField textFieldIdEndereco;
+    @FXML
     private TextField textFieldLogradouro;
     @FXML
     private TextField textFieldNumero;
@@ -88,6 +90,7 @@ public class FuncionarioDialogController implements Initializable {
         this.textFieldCPF.setText(func.getCPF());
 
         if (func.getEndereco()!=null) {
+            this.textFieldIdEndereco.setText(String.valueOf(func.getEndereco().getId()));
             this.textFieldValorHora.setText(String.valueOf(func.getValorHora()));
             this.textFieldCargo.setText(func.getCargo().getCargoText());
             this.textFieldRG.setText(func.getRG());
@@ -131,7 +134,9 @@ public class FuncionarioDialogController implements Initializable {
             cargo.setCargo(textFieldCargo.getText());
             func.setCargo(cargo);
             func.setValorHora(Double.parseDouble(textFieldValorHora.getText()));
-
+            if (this.textFieldIdEndereco.getText()!=null){
+                end.setId(Integer.parseInt(this.textFieldIdEndereco.getText()));
+            }
             end.setLogradouro(textFieldLogradouro.getText());
             end.setNumero(Integer.parseInt(textFieldNumero.getText()));
             end.setBairro(textFieldBairro.getText());
@@ -165,10 +170,6 @@ public class FuncionarioDialogController implements Initializable {
             errorMessage += "CPF inválido!\n";
         if (textFieldEmail.getText() == null || textFieldEmail.getText().length() == 0)
             errorMessage += "Email inválido!\n";
-        if (textFieldCelular.getText() == null || textFieldCelular.getText().length() == 0)
-            errorMessage += "Celular inválido!\n";
-        if (textFieldResidencial.getText() == null || textFieldResidencial.getText().length() == 0)
-            errorMessage += "Residencial inválido!\n";
         if((textFieldCelular.getText() == null || textFieldCelular.getText().length() == 0)
                 && (textFieldResidencial.getText() == null || textFieldResidencial.getText().length() == 0))
             errorMessage += "Deve existir pelo menos um número de telefone!\n";

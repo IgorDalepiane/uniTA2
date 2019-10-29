@@ -64,7 +64,16 @@ public class PessoaDAO implements InterfaceDAO {
     }
 
     public boolean remover(Pessoa pess) {
-        return false;
+        String sql = "DELETE FROM pessoa WHERE id=?";
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, pess.getId());
+            stmt.execute();
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(PessoaDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
     }
 
     public Pessoa buscar(Pessoa pess) {

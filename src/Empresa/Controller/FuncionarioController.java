@@ -22,6 +22,7 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -145,9 +146,9 @@ public class FuncionarioController implements Initializable {
             Cargo cargoBD = cargoDAO.buscarPeloNome(funcionario.getCargo().getCargoText());
 
             //Se ja existir um cargo com este nome, apenas seta com o mesmo
-            if (cargoBD!=null){
+            if (cargoBD != null) {
                 funcionario.setCargo(cargoBD);
-            }else{
+            } else {
                 //Caso nao, insere o novo cargo no banco
                 cargoDAO.inserir(funcionario.getCargo());
                 //E atualiza o idCargo de funcionario com o ultimo adicionado
@@ -164,7 +165,6 @@ public class FuncionarioController implements Initializable {
     public void handleBtnAlterar(ActionEvent actionEvent) throws IOException {
         Funcionario funcionario = (Funcionario) tableView.getSelectionModel().getSelectedItem();//Obtendo cliente selecionado
         if (funcionario != null) {
-            Funcionario funcAtual=funcionario;
             boolean buttonConfirmarClicked = mostraCadastroFunc(funcionario);
             if (buttonConfirmarClicked) {
                 enderecoDAO.setConnection(connection);
@@ -172,7 +172,6 @@ public class FuncionarioController implements Initializable {
                 cargoDAO.setConnection(connection);
 
                 //Insere endereço no Banco
-                funcionario.getEndereco().setId(funcAtual.getEndereco().getId());
                 enderecoDAO.alterar(funcionario.getEndereco());
 
                 //Adiciona a pessoa
@@ -183,9 +182,9 @@ public class FuncionarioController implements Initializable {
                 Cargo cargoBD = cargoDAO.buscarPeloNome(funcionario.getCargo().getCargoText());
 
                 //Se ja existir um cargo com este nome, apenas seta com o mesmo
-                if (cargoBD!=null){
+                if (cargoBD != null) {
                     funcionario.setCargo(cargoBD);
-                }else{
+                } else {
                     //Caso nao, insere o novo cargo no banco
                     cargoDAO.inserir(funcionario.getCargo());
                     //E atualiza o idCargo de funcionario com o ultimo adicionado
@@ -205,7 +204,38 @@ public class FuncionarioController implements Initializable {
     }
 
     public void handleBtnRemover(ActionEvent actionEvent) {
+        Funcionario funcionario = (Funcionario) tableView.getSelectionModel().getSelectedItem();//Obtendo cliente selecionado
+        if (funcionario != null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmação de exclusão");
+            alert.setHeaderText("Deseja excluir este funcionário?");
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK){
+                enderecoDAO.setConnection(connection);
+                pessoaDAO.setConnection(connection);
+                cargoDAO.setConnection(connection);
+
+                enderecoDAO.remover(funcionario.getEndereco());
+
+                //Adiciona a pessoa
+                pessoaDAO.remover(funcionario);
+
+                //Adiciona o funcionario
+                funcionarioDAO.remover(funcionario);
+                //Atualiza a tabela
+                populaTabela();
+            } else {
+               alert.close();
+            }
+
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Por favor, escolha um cliente na Tabela!");
+            alert.show();
+        }
     }
+
     public boolean mostraCadastroFunc(Funcionario funcionario) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(FuncionarioDialogController.class.getResource("../View/funcionarioDialog.fxml"));
