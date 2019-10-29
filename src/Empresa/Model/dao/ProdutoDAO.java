@@ -60,22 +60,18 @@ public class ProdutoDAO implements InterfaceDAO {
     /**
      * Remove o produto da tabela Estoque e da tabela Produto
      *
-     * @param es
+     * @param prod
      * @return
      */
-    public boolean remover(Estoque es) {
-        String sql1 = "delete from estoque where idProd = " + es.getProd().getId();
-        String sql2 = "delete from produto where id = " + es.getProd().getId();
-        Estoque retorno;
+    public boolean remover(Produto prod) {
+        String sql = "DELETE FROM produto WHERE id=?";
         try {
-            Statement stmt = connection.createStatement();
-            stmt.addBatch(sql1);
-            stmt.addBatch(sql2);
-
-            stmt.executeBatch();
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, prod.getId());
+            stmt.execute();
             return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException ex) {
+            Logger.getLogger(PessoaDAO.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }

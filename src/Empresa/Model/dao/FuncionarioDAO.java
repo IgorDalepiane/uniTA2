@@ -31,7 +31,6 @@ public class FuncionarioDAO implements InterfaceDAO {
     public boolean inserir(Funcionario func) {
         String sql = "INSERT INTO funcionario(valorHora, idCargo, idEmp, idPessoa) VALUES(?,?,?,?)";
         try {
-
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setDouble(1, func.getValorHora());
             stmt.setInt(2, func.getCargo().getId());

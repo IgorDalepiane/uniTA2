@@ -41,6 +41,10 @@ public class Estoque implements Serializable {
         this.prod = prod;
     }
 
+    public void setProdId(int i) {
+        prod.setId(i);
+    }
+
     public int getQuant() {
         return quant;
     }

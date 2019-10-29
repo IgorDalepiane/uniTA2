@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 
 public class EstoqueDAO implements InterfaceDAO {
     private Connection connection;
+
     @Override
     public Connection getConnection() {
         return connection;
@@ -58,7 +59,22 @@ public class EstoqueDAO implements InterfaceDAO {
     }
 
     public boolean remover(Estoque est) {
-        return false;
+        String sql = "DELETE FROM estoque WHERE idEmp=? and idProd=?";
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, Session.get().getId());
+            stmt.setInt(2, est.getProdId());
+            stmt.execute();
+
+            ProdutoDAO produtoDAO = new ProdutoDAO();
+            produtoDAO.setConnection(connection);
+
+            produtoDAO.remover(est.getProd());
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(PessoaDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
     }
 
     public Estoque buscar(Estoque est) {
