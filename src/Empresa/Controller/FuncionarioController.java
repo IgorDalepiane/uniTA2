@@ -100,6 +100,7 @@ public class FuncionarioController implements Initializable {
 
     /**
      * Mostra as informações detalhadas do registro selecionado na grid à direita
+     *
      * @param funcionario o registro selecionado
      */
     public void selecionarItemTableView(Funcionario funcionario) {
@@ -254,7 +255,7 @@ public class FuncionarioController implements Initializable {
             alert.setHeaderText("Deseja excluir este funcionário?");
 
             Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == ButtonType.OK){
+            if (result.get() == ButtonType.OK) {
                 enderecoDAO.setConnection(connection);
                 pessoaDAO.setConnection(connection);
                 cargoDAO.setConnection(connection);
@@ -265,7 +266,7 @@ public class FuncionarioController implements Initializable {
 
                 populaTabela();
             } else {
-               alert.close();
+                alert.close();
             }
         } else {
             alerta("Por favor, escolha um cliente na Tabela!");
@@ -301,5 +302,26 @@ public class FuncionarioController implements Initializable {
         dialogStage.showAndWait();
 
         return controller.isButtonConfirmarClicked();
+    }
+
+    public void handleFolhaPgto(ActionEvent actionEvent) throws IOException, SQLException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(FuncionarioDialogController.class.getResource("../View/funcionarioFolhaPgto.fxml"));
+        AnchorPane page = (AnchorPane) loader.load();
+
+        // Criando um Estágio de Diálogo (Stage Dialog)
+        Stage dialogStage = new Stage();
+        dialogStage.setTitle("Folha de Pagamentos");
+
+        Scene scene = new Scene(page);
+        dialogStage.setScene(scene);
+
+        // Popular os dados da grid
+        FuncionarioDialogController controller = loader.getController();
+        controller.setDialogStage(dialogStage);
+        controller.folhaPgto(observableListFuncionario);
+
+        // Mostra o Dialog e espera até que o usuário o feche
+        dialogStage.showAndWait();
     }
 }
