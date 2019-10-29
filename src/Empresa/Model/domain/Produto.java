@@ -1,5 +1,8 @@
 package Empresa.Model.domain;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 import java.io.Serializable;
 
 public class Produto implements Serializable {

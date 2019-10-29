@@ -28,10 +28,32 @@ public class EstoqueDAO implements InterfaceDAO {
     }
 
     public boolean inserir(Estoque est) {
+        String sql = "insert into estoque (idEmp, idProd, quantidade) values (?, ?, ?)";
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, Session.get().getId());
+            stmt.setInt(2, est.getProd().getId());
+            stmt.setInt(3, est.getQuant());
+
+            stmt.execute();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return false;
     }
 
     public boolean alterar(Estoque est) {
+        String sql = "update estoque set quantidade=? where idProd = " + est.getProd().getId();
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, est.getQuant());
+
+            stmt.execute();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return false;
     }
 
@@ -82,18 +104,11 @@ public class EstoqueDAO implements InterfaceDAO {
                 produtoDAO.setConnection(connection);
                 Produto prod = new Produto();
                 prod.setId(resultado.getInt("idProd"));
-                Produto prodbanco = produtoDAO.buscar(prod);
-
-                //empresaDAO
-                EmpresaDAO empresaDAO = new EmpresaDAO();
-                empresaDAO.setConnection(connection);
-                Empresa emp = new Empresa();
-                emp.setId(resultado.getInt("idEmp"));
 
                 Estoque est = new Estoque();
 
                 est.setProd(produtoDAO.buscar(prod));
-                est.setEmpresa(empresaDAO.buscar(emp));
+                est.setEmpresa(Session.get());
                 est.setQuant(resultado.getInt("quantidade"));
 
                 retorno.add(est);

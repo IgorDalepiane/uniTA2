@@ -87,6 +87,9 @@ public class PagInicialController implements Initializable {
     public void handleServicoPrestado(ActionEvent actionEvent) {
     }
 
-    public void handleProduto(ActionEvent actionEvent) {
+    public void handleProduto(ActionEvent actionEvent) throws IOException {
+        AnchorPane root = FXMLLoader.load(PagInicialController.class.getResource("../View/estoque.fxml"));
+        anchor.getChildren().setAll(root);
+        System.out.println("c");
     }
 }

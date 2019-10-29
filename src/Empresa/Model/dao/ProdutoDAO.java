@@ -25,22 +25,35 @@ public class ProdutoDAO implements InterfaceDAO {
         this.connection = connection;
     }
 
-    public boolean inserir(Estoque es) {
-//        String sql = "insert into produto values (NULL, 'Pão de queijo', 'muito bom', '8')";
-//        try {
-//            PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-//            ResultSet ids = stmt.getGeneratedKeys();
-//            if(ids.next()) {
-//
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
+    public boolean inserir(Produto prod) {
+        String sql = "insert into produto (nome, descricao, preco) values (?, ?, ?)";
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, prod.getNome());
+            stmt.setString(2, prod.getDescricao());
+            stmt.setFloat(3, prod.getPreco());
 
+            stmt.execute();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return false;
     }
 
     public boolean alterar(Produto prod) {
+        String sql = "update produto set nome=?, descricao=?, preco=? where id = " + prod.getId();
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, prod.getNome());
+            stmt.setString(2, prod.getDescricao());
+            stmt.setFloat(3, prod.getPreco());
+
+            stmt.execute();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return false;
     }
 
@@ -82,12 +95,34 @@ public class ProdutoDAO implements InterfaceDAO {
             ResultSet resultado = stmt.executeQuery();
 
             //instancia os resultados do banco em Java
-            Produto prodBanco = new Produto();
-            prodBanco.setId(resultado.getInt("id"));
-            prodBanco.setNome(resultado.getString("nome"));
-            prodBanco.setDescricao(resultado.getString("descricao"));
-            prodBanco.setPreco(resultado.getFloat("preco"));
+            if(resultado.next()) {
+                retorno.setId(resultado.getInt("id"));
+                retorno.setNome(resultado.getString("nome"));
+                retorno.setDescricao(resultado.getString("descricao"));
+                retorno.setPreco(resultado.getFloat("preco"));
+            }
+            return retorno;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return retorno;
+    }
 
+    public Produto buscarUltimo() {
+        String sql = "select max(id), nome, descricao, preco from produto";
+        Produto retorno = new Produto();
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            ResultSet resultado = stmt.executeQuery();
+
+            //instancia os resultados do banco em Java
+            Produto prodBanco = new Produto();
+            if (resultado.next()) {
+                prodBanco.setId(resultado.getInt("max(id)"));
+                prodBanco.setNome(resultado.getString("nome"));
+                prodBanco.setDescricao(resultado.getString("descricao"));
+                prodBanco.setPreco(resultado.getFloat("preco"));
+            }
             //estoque precisa de empresa e produto
             retorno = prodBanco;
         } catch (SQLException e) {
