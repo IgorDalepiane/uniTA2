@@ -75,16 +75,13 @@ public class FuncionarioDAO implements InterfaceDAO {
     }
 
     public Funcionario buscar(Funcionario func) {
-        return null;
-    }
-
-    public List<Funcionario> listar() {
-        String sql = "SELECT * FROM funcionario WHERE funcionario.idEmp=" + Session.get().getId();
-        List<Funcionario> retorno = new ArrayList<>();
+        String sql = "SELECT * FROM funcionario WHERE idPessoa=?";
+        Funcionario retorno = new Funcionario();
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, func.getId());
             ResultSet resultado = stmt.executeQuery();
-            while (resultado.next()) {
+            if (resultado.next()) {
                 Pessoa pessoa;
                 Cargo cargo = new Cargo();
                 Funcionario funcionario = new Funcionario();
@@ -111,7 +108,25 @@ public class FuncionarioDAO implements InterfaceDAO {
                 funcionario.setEndereco(pessoa.getEndereco());
                 funcionario.setCelular(pessoa.getCelular());
                 funcionario.setResidencial(pessoa.getResidencial());
-                retorno.add(funcionario);
+                retorno = funcionario;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(FuncionarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return retorno;
+    }
+
+    public List<Funcionario> listar() {
+        String sql = "SELECT * FROM funcionario WHERE funcionario.idEmp=" + Session.get().getId();
+        List<Funcionario> retorno = new ArrayList<>();
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            ResultSet resultado = stmt.executeQuery();
+            while (resultado.next()) {
+                //parte do funcionario
+                Funcionario funcionario = new Funcionario();
+                funcionario.setId(resultado.getInt("idPessoa"));
+                retorno.add(buscar(funcionario));
             }
         } catch (SQLException ex) {
             Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
