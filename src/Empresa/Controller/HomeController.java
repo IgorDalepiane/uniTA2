@@ -19,6 +19,7 @@ import javafx.scene.control.TextField;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class HomeController implements Initializable {
@@ -61,7 +62,7 @@ public class HomeController implements Initializable {
                 if (empresaDAO.logar(empresa)){
                     PagInicialController.showView();
                 }
-            } catch (LoginInvalidoException e) {
+            } catch (LoginInvalidoException | SQLException e) {
                 alerta(e.getMessage());
             }
         }

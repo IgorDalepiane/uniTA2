@@ -1,5 +1,6 @@
 package Empresa.Controller;
 
+import Empresa.Exception.CadastroException;
 import Empresa.Model.Session;
 import Empresa.Model.dao.*;
 import Empresa.Model.database.Database;
@@ -72,7 +73,11 @@ public class FuncionarioController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         funcionarioDAO.setConnection(connection);
-        populaTabela();
+        try {
+            populaTabela();
+        } catch (SQLException e) {
+            alerta(e.getMessage());
+        }
         selecionarItemTableView(null);
 
         tableView.getSelectionModel().selectedItemProperty().addListener(
@@ -83,7 +88,7 @@ public class FuncionarioController implements Initializable {
      * Método que popula a tabela a esquerda com informações
      * resumidas dos registros no banco de dados
      */
-    public void populaTabela() {
+    public void populaTabela() throws SQLException {
         tableColumnNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
         tableColumnCPF.setCellValueFactory(new PropertyValueFactory<>("CPF"));
 
@@ -140,7 +145,7 @@ public class FuncionarioController implements Initializable {
      * @param actionEvent listener
      * @throws IOException pois carrega um arquivo fxml
      */
-    public void handleBtnInserir(ActionEvent actionEvent) throws IOException {
+    public void handleBtnInserir(ActionEvent actionEvent) throws IOException, SQLException, CadastroException {
         Funcionario funcionario = new Funcionario();
         boolean buttonConfirmarClicked = mostraCadastroFunc(funcionario);
         if (buttonConfirmarClicked) {
@@ -157,7 +162,11 @@ public class FuncionarioController implements Initializable {
             funcionario.setEndereco(enderecoDAO.buscarUltimoEnd());
 
             //Adiciona a pessoa
-            pessoaDAO.inserir(funcionario);
+            try {
+                pessoaDAO.inserir(funcionario);
+            } catch (CadastroException e) {
+                alerta(e.getMessage());
+            }
 
             //Atualiza o idPessoa de funcionario com a ultima pessoa adicionada
             funcionario.setId(pessoaDAO.buscarUltimaPess().getId());
@@ -191,7 +200,7 @@ public class FuncionarioController implements Initializable {
      * @param actionEvent listener
      * @throws IOException pois carrega um arquivo fxml
      */
-    public void handleBtnAlterar(ActionEvent actionEvent) throws IOException {
+    public void handleBtnAlterar(ActionEvent actionEvent) throws IOException, SQLException, CadastroException {
         Funcionario funcionario = (Funcionario) tableView.getSelectionModel().getSelectedItem();
         if (funcionario != null) {
             boolean buttonConfirmarClicked = mostraCadastroFunc(funcionario);
@@ -237,7 +246,7 @@ public class FuncionarioController implements Initializable {
      * @param actionEvent listener
      * @throws IOException pois carrega um arquivo fxml
      */
-    public void handleBtnRemover(ActionEvent actionEvent) {
+    public void handleBtnRemover(ActionEvent actionEvent) throws SQLException {
         Funcionario funcionario = (Funcionario) tableView.getSelectionModel().getSelectedItem();
         if (funcionario != null) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);

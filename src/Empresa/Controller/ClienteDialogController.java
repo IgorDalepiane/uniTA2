@@ -1,22 +1,18 @@
 package Empresa.Controller;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import Empresa.Main;
+import Empresa.Model.domain.Cargo;
+import Empresa.Model.domain.Cliente;
+import Empresa.Model.domain.Endereco;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import Empresa.Model.domain.Funcionario;
 
 public class ClienteDialogController implements Initializable {
-    private static Scene scene = null;
-    //pessoa
+    //campospessoa
     @FXML
     private TextField textFieldNome;
     @FXML
@@ -27,14 +23,12 @@ public class ClienteDialogController implements Initializable {
     private TextField textFieldEmail;
     //contato
     @FXML
-    private Label labelCelular;
-    @FXML
-    private Label labelResidencial;
-    @FXML
     private TextField textFieldCelular;
     @FXML
     private TextField textFieldResidencial;
     //email
+    @FXML
+    private TextField textFieldIdEndereco;
     @FXML
     private TextField textFieldLogradouro;
     @FXML
@@ -49,60 +43,93 @@ public class ClienteDialogController implements Initializable {
     private TextField textFieldEstado;
     @FXML
     private TextField textFieldCEP;
-    @FXML
-    private Button btnConfirmar;
-    @FXML
-    private Button btnCancelar;
 
-    private static Stage dialogStage = new Stage();
-    private boolean btnConfirmarClicked = false;
-    private Funcionario func;
+    private Stage dialogStage;
+    private boolean buttonConfirmarClicked = false;
+    private Cliente cli;
+    private Endereco end = new Endereco();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
     }
 
-    public static void showView() throws IOException {
-        Parent root = FXMLLoader.load(ClienteDialogController.class.getResource("../View/clienteDialog.fxml"));
-        if (scene == null)
-            scene = new Scene(root);
-        dialogStage.setTitle("Novo Cliente");
-        dialogStage.setScene(scene);
-        dialogStage.show();
-        Main.center();
+
+    public Stage getDialogStage() {
+        return dialogStage;
     }
 
-    public boolean isBtnConfirmarClicked() {
-        return btnConfirmarClicked;
+    public void setDialogStage(Stage dialogStage) {
+        this.dialogStage = dialogStage;
     }
 
-    public void setBtnConfirmarClicked(boolean btnConfirmarClicked) {
-        this.btnConfirmarClicked = btnConfirmarClicked;
+    public Cliente getCliente() {
+        return this.cli;
     }
 
-    public Funcionario getFunc() {
-        return func;
+    public void setCli(Cliente cli) {
+        this.cli = cli;
+        this.textFieldNome.setText(cli.getNome());
+        this.textFieldCPF.setText(cli.getCPF());
+
+        if (cli.getEndereco() != null) {
+            this.textFieldIdEndereco.setText(String.valueOf(cli.getEndereco().getId()));
+            this.textFieldRG.setText(cli.getRG());
+            this.textFieldEmail.setText(cli.getEmail());
+
+            this.textFieldLogradouro.setText(cli.getEndereco().getLogradouro());
+            this.textFieldNumero.setText(String.valueOf(cli.getEndereco().getNumero()));
+
+            this.textFieldBairro.setText(cli.getEndereco().getBairro());
+            this.textFieldCidade.setText(cli.getEndereco().getCidade());
+            this.textFieldEstado.setText(cli.getEndereco().getEstado());
+            this.textFieldCelular.setText(cli.getCelular());
+            this.textFieldResidencial.setText(cli.getResidencial());
+
+            if (cli.getEndereco().getComplemento().equals("N/I")) {
+                this.textFieldComplemento.setText("");
+            } else {
+                this.textFieldComplemento.setText(cli.getEndereco().getComplemento());
+            }
+            if (cli.getEndereco().getCEP().equals("N/I")) {
+                this.textFieldCEP.setText("");
+            } else {
+                this.textFieldCEP.setText(cli.getEndereco().getCEP());
+            }
+        }
+
     }
 
-    public void setFunc(Funcionario func) {
-        this.func = func;
-        this.textFieldNome.setText(func.getNome());
-        this.textFieldCPF.setText(func.getCPF());
-        //this.textFieldCelular.setText(f.getTelefone());
+    public boolean isButtonConfirmarClicked() {
+        return buttonConfirmarClicked;
     }
 
     @FXML
     public void handleButtonConfirmar() {
         if (validarEntradaDeDados()) {
-            //TODO
-            func.setNome(textFieldNome.getText());
-            func.setCPF(textFieldCPF.getText());
-            //funcionario.setTelefone(textFieldCelular.getText());
+            cli.setNome(textFieldNome.getText());
+            cli.setRG(textFieldRG.getText());
+            cli.setCPF(textFieldCPF.getText());
+            cli.setEmail(textFieldEmail.getText());
+            cli.setCelular(textFieldCelular.getText());
+            cli.setResidencial(textFieldResidencial.getText());
+            if (this.textFieldIdEndereco.getText().length() > 0) {
+                end.setId(Integer.parseInt(this.textFieldIdEndereco.getText()));
+            }
+            end.setLogradouro(textFieldLogradouro.getText());
+            end.setNumero(Integer.parseInt(textFieldNumero.getText()));
+            end.setBairro(textFieldBairro.getText());
+            end.setCidade(textFieldCidade.getText());
+            end.setEstado(textFieldEstado.getText());
+            if (textFieldComplemento.getText().length() > 0)
+                end.setComplemento(textFieldComplemento.getText());
+            if (textFieldCEP.getText().length() > 0)
+                end.setCEP(textFieldCEP.getText());
 
-            btnConfirmarClicked = true;
+            cli.setEndereco(end);
+
+            buttonConfirmarClicked = true;
             dialogStage.close();
         }
-
     }
 
     @FXML
@@ -119,13 +146,7 @@ public class ClienteDialogController implements Initializable {
             errorMessage += "RG inválido!\n";
         if (textFieldCPF.getText() == null || textFieldCPF.getText().length() == 0)
             errorMessage += "CPF inválido!\n";
-        if (textFieldEmail.getText() == null || textFieldEmail.getText().length() == 0)
-            errorMessage += "Email inválido!\n";
-        if (textFieldCelular.getText() == null || textFieldCelular.getText().length() == 0)
-            errorMessage += "Celular inválido!\n";
-        if (textFieldResidencial.getText() == null || textFieldResidencial.getText().length() == 0)
-            errorMessage += "Residencial inválido!\n";
-        if((textFieldCelular.getText() == null || textFieldCelular.getText().length() == 0)
+        if ((textFieldCelular.getText() == null || textFieldCelular.getText().length() == 0)
                 && (textFieldResidencial.getText() == null || textFieldResidencial.getText().length() == 0))
             errorMessage += "Deve existir pelo menos um número de telefone!\n";
         if (textFieldLogradouro.getText() == null || textFieldLogradouro.getText().length() == 0)
@@ -147,7 +168,7 @@ public class ClienteDialogController implements Initializable {
         }
     }
 
-    private void alerta(String texto){
+    private void alerta(String texto) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setHeaderText(texto);
         alert.show();

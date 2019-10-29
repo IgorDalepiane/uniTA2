@@ -19,6 +19,7 @@ import javafx.scene.control.TextField;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class NewEmpresaController implements Initializable {
@@ -60,7 +61,7 @@ public class NewEmpresaController implements Initializable {
                 empresaDAO.inserir(empresa);
                 limpaCampos();
                 HomeController.showView();
-            } catch (CadastroException e) {
+            } catch (CadastroException | SQLException e) {
                 alerta(e.getMessage());
             }
         }

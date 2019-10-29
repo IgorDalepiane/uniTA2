@@ -13,11 +13,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class AptidaoDAO implements InterfaceDAO {
     private Connection connection;
+
     @Override
     public Connection getConnection() {
         return connection;
@@ -28,84 +27,65 @@ public class AptidaoDAO implements InterfaceDAO {
         this.connection = connection;
     }
 
-    public boolean inserir(Apto apto) throws MySQLIntegrityConstraintViolationException {
-
+    public boolean inserir(Apto apto) throws SQLException {
         String sql = "INSERT INTO aptidao(idFunc, idServ) VALUES(?,?)";
-        try {
-            PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setInt(1, apto.getFuncionario().getId());
-            stmt.setInt(2, apto.getServico().getId());
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        stmt.setInt(1, apto.getFuncionario().getId());
+        stmt.setInt(2, apto.getServico().getId());
 
-            stmt.execute();
+        if (stmt.execute())
             return true;
-        } catch (SQLException ex) {
+        else
             throw new MySQLIntegrityConstraintViolationException("Funcionário já está apto!");
-        }
     }
 
-    public boolean alterar(Apto apto) {
-        return false;
-    }
+//    public boolean alterar(Apto apto) {
+//        return false;
+//    }
 
-    public boolean remover(Apto apto) {
+    public boolean remover(Apto apto) throws SQLException {
         String sql = "DELETE FROM aptidao WHERE idServ=?";
-        try {
-            PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setInt(1, apto.getServico().getId());
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        stmt.setInt(1, apto.getServico().getId());
 
-            stmt.execute();
-            return true;
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            return false;
-        }
+        return stmt.execute();
     }
-    public boolean removerApto(Apto apto) {
+
+    public boolean removerApto(Apto apto) throws SQLException {
         String sql = "DELETE FROM aptidao WHERE idServ=? AND idFunc=?";
-        try {
-            PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setInt(1, apto.getServico().getId());
-            stmt.setInt(2, apto.getFuncionario().getId());
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        stmt.setInt(1, apto.getServico().getId());
+        stmt.setInt(2, apto.getFuncionario().getId());
 
-            stmt.execute();
-            return true;
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            return false;
-        }
+        return stmt.execute();
     }
 
 
-    public Apto buscar(Apto apto) {
-        return null;
-    }
+//    public Apto buscar(Apto apto) {
+//        return null;
+//    }
+//
+//    public List<Apto> listar() {
+//        return null;
+//    }
 
-    public List<Apto> listar() {
-        return null;
-    }
 
-
-    public List<Funcionario> buscarPorServico(Servico servico) {
+    public List<Funcionario> buscarPorServico(Servico servico) throws SQLException {
         String sql = "SELECT * FROM aptidao WHERE idServ=?";
         List<Funcionario> retorno = new ArrayList<>();
-        try {
-            PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setInt(1, servico.getId());
-            ResultSet resultado = stmt.executeQuery();
-            while (resultado.next()) {
-                Funcionario funcRetorno = new Funcionario();
-                funcRetorno.setId(resultado.getInt("idFunc"));
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        stmt.setInt(1, servico.getId());
+        ResultSet resultado = stmt.executeQuery();
+        while (resultado.next()) {
+            Funcionario funcRetorno = new Funcionario();
+            funcRetorno.setId(resultado.getInt("idFunc"));
 
-                FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
-                funcionarioDAO.setConnection(connection);
-                Funcionario funcBD = funcionarioDAO.buscar(funcRetorno);
+            FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
+            funcionarioDAO.setConnection(connection);
+            Funcionario funcBD = funcionarioDAO.buscar(funcRetorno);
 
-                retorno.add(funcBD);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(EmpresaDAO.class.getName()).log(Level.SEVERE, null, ex);
+            retorno.add(funcBD);
         }
         return retorno;
-
     }
 }

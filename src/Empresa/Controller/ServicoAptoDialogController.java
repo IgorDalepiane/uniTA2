@@ -22,6 +22,7 @@ import javafx.util.StringConverter;
 
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -59,7 +60,7 @@ public class ServicoAptoDialogController implements Initializable {
         return this.apto;
     }
 
-    public void setApto(Apto apto) {
+    public void setApto(Apto apto) throws SQLException {
         this.apto = apto;
         funcionarioDAO.setConnection(connection);
         aptidaoDAO.setConnection(connection);

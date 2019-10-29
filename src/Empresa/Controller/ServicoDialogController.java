@@ -17,6 +17,7 @@ import javafx.util.StringConverter;
 
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -75,7 +76,7 @@ public class ServicoDialogController implements Initializable {
         return this.serv;
     }
 
-    public void setServ(Servico serv) {
+    public void setServ(Servico serv) throws SQLException {
         this.serv = serv;
         this.textFieldNome.setText(serv.getNome());
         this.textFieldDescricao.setText(serv.getDescricao());

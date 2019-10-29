@@ -159,8 +159,6 @@ public class FuncionarioDialogController implements Initializable {
             errorMessage += "RG inválido!\n";
         if (textFieldCPF.getText() == null || textFieldCPF.getText().length() == 0)
             errorMessage += "CPF inválido!\n";
-        if (textFieldEmail.getText() == null || textFieldEmail.getText().length() == 0)
-            errorMessage += "Email inválido!\n";
         if((textFieldCelular.getText() == null || textFieldCelular.getText().length() == 0)
                 && (textFieldResidencial.getText() == null || textFieldResidencial.getText().length() == 0))
             errorMessage += "Deve existir pelo menos um número de telefone!\n";

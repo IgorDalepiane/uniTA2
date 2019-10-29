@@ -9,7 +9,6 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.text.Font?>
 
 <AnchorPane id="AnchorPane" prefHeight="326.0" prefWidth="534.0" xmlns="http://javafx.com/javafx/8.0.221" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Empresa.Controller.FuncionarioDialogController">
     <children>
@@ -36,14 +35,8 @@
                 <Label text="Nome*" GridPane.rowIndex="0" />
                 <Label text="RG*" GridPane.rowIndex="1" />
                 <Label text="CPF*" GridPane.rowIndex="2" />
-                <Label text="Email*" GridPane.rowIndex="3" />
-                <!-- /Pessoa -->
-                <!-- Contato -->
-                <Label text="Separe os números de telefone por vírgulas" GridPane.columnSpan="2" GridPane.rowIndex="4">
-               <font>
-                  <Font name="System Bold" size="9.0" />
-               </font></Label>
-                <Label fx:id="labelCelular" text="Tel. Celular*" GridPane.rowIndex="5" />
+                <Label text="Email" GridPane.rowIndex="3" />
+                <Label fx:id="labelCelular" text="Tel. Celular" GridPane.rowIndex="5" />
                 <Label fx:id="labelResidencial" text="Tel. Residencial" GridPane.rowIndex="6" />
                 <!-- /Contato -->
                 <!-- Funcionario -->
@@ -103,7 +96,7 @@
                 <TextField fx:id="textFieldValorHora" GridPane.columnIndex="1" GridPane.rowIndex="8" />
                 <!-- /Funcionario -->
                 <!-- Endereço -->
-                <TextField fx:id="textFieldIdEndereco" GridPane.columnIndex="0" GridPane.rowIndex="0" visible="false"/>
+                <TextField fx:id="textFieldIdEndereco" visible="false" GridPane.columnIndex="0" GridPane.rowIndex="0" />
                 <TextField fx:id="textFieldLogradouro" layoutX="55.0" layoutY="13.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
                 <TextField fx:id="textFieldNumero" layoutX="293.0" layoutY="13.0" maxWidth="-Infinity" prefHeight="25.0" prefWidth="49.0" GridPane.columnIndex="3" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="2" />
                 <TextField fx:id="textFieldComplemento" layoutX="293.0" layoutY="13.0" GridPane.columnIndex="3" GridPane.rowIndex="3" />
