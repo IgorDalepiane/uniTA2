@@ -9,6 +9,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ServicoPrestadoDAO implements InterfaceDAO {
     private Connection connection;
@@ -40,7 +42,18 @@ public class ServicoPrestadoDAO implements InterfaceDAO {
     }
 
     public boolean remover(ServicoPrestado servP) {
-        return false;
+        String sql = "DELETE FROM servicoprestado WHERE idEmp="+ Session.get().getId()+" AND idCliente=? AND data=? AND horaInicio = ?";
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, servP.getCliente().getId());
+            stmt.setDate(2, Date.valueOf(servP.getData()));
+            stmt.setTime(3, servP.getHrInicial());
+            stmt.execute();
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(ServicoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
     }
 
     public ServicoPrestado buscar(ServicoPrestado servP) {

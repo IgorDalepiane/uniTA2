@@ -147,12 +147,34 @@ public class ServicoPrestadoController implements Initializable {
         }
     }
 
-    public void handleBtnAlterar(ActionEvent actionEvent) throws IOException {
+//    public void handleBtnAlterar(ActionEvent actionEvent) throws IOException {
+//
+//    }
 
-    }
+    public void handleBtnRemover(ActionEvent actionEvent) throws SQLException {
+        ServicoPrestado servicoPrestado = (ServicoPrestado) tableView.getSelectionModel().getSelectedItem();
+        if (servicoPrestado != null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmação de exclusão");
+            alert.setHeaderText("Deseja excluir este serviço prestado?");
 
-    public void handleBtnRemover(ActionEvent actionEvent) {
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK){
+                servicoPrestadoDAO.setConnection(connection);
 
+                servicoPrestadoDAO.remover(servicoPrestado);
+
+                //Atualiza a tabela
+                populaTabela();
+            } else {
+                alert.close();
+            }
+
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Por favor, escolha um cliente na Tabela!");
+            alert.show();
+        }
     }
     public void handleBtnAddProd(ActionEvent actionEvent) throws IOException, SQLException {
         ServicoPrestado servicoPrestado = (ServicoPrestado) tableView.getSelectionModel().getSelectedItem();
