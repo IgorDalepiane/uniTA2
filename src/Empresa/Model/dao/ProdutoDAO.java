@@ -28,115 +28,99 @@ public class ProdutoDAO implements InterfaceDAO {
 
     /**
      * Insere um registro no banco de dados
+     *
      * @param prod o registro a ser inserido
      * @return true se a operação foi concluída com sucesso, false se não
      */
-    public boolean inserir(Produto prod) {
+    public boolean inserir(Produto prod) throws SQLException {
         String sql = "insert into produto (nome, descricao, preco) values (?, ?, ?)";
-        try {
-            PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setString(1, prod.getNome());
-            stmt.setString(2, prod.getDescricao());
-            stmt.setFloat(3, prod.getPreco());
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        stmt.setString(1, prod.getNome());
+        stmt.setString(2, prod.getDescricao());
+        stmt.setFloat(3, prod.getPreco());
 
-            stmt.execute();
-            return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
+        return stmt.execute();
+
     }
 
     /**
      * Altera um registro no banco de dados
+     *
      * @param prod o registro a ser alterado
      * @return true se a operação foi concluída com sucesso, false se não
      */
-    public boolean alterar(Produto prod) {
+    public boolean alterar(Produto prod) throws SQLException {
         String sql = "update produto set nome=?, descricao=?, preco=? where id = " + prod.getId();
-        try {
-            PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setString(1, prod.getNome());
-            stmt.setString(2, prod.getDescricao());
-            stmt.setFloat(3, prod.getPreco());
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        stmt.setString(1, prod.getNome());
+        stmt.setString(2, prod.getDescricao());
+        stmt.setFloat(3, prod.getPreco());
 
-            stmt.execute();
-            return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
+        return stmt.execute();
+
     }
 
     /**
      * Remove o registro do banco de dados
+     *
      * @param prod o registro a ser removido
      * @return true se a operação foi concluída com sucesso, false se não
      */
-    public boolean remover(Produto prod) {
+    public boolean remover(Produto prod) throws SQLException {
         String sql = "DELETE FROM produto WHERE id=?";
-        try {
-            PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setInt(1, prod.getId());
-            stmt.execute();
-            return true;
-        } catch (SQLException ex) {
-            Logger.getLogger(PessoaDAO.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
-        }
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        stmt.setInt(1, prod.getId());
+        return stmt.execute();
+
     }
 
     /**
      * Busca um registro no banco de dados
+     *
      * @param prod o registro (incompleto) a ser buscado
      * @return o registro com todos os campos do banco de dados
      */
-    public Produto buscar(Produto prod) {
+    public Produto buscar(Produto prod) throws SQLException {
         String sql = "select * from produto where id = ?";
         Produto retorno = new Produto();
-        try {
-            PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setInt(1, prod.getId());
-            ResultSet resultado = stmt.executeQuery();
 
-            //instancia os resultados do banco em Java
-            if(resultado.next()) {
-                retorno.setId(resultado.getInt("id"));
-                retorno.setNome(resultado.getString("nome"));
-                retorno.setDescricao(resultado.getString("descricao"));
-                retorno.setPreco(resultado.getFloat("preco"));
-            }
-            return retorno;
-        } catch (SQLException e) {
-            e.printStackTrace();
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        stmt.setInt(1, prod.getId());
+        ResultSet resultado = stmt.executeQuery();
+
+        //instancia os resultados do banco em Java
+        if (resultado.next()) {
+            retorno.setId(resultado.getInt("id"));
+            retorno.setNome(resultado.getString("nome"));
+            retorno.setDescricao(resultado.getString("descricao"));
+            retorno.setPreco(resultado.getFloat("preco"));
         }
         return retorno;
     }
 
     /**
      * Busca o último registro inserido pelo método inserir() no banco de dados
+     *
      * @return o registro
      */
-    public Produto buscarUltimo() {
+    public Produto buscarUltimo() throws SQLException {
         String sql = "select max(id), nome, descricao, preco from produto";
         Produto retorno = new Produto();
-        try {
-            PreparedStatement stmt = connection.prepareStatement(sql);
-            ResultSet resultado = stmt.executeQuery();
 
-            //instancia os resultados do banco em Java
-            Produto prodBanco = new Produto();
-            if (resultado.next()) {
-                prodBanco.setId(resultado.getInt("max(id)"));
-                prodBanco.setNome(resultado.getString("nome"));
-                prodBanco.setDescricao(resultado.getString("descricao"));
-                prodBanco.setPreco(resultado.getFloat("preco"));
-            }
-            //estoque precisa de empresa e produto
-            retorno = prodBanco;
-        } catch (SQLException e) {
-            e.printStackTrace();
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        ResultSet resultado = stmt.executeQuery();
+
+        //instancia os resultados do banco em Java
+        Produto prodBanco = new Produto();
+        if (resultado.next()) {
+            prodBanco.setId(resultado.getInt("max(id)"));
+            prodBanco.setNome(resultado.getString("nome"));
+            prodBanco.setDescricao(resultado.getString("descricao"));
+            prodBanco.setPreco(resultado.getFloat("preco"));
         }
+        //estoque precisa de empresa e produto
+        retorno = prodBanco;
+
         return retorno;
     }
 }
