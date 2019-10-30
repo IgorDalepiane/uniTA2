@@ -107,103 +107,115 @@ public class EstoqueController implements Initializable {
         alert.show();
     }
 
-    public void handleBtnInserir(ActionEvent actionEvent) throws IOException, SQLException {
-        Estoque estoque = new Estoque();
-        boolean buttonConfirmarClicked = mostraCadastroEst(estoque);
-        if (buttonConfirmarClicked) {
-
-            //Conexao com as DAOs Utilizadas
-            empresaDAO.setConnection(connection);
-            produtoDAO.setConnection(connection);
-            estoqueDAO.setConnection(connection);
-
-            //Insere o produto no banco
-            produtoDAO.inserir(estoque.getProd());
-            //pega o produto que acabou de ser inserido (agora tem o id)
-            estoque.setProd(produtoDAO.buscarUltimo());
-
-            estoqueDAO.inserir(estoque);
-            //Atualiza a tabela
-            populaTabela();
-        }
-    }
-
-    public boolean mostraCadastroEst(Estoque es) throws IOException {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(FuncionarioDialogController.class.getResource("../View/estoqueDialog.fxml"));
-        AnchorPane page = loader.load();
-
-        // Criando um Estágio de Diálogo (Stage Dialog)
-        Stage dialogStage = new Stage();
-        dialogStage.setTitle("Cadastro de Produto");
-
-        Scene scene = new Scene(page);
-        dialogStage.setScene(scene);
-
-        // Setando o produto no Controller.
-        EstoqueDialogController controller = loader.getController();
-        controller.setDialogStage(dialogStage);
-        controller.setEst(es);
-
-        // Mostra o Dialog e espera até que o usuário o feche
-        dialogStage.showAndWait();
-
-        return controller.isButtonConfirmarClicked();
-    }
-
-    public void handleBtnAlterar(ActionEvent actionEvent) throws IOException, SQLException {
-        Estoque esTable = (Estoque) tableView.getSelectionModel().getSelectedItem();
-        int prodId = esTable.getProdId();
-        if (esTable != null) {
-            boolean buttonConfirmarClicked = mostraCadastroEst(esTable);
+    public void handleBtnInserir(ActionEvent actionEvent) {
+        try {
+            Estoque estoque = new Estoque();
+            boolean buttonConfirmarClicked = mostraCadastroEst(estoque);
             if (buttonConfirmarClicked) {
+
                 //Conexao com as DAOs Utilizadas
                 empresaDAO.setConnection(connection);
                 produtoDAO.setConnection(connection);
                 estoqueDAO.setConnection(connection);
 
-                //Altera o produto no banco
-                Produto newProd = esTable.getProd();
-                newProd.setId(prodId);
-                produtoDAO.alterar(newProd);
-                estoqueDAO.alterar(esTable);
+                //Insere o produto no banco
+                produtoDAO.inserir(estoque.getProd());
+                //pega o produto que acabou de ser inserido (agora tem o id)
+                estoque.setProd(produtoDAO.buscarUltimo());
 
+                estoqueDAO.inserir(estoque);
                 //Atualiza a tabela
                 populaTabela();
             }
-        } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText("Por favor, escolha um cliente na Tabela!");
-            alert.show();
+        } catch (SQLException e) {
+            alerta(e.getMessage());
         }
     }
 
-    public void handleBtnRemover(ActionEvent actionEvent) throws SQLException {
-        Estoque esTable = (Estoque) tableView.getSelectionModel().getSelectedItem();
-        int idProd = esTable.getProdId();
-        if (esTable != null) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Confirmação de exclusão");
-            alert.setHeaderText("Deseja excluir este produto?");
+    public boolean mostraCadastroEst(Estoque es) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(FuncionarioDialogController.class.getResource("../View/estoqueDialog.fxml"));
+            AnchorPane page = loader.load();
 
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == ButtonType.OK){
-                estoqueDAO.setConnection(connection);
-                empresaDAO.setConnection(connection);
-                produtoDAO.setConnection(connection);
+            // Criando um Estágio de Diálogo (Stage Dialog)
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Cadastro de Produto");
 
-                esTable.setProdId(idProd);
-                estoqueDAO.remover(esTable);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
 
-                populaTabela();
+            // Setando o produto no Controller.
+            EstoqueDialogController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            controller.setEst(es);
+
+            // Mostra o Dialog e espera até que o usuário o feche
+            dialogStage.showAndWait();
+
+            return controller.isButtonConfirmarClicked();
+        } catch (IOException e) {
+            alerta(e.getMessage());
+            return false;
+        }
+    }
+
+    public void handleBtnAlterar(ActionEvent actionEvent) {
+        try {
+            Estoque esTable = (Estoque) tableView.getSelectionModel().getSelectedItem();
+            int prodId = esTable.getProdId();
+            if (esTable != null) {
+                boolean buttonConfirmarClicked = mostraCadastroEst(esTable);
+                if (buttonConfirmarClicked) {
+                    //Conexao com as DAOs Utilizadas
+                    empresaDAO.setConnection(connection);
+                    produtoDAO.setConnection(connection);
+                    estoqueDAO.setConnection(connection);
+
+                    //Altera o produto no banco
+                    Produto newProd = esTable.getProd();
+                    newProd.setId(prodId);
+                    produtoDAO.alterar(newProd);
+                    estoqueDAO.alterar(esTable);
+
+                    //Atualiza a tabela
+                    populaTabela();
+                }
             } else {
-                alert.close();
+                alerta("Por favor, escolha um cliente na Tabela!");
             }
+        } catch (SQLException e) {
+            alerta(e.getMessage());
+        }
+    }
 
-        } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText("Por favor, escolha um produto na Tabela!");
-            alert.show();
+    public void handleBtnRemover(ActionEvent actionEvent) {
+        try {
+            Estoque esTable = (Estoque) tableView.getSelectionModel().getSelectedItem();
+            int idProd = esTable.getProdId();
+            if (esTable != null) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Confirmação de exclusão");
+                alert.setHeaderText("Deseja excluir este produto?");
+
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.OK) {
+                    estoqueDAO.setConnection(connection);
+                    empresaDAO.setConnection(connection);
+                    produtoDAO.setConnection(connection);
+
+                    esTable.setProdId(idProd);
+                    estoqueDAO.remover(esTable);
+
+                    populaTabela();
+                } else {
+                    alert.close();
+                }
+            } else {
+                alerta("Por favor, escolha um produto na Tabela");
+            }
+        } catch (SQLException e) {
+            alerta(e.getMessage());
         }
     }
 }

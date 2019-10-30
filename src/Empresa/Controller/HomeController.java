@@ -54,19 +54,22 @@ public class HomeController implements Initializable {
     }
 
     public void handleLogin(ActionEvent actionEvent) throws IOException {
-        if(validarLogin()){
-            Empresa empresa = new Empresa();
-            empresa.setEmail(emailEmpresa.getText());
-            empresa.setSenha(senhaEmpresa.getText());
-            try {
-                if (empresaDAO.logar(empresa)){
-                    PagInicialController.showView();
+        try {
+            if(validarLogin()){
+                Empresa empresa = new Empresa();
+                empresa.setEmail(emailEmpresa.getText());
+                empresa.setSenha(senhaEmpresa.getText());
+                try {
+                    if (empresaDAO.logar(empresa)){
+                        PagInicialController.showView();
+                    }
+                } catch (LoginInvalidoException | SQLException e) {
+                    alerta(e.getMessage());
                 }
-            } catch (LoginInvalidoException | SQLException e) {
-                alerta(e.getMessage());
             }
+        } catch (IOException e) {
+            alerta(e.getMessage());
         }
-
     }
     private boolean validarLogin() {
         String errorMessage = "";

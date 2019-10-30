@@ -92,6 +92,7 @@ public class ClienteController implements Initializable {
 
     /**
      * Mostra as informações detalhadas do registro selecionado na grid à direita
+     *
      * @param cliente o registro selecionado
      */
     public void selecionarItemTableView(Cliente cliente) {
@@ -133,37 +134,35 @@ public class ClienteController implements Initializable {
      * @param actionEvent listener
      * @throws IOException pois carrega um arquivo fxml
      */
-    public void handleBtnInserir(ActionEvent actionEvent) throws IOException, SQLException, CadastroException {
-        Cliente cliente = new Cliente();
-        boolean buttonConfirmarClicked = mostraCadastroCli(cliente);
-        if (buttonConfirmarClicked) {
+    public void handleBtnInserir(ActionEvent actionEvent) {
+        try {
+            Cliente cliente = new Cliente();
+            boolean buttonConfirmarClicked = mostraCadastroCli(cliente);
+            if (buttonConfirmarClicked) {
+                //Conexao com as DAOs Utilizadas
+                enderecoDAO.setConnection(connection);
+                pessoaDAO.setConnection(connection);
 
-            //Conexao com as DAOs Utilizadas
-            enderecoDAO.setConnection(connection);
-            pessoaDAO.setConnection(connection);
+                //Insere endereço no Banco
+                enderecoDAO.inserir(cliente.getEndereco());
 
-            //Insere endereço no Banco
-            enderecoDAO.inserir(cliente.getEndereco());
+                //Atualiza o idEnd com o ultimo endereço adicionado
+                cliente.setEndereco(enderecoDAO.buscarUltimoEnd());
 
-            //Atualiza o idEnd com o ultimo endereço adicionado
-            cliente.setEndereco(enderecoDAO.buscarUltimoEnd());
-
-            //Adiciona a pessoa
-            try {
+                //Adiciona a pessoa
                 pessoaDAO.inserir(cliente);
-            } catch (CadastroException e) {
-                alerta(e.getMessage());
+                cliente.setId(pessoaDAO.buscarUltimaPess().getId());
+
+                //Adiciona o cliente
+                clienteDAO.inserir(cliente);
+                //Atualiza a tabela
+                populaTabela();
             }
-
-            //Atualiza o idPessoa de funcionario com a ultima pessoa adicionada
-            cliente.setId(pessoaDAO.buscarUltimaPess().getId());
-
-            //Adiciona o cliente
-            clienteDAO.inserir(cliente);
-            //Atualiza a tabela
-            populaTabela();
+        } catch (CadastroException | SQLException e) {
+            alerta(e.getMessage());
         }
     }
+
 
     /**
      * Método que lida com o clique do botão de alterar
@@ -173,27 +172,31 @@ public class ClienteController implements Initializable {
      * @param actionEvent listener
      * @throws IOException pois carrega um arquivo fxml
      */
-    public void handleBtnAlterar(ActionEvent actionEvent) throws IOException, SQLException, CadastroException {
-        Cliente cliente = (Cliente) tableView.getSelectionModel().getSelectedItem();
-        if (cliente != null) {
-            boolean buttonConfirmarClicked = mostraCadastroCli(cliente);
-            if (buttonConfirmarClicked) {
-                enderecoDAO.setConnection(connection);
-                pessoaDAO.setConnection(connection);
+    public void handleBtnAlterar(ActionEvent actionEvent) {
+        try {
+            Cliente cliente = (Cliente) tableView.getSelectionModel().getSelectedItem();
+            if (cliente != null) {
+                boolean buttonConfirmarClicked = mostraCadastroCli(cliente);
+                if (buttonConfirmarClicked) {
+                    enderecoDAO.setConnection(connection);
+                    pessoaDAO.setConnection(connection);
 
-                //Insere endereço no Banco
-                enderecoDAO.alterar(cliente.getEndereco());
+                    //Insere endereço no Banco
+                    enderecoDAO.alterar(cliente.getEndereco());
 
-                //Adiciona a pessoa
-                pessoaDAO.alterar(cliente);
+                    //Adiciona a pessoa
+                    pessoaDAO.alterar(cliente);
 
-                //Adiciona o funcionario
-                clienteDAO.alterar(cliente);
-                //Atualiza a tabela
-                populaTabela();
+                    //Adiciona o funcionario
+                    clienteDAO.alterar(cliente);
+                    //Atualiza a tabela
+                    populaTabela();
+                }
+            } else {
+                alerta("Por favor, escolha um cliente na Tabela!");
             }
-        } else {
-            alerta("Por favor, escolha um cliente na Tabela!");
+        } catch (SQLException | CadastroException e) {
+            alerta(e.getMessage());
         }
     }
 
@@ -205,28 +208,32 @@ public class ClienteController implements Initializable {
      * @param actionEvent listener
      * @throws IOException pois carrega um arquivo fxml
      */
-    public void handleBtnRemover(ActionEvent actionEvent) throws SQLException {
-        Cliente cliente = (Cliente) tableView.getSelectionModel().getSelectedItem();
-        if (cliente != null) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Confirmação de exclusão");
-            alert.setHeaderText("Deseja excluir este funcionário?");
+    public void handleBtnRemover(ActionEvent actionEvent) {
+        try {
+            Cliente cliente = (Cliente) tableView.getSelectionModel().getSelectedItem();
+            if (cliente != null) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Confirmação de exclusão");
+                alert.setHeaderText("Deseja excluir este funcionário?");
 
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == ButtonType.OK){
-                enderecoDAO.setConnection(connection);
-                pessoaDAO.setConnection(connection);
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.OK) {
+                    enderecoDAO.setConnection(connection);
+                    pessoaDAO.setConnection(connection);
 
-                enderecoDAO.remover(cliente.getEndereco());
-                pessoaDAO.remover(cliente);
-                clienteDAO.remover(cliente);
+                    enderecoDAO.remover(cliente.getEndereco());
+                    pessoaDAO.remover(cliente);
+                    clienteDAO.remover(cliente);
 
-                populaTabela();
+                    populaTabela();
+                } else {
+                    alert.close();
+                }
             } else {
-                alert.close();
+                alerta("Por favor, escolha um cliente na Tabela!");
             }
-        } else {
-            alerta("Por favor, escolha um cliente na Tabela!");
+        } catch (SQLException e) {
+            alerta(e.getMessage());
         }
     }
 
@@ -238,26 +245,31 @@ public class ClienteController implements Initializable {
      * @return true se o botão de confirmar foi clicado, senão false
      * @throws IOException pois carrega um arquivo fxml
      */
-    public boolean mostraCadastroCli(Cliente cliente) throws IOException {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(FuncionarioDialogController.class.getResource("../View/clienteDialog.fxml"));
-        AnchorPane page = (AnchorPane) loader.load();
+    public boolean mostraCadastroCli(Cliente cliente) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(FuncionarioDialogController.class.getResource("../View/clienteDialog.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
 
-        // Criando um Estágio de Diálogo (Stage Dialog)
-        Stage dialogStage = new Stage();
-        dialogStage.setTitle("Cadastro de Clientes");
+            // Criando um Estágio de Diálogo (Stage Dialog)
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Cadastro de Clientes");
 
-        Scene scene = new Scene(page);
-        dialogStage.setScene(scene);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
 
-        // Setando o funcionario no Controller.
-        ClienteDialogController controller = loader.getController();
-        controller.setDialogStage(dialogStage);
-        controller.setCli(cliente);
+            // Setando o funcionario no Controller.
+            ClienteDialogController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            controller.setCli(cliente);
 
-        // Mostra o Dialog e espera até que o usuário o feche
-        dialogStage.showAndWait();
+            // Mostra o Dialog e espera até que o usuário o feche
+            dialogStage.showAndWait();
 
-        return controller.isButtonConfirmarClicked();
+            return controller.isButtonConfirmarClicked();
+        } catch (IOException e) {
+            alerta(e.getMessage());
+            return false;
+        }
     }
 }

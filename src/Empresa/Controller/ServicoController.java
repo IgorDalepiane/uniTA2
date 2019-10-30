@@ -114,158 +114,184 @@ public class ServicoController implements Initializable {
         alert.show();
     }
 
-    public void handleBtnInserir(ActionEvent actionEvent) throws IOException, SQLException {
-        Servico servico = new Servico();
-        boolean buttonConfirmarClicked = mostraCadastroServ(servico, 1);
-        if (buttonConfirmarClicked) {
-            //Conexao com as DAOs Utilizadas
-            servicoDAO.setConnection(connection);
-            aptidaoDAO.setConnection(connection);
-
-            //Insere o servico no banco
-            servicoDAO.inserir(servico);
-            Servico ultimo = servicoDAO.buscarUltimo();
-
-            Apto apto = new Apto();
-            apto.setServico(ultimo);
-            apto.setFuncionario(servico.getAptos().get(0));
-            aptidaoDAO.inserir(apto);
-
-            //Atualiza a tabela
-            populaTabela();
-        }
-    }
-
-    public void handleBtnAlterar(ActionEvent actionEvent) throws IOException, SQLException {
-        Servico servico = (Servico) tableView.getSelectionModel().getSelectedItem();
-        if (servico != null) {
-            boolean buttonConfirmarClicked = mostraCadastroServ(servico, 2);
+    public void handleBtnInserir(ActionEvent actionEvent) {
+        try {
+            Servico servico = new Servico();
+            boolean buttonConfirmarClicked = mostraCadastroServ(servico, 1);
             if (buttonConfirmarClicked) {
+                //Conexao com as DAOs Utilizadas
                 servicoDAO.setConnection(connection);
-
-                //Insere endereço no Banco
-                servicoDAO.alterar(servico);
-
-                //Atualiza a tabela
-                populaTabela();
-            }
-        } else {
-            alerta("Por favor, escolha um cliente na Tabela!");
-        }
-    }
-
-    public void handleBtnRemover(ActionEvent actionEvent) throws SQLException {
-        Servico servico = (Servico) tableView.getSelectionModel().getSelectedItem();
-        if (servico != null) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Confirmação de exclusão");
-            alert.setHeaderText("Deseja excluir este serviço?");
-
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == ButtonType.OK){
-                servicoDAO.setConnection(connection);
-
-                servicoDAO.remover(servico);
-
-                //Atualiza a tabela
-                populaTabela();
-            } else {
-                alert.close();
-            }
-
-        } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText("Por favor, escolha um cliente na Tabela!");
-            alert.show();
-        }
-    }
-
-    public boolean mostraCadastroServ(Servico servico, int state) throws IOException, SQLException {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(ServicoDialogController.class.getResource("../View/servicoDialog.fxml"));
-        AnchorPane page = (AnchorPane) loader.load();
-
-        // Criando um Estágio de Diálogo (Stage Dialog)
-        Stage dialogStage = new Stage();
-        dialogStage.setTitle("Cadastro de Serviço");
-
-        Scene scene = new Scene(page);
-        dialogStage.setScene(scene);
-
-        // Setando o funcionario no Controller.
-        ServicoDialogController controller = loader.getController();
-        //estados diferentes para cadastrar e alterar
-        controller.setDialogStage(dialogStage, state);
-        controller.setServ(servico);
-
-        // Mostra o Dialog e espera até que o usuário o feche
-        dialogStage.showAndWait();
-
-        return controller.isButtonConfirmarClicked();
-
-    }
-
-    public void handleBtnInserirApto(ActionEvent actionEvent) throws IOException, SQLException {
-        Servico servico = (Servico) tableView.getSelectionModel().getSelectedItem();
-        if (servico != null) {
-            Apto apto = new Apto();
-            apto.setServico(servico);
-
-            boolean buttonConfirmarClicked = mostraAptoServ(apto);
-            if (buttonConfirmarClicked) {
-                try {
-                    aptidaoDAO.setConnection(connection);
-                    //Insere o servico no banco
-                    aptidaoDAO.inserir(apto);
-                } catch (com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException e) {
-                    alerta("Funcionario já está apto.");
-                }
-
-                //Atualiza a tabela
-                populaTabela();
-            }
-        } else {
-            alerta("Por favor, escolha um serviço na Tabela!");
-        }
-    }
-
-    public boolean mostraAptoServ(Apto apto) throws IOException, SQLException {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(ServicoAptoDialogController.class.getResource("../View/servicoAptoDialog.fxml"));
-        AnchorPane page = (AnchorPane) loader.load();
-        // Criando um Estágio de Diálogo (Stage Dialog)
-        Stage dialogStage = new Stage();
-        dialogStage.setTitle("Funcionário Apto");
-        Scene scene = new Scene(page);
-        dialogStage.setScene(scene);
-
-        // Setando o funcionario no Controller.
-        ServicoAptoDialogController controller = loader.getController();
-        controller.setDialogStage(dialogStage);
-        controller.setApto(apto);
-
-        // Mostra o Dialog e espera até que o usuário o feche
-        dialogStage.showAndWait();
-
-        return controller.isButtonConfirmarClicked();
-    }
-
-    public void handleBtnRemoverApto(ActionEvent actionEvent) throws IOException, SQLException {
-        Servico servico = (Servico) tableView.getSelectionModel().getSelectedItem();
-        if (servico != null) {
-            Apto apto = new Apto();
-            apto.setServico(servico);
-
-            boolean buttonConfirmarClicked = mostraAptoServ(apto);
-            if (buttonConfirmarClicked) {
                 aptidaoDAO.setConnection(connection);
-                //Remove o servico do banco
-                aptidaoDAO.removerApto(apto);
+
+                //Insere o servico no banco
+                servicoDAO.inserir(servico);
+                Servico ultimo = servicoDAO.buscarUltimo();
+
+                Apto apto = new Apto();
+                apto.setServico(ultimo);
+                apto.setFuncionario(servico.getAptos().get(0));
+                aptidaoDAO.inserir(apto);
+
                 //Atualiza a tabela
                 populaTabela();
             }
-        } else {
-            alerta("Por favor, escolha um serviço na Tabela!");
+        } catch (SQLException e) {
+            alerta(e.getMessage());
+        }
+    }
+
+    public void handleBtnAlterar(ActionEvent actionEvent) {
+        try {
+            Servico servico = (Servico) tableView.getSelectionModel().getSelectedItem();
+            if (servico != null) {
+                boolean buttonConfirmarClicked = mostraCadastroServ(servico, 2);
+                if (buttonConfirmarClicked) {
+                    servicoDAO.setConnection(connection);
+
+                    //Insere endereço no Banco
+                    servicoDAO.alterar(servico);
+
+                    //Atualiza a tabela
+                    populaTabela();
+                }
+            } else {
+                alerta("Por favor, escolha um cliente na Tabela!");
+            }
+        } catch (SQLException e) {
+            alerta(e.getMessage());
+        }
+    }
+
+    public void handleBtnRemover(ActionEvent actionEvent) {
+        try {
+            Servico servico = (Servico) tableView.getSelectionModel().getSelectedItem();
+            if (servico != null) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Confirmação de exclusão");
+                alert.setHeaderText("Deseja excluir este serviço?");
+
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.OK) {
+                    servicoDAO.setConnection(connection);
+
+                    servicoDAO.remover(servico);
+
+                    //Atualiza a tabela
+                    populaTabela();
+                } else {
+                    alert.close();
+                }
+            } else {
+                alerta("Por favor, escolha um cliente na Tabela!");
+            }
+        } catch (SQLException e) {
+            alerta(e.getMessage());
+        }
+    }
+
+    public boolean mostraCadastroServ(Servico servico, int state) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(ServicoDialogController.class.getResource("../View/servicoDialog.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
+
+            // Criando um Estágio de Diálogo (Stage Dialog)
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Cadastro de Serviço");
+
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            // Setando o funcionario no Controller.
+            ServicoDialogController controller = loader.getController();
+            //estados diferentes para cadastrar e alterar
+            controller.setDialogStage(dialogStage, state);
+            controller.setServ(servico);
+
+            // Mostra o Dialog e espera até que o usuário o feche
+            dialogStage.showAndWait();
+
+            return controller.isButtonConfirmarClicked();
+        } catch (IOException | SQLException e) {
+            alerta(e.getMessage());
+            return false;
+        }
+    }
+
+    public void handleBtnInserirApto(ActionEvent actionEvent) {
+        try {
+            Servico servico = (Servico) tableView.getSelectionModel().getSelectedItem();
+            if (servico != null) {
+                Apto apto = new Apto();
+                apto.setServico(servico);
+
+                boolean buttonConfirmarClicked = mostraAptoServ(apto);
+                if (buttonConfirmarClicked) {
+                    try {
+                        aptidaoDAO.setConnection(connection);
+                        //Insere o servico no banco
+                        aptidaoDAO.inserir(apto);
+                    } catch (com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException e) {
+                        alerta("Funcionario já está apto.");
+                    }
+
+                    //Atualiza a tabela
+                    populaTabela();
+                }
+            } else {
+                alerta("Por favor, escolha um serviço na Tabela!");
+            }
+        } catch (SQLException e) {
+            alerta(e.getMessage());
+        }
+    }
+
+    public boolean mostraAptoServ(Apto apto) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(ServicoAptoDialogController.class.getResource("../View/servicoAptoDialog.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
+            // Criando um Estágio de Diálogo (Stage Dialog)
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Funcionário Apto");
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            // Setando o funcionario no Controller.
+            ServicoAptoDialogController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            controller.setApto(apto);
+
+            // Mostra o Dialog e espera até que o usuário o feche
+            dialogStage.showAndWait();
+
+            return controller.isButtonConfirmarClicked();
+        } catch (IOException | SQLException e) {
+            alerta(e.getMessage());
+            return false;
+        }
+    }
+
+    public void handleBtnRemoverApto(ActionEvent actionEvent) {
+        try {
+            Servico servico = (Servico) tableView.getSelectionModel().getSelectedItem();
+            if (servico != null) {
+                Apto apto = new Apto();
+                apto.setServico(servico);
+
+                boolean buttonConfirmarClicked = mostraAptoServ(apto);
+                if (buttonConfirmarClicked) {
+                    aptidaoDAO.setConnection(connection);
+                    //Remove o servico do banco
+                    aptidaoDAO.removerApto(apto);
+                    //Atualiza a tabela
+                    populaTabela();
+                }
+            } else {
+                alerta("Por favor, escolha um serviço na Tabela!");
+            }
+        } catch (SQLException e) {
+            alerta(e.getMessage());
         }
     }
 }

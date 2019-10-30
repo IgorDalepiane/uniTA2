@@ -67,30 +67,49 @@ public class PagInicialController implements Initializable {
     /**
      * Handle do click no botão do funcionário, muda o AnchorPane da página
      * @param actionEvent
-     * @throws IOException porque carrega o arquivo fxml
      */
-    public void handleFuncionario(ActionEvent actionEvent) throws IOException {
-        AnchorPane root = FXMLLoader.load(PagInicialController.class.getResource("../View/funcionario.fxml"));
-        anchor.getChildren().setAll(root);
+    public void handleFuncionario(ActionEvent actionEvent) {
+        try {
+            AnchorPane root = FXMLLoader.load(PagInicialController.class.getResource("../View/funcionario.fxml"));
+            anchor.getChildren().setAll(root);
+        } catch (IOException e) {
+            alerta(e.getMessage());
+        }
     }
 
-    public void handleCliente(ActionEvent actionEvent) throws IOException {
-        AnchorPane root = FXMLLoader.load(PagInicialController.class.getResource("../View/cliente.fxml"));
-        anchor.getChildren().setAll(root);
+    public void handleCliente(ActionEvent actionEvent) {
+        try {
+            AnchorPane root = FXMLLoader.load(PagInicialController.class.getResource("../View/cliente.fxml"));
+            anchor.getChildren().setAll(root);
+        } catch (IOException e) {
+            alerta(e.getMessage());
+        }
     }
 
-    public void handleServico(ActionEvent actionEvent) throws IOException {
-        AnchorPane root = FXMLLoader.load(PagInicialController.class.getResource("../View/servico.fxml"));
-        anchor.getChildren().setAll(root);
+    public void handleServico(ActionEvent actionEvent) {
+        try {
+            AnchorPane root = FXMLLoader.load(PagInicialController.class.getResource("../View/servico.fxml"));
+            anchor.getChildren().setAll(root);
+        } catch (IOException e) {
+            alerta(e.getMessage());
+        }
     }
 
-    public void handleServicoPrestado(ActionEvent actionEvent) throws IOException {
-        AnchorPane root = FXMLLoader.load(PagInicialController.class.getResource("../View/servicoPrestado.fxml"));
-        anchor.getChildren().setAll(root);
+    public void handleServicoPrestado(ActionEvent actionEvent) {
+        try {
+            AnchorPane root = FXMLLoader.load(PagInicialController.class.getResource("../View/servicoPrestado.fxml"));
+            anchor.getChildren().setAll(root);
+        } catch (IOException e) {
+            alerta(e.getMessage());
+        }
     }
 
-    public void handleProduto(ActionEvent actionEvent) throws IOException {
-        AnchorPane root = FXMLLoader.load(PagInicialController.class.getResource("../View/estoque.fxml"));
-        anchor.getChildren().setAll(root);
+    public void handleProduto(ActionEvent actionEvent) {
+        try {
+            AnchorPane root = FXMLLoader.load(PagInicialController.class.getResource("../View/estoque.fxml"));
+            anchor.getChildren().setAll(root);
+        } catch (IOException e) {
+            alerta(e.getMessage());
+        }
     }
 }

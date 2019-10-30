@@ -146,75 +146,33 @@ public class FuncionarioController implements Initializable {
      * @param actionEvent listener
      * @throws IOException pois carrega um arquivo fxml
      */
-    public void handleBtnInserir(ActionEvent actionEvent) throws IOException, SQLException, CadastroException {
-        Funcionario funcionario = new Funcionario();
-        boolean buttonConfirmarClicked = mostraCadastroFunc(funcionario);
-        if (buttonConfirmarClicked) {
-
-            //Conexao com as DAOs Utilizadas
-            enderecoDAO.setConnection(connection);
-            pessoaDAO.setConnection(connection);
-            cargoDAO.setConnection(connection);
-
-            //Insere endereço no Banco
-            enderecoDAO.inserir(funcionario.getEndereco());
-
-            //Atualiza o idEnd com o ultimo endereço adicionado
-            funcionario.setEndereco(enderecoDAO.buscarUltimoEnd());
-
-            //Adiciona a pessoa
-            try {
-                pessoaDAO.inserir(funcionario);
-            } catch (CadastroException e) {
-                alerta(e.getMessage());
-            }
-
-            //Atualiza o idPessoa de funcionario com a ultima pessoa adicionada
-            funcionario.setId(pessoaDAO.buscarUltimaPess().getId());
-
-
-            //Verifica se existe um cargo com este nome
-            Cargo cargoBD = cargoDAO.buscarPeloNome(funcionario.getCargo().getCargoText());
-
-            //Se ja existir um cargo com este nome, apenas seta com o mesmo
-            if (cargoBD != null) {
-                funcionario.setCargo(cargoBD);
-            } else {
-                //Caso nao, insere o novo cargo no banco
-                cargoDAO.inserir(funcionario.getCargo());
-                //E atualiza o idCargo de funcionario com o ultimo adicionado
-                funcionario.setCargo(cargoDAO.buscarUltimoCargo());
-            }
-
-            //Adiciona o funcionario
-            funcionarioDAO.inserir(funcionario);
-            //Atualiza a tabela
-            populaTabela();
-        }
-    }
-
-    /**
-     * Método que lida com o clique do botão de alterar
-     * Chama o diálogo de alteração com os dados do registro atual,
-     * verifica os dados alterados e envia ao banco de dados
-     *
-     * @param actionEvent listener
-     * @throws IOException pois carrega um arquivo fxml
-     */
-    public void handleBtnAlterar(ActionEvent actionEvent) throws IOException, SQLException, CadastroException {
-        Funcionario funcionario = (Funcionario) tableView.getSelectionModel().getSelectedItem();
-        if (funcionario != null) {
+    public void handleBtnInserir(ActionEvent actionEvent) {
+        try {
+            Funcionario funcionario = new Funcionario();
             boolean buttonConfirmarClicked = mostraCadastroFunc(funcionario);
             if (buttonConfirmarClicked) {
+
+                //Conexao com as DAOs Utilizadas
                 enderecoDAO.setConnection(connection);
                 pessoaDAO.setConnection(connection);
                 cargoDAO.setConnection(connection);
 
                 //Insere endereço no Banco
-                enderecoDAO.alterar(funcionario.getEndereco());
+                enderecoDAO.inserir(funcionario.getEndereco());
+
+                //Atualiza o idEnd com o ultimo endereço adicionado
+                funcionario.setEndereco(enderecoDAO.buscarUltimoEnd());
 
                 //Adiciona a pessoa
-                pessoaDAO.alterar(funcionario);
+                try {
+                    pessoaDAO.inserir(funcionario);
+                } catch (CadastroException e) {
+                    alerta(e.getMessage());
+                }
+
+                //Atualiza o idPessoa de funcionario com a ultima pessoa adicionada
+                funcionario.setId(pessoaDAO.buscarUltimaPess().getId());
+
 
                 //Verifica se existe um cargo com este nome
                 Cargo cargoBD = cargoDAO.buscarPeloNome(funcionario.getCargo().getCargoText());
@@ -230,12 +188,62 @@ public class FuncionarioController implements Initializable {
                 }
 
                 //Adiciona o funcionario
-                funcionarioDAO.alterar(funcionario);
+                funcionarioDAO.inserir(funcionario);
                 //Atualiza a tabela
                 populaTabela();
             }
-        } else {
-            alerta("Por favor, escolha um cliente na Tabela!");
+        } catch (SQLException | CadastroException e) {
+            alerta(e.getMessage());
+        }
+    }
+
+    /**
+     * Método que lida com o clique do botão de alterar
+     * Chama o diálogo de alteração com os dados do registro atual,
+     * verifica os dados alterados e envia ao banco de dados
+     *
+     * @param actionEvent listener
+     * @throws IOException pois carrega um arquivo fxml
+     */
+    public void handleBtnAlterar(ActionEvent actionEvent) {
+        try {
+            Funcionario funcionario = (Funcionario) tableView.getSelectionModel().getSelectedItem();
+            if (funcionario != null) {
+                boolean buttonConfirmarClicked = mostraCadastroFunc(funcionario);
+                if (buttonConfirmarClicked) {
+                    enderecoDAO.setConnection(connection);
+                    pessoaDAO.setConnection(connection);
+                    cargoDAO.setConnection(connection);
+
+                    //Insere endereço no Banco
+                    enderecoDAO.alterar(funcionario.getEndereco());
+
+                    //Adiciona a pessoa
+                    pessoaDAO.alterar(funcionario);
+
+                    //Verifica se existe um cargo com este nome
+                    Cargo cargoBD = cargoDAO.buscarPeloNome(funcionario.getCargo().getCargoText());
+
+                    //Se ja existir um cargo com este nome, apenas seta com o mesmo
+                    if (cargoBD != null) {
+                        funcionario.setCargo(cargoBD);
+                    } else {
+                        //Caso nao, insere o novo cargo no banco
+                        cargoDAO.inserir(funcionario.getCargo());
+                        //E atualiza o idCargo de funcionario com o ultimo adicionado
+                        funcionario.setCargo(cargoDAO.buscarUltimoCargo());
+                    }
+
+                    //Adiciona o funcionario
+                    funcionarioDAO.alterar(funcionario);
+                    //Atualiza a tabela
+                    populaTabela();
+                }
+            } else {
+                alerta("Por favor, escolha um cliente na Tabela!");
+            }
+        } catch (SQLException | CadastroException e) {
+            alerta(e.getMessage());
         }
     }
 
@@ -247,29 +255,33 @@ public class FuncionarioController implements Initializable {
      * @param actionEvent listener
      * @throws IOException pois carrega um arquivo fxml
      */
-    public void handleBtnRemover(ActionEvent actionEvent) throws SQLException {
-        Funcionario funcionario = (Funcionario) tableView.getSelectionModel().getSelectedItem();
-        if (funcionario != null) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Confirmação de exclusão");
-            alert.setHeaderText("Deseja excluir este funcionário?");
+    public void handleBtnRemover(ActionEvent actionEvent) {
+        try {
+            Funcionario funcionario = (Funcionario) tableView.getSelectionModel().getSelectedItem();
+            if (funcionario != null) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Confirmação de exclusão");
+                alert.setHeaderText("Deseja excluir este funcionário?");
 
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == ButtonType.OK) {
-                enderecoDAO.setConnection(connection);
-                pessoaDAO.setConnection(connection);
-                cargoDAO.setConnection(connection);
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.OK) {
+                    enderecoDAO.setConnection(connection);
+                    pessoaDAO.setConnection(connection);
+                    cargoDAO.setConnection(connection);
 
-                enderecoDAO.remover(funcionario.getEndereco());
-                pessoaDAO.remover(funcionario);
-                funcionarioDAO.remover(funcionario);
+                    enderecoDAO.remover(funcionario.getEndereco());
+                    pessoaDAO.remover(funcionario);
+                    funcionarioDAO.remover(funcionario);
 
-                populaTabela();
+                    populaTabela();
+                } else {
+                    alert.close();
+                }
             } else {
-                alert.close();
+                alerta("Por favor, escolha um cliente na Tabela!");
             }
-        } else {
-            alerta("Por favor, escolha um cliente na Tabela!");
+        } catch (SQLException e) {
+            alerta(e.getMessage());
         }
     }
 
@@ -281,47 +293,56 @@ public class FuncionarioController implements Initializable {
      * @return true se o botão de confirmar foi clicado, senão false
      * @throws IOException pois carrega um arquivo fxml
      */
-    public boolean mostraCadastroFunc(Funcionario funcionario) throws IOException {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(FuncionarioDialogController.class.getResource("../View/funcionarioDialog.fxml"));
-        AnchorPane page = (AnchorPane) loader.load();
+    public boolean mostraCadastroFunc(Funcionario funcionario) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(FuncionarioDialogController.class.getResource("../View/funcionarioDialog.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
 
-        // Criando um Estágio de Diálogo (Stage Dialog)
-        Stage dialogStage = new Stage();
-        dialogStage.setTitle("Cadastro de Funcionários");
+            // Criando um Estágio de Diálogo (Stage Dialog)
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Cadastro de Funcionários");
 
-        Scene scene = new Scene(page);
-        dialogStage.setScene(scene);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
 
-        // Setando o funcionario no Controller.
-        FuncionarioDialogController controller = loader.getController();
-        controller.setDialogStage(dialogStage);
-        controller.setFunc(funcionario);
+            // Setando o funcionario no Controller.
+            FuncionarioDialogController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            controller.setFunc(funcionario);
 
-        // Mostra o Dialog e espera até que o usuário o feche
-        dialogStage.showAndWait();
+            // Mostra o Dialog e espera até que o usuário o feche
+            dialogStage.showAndWait();
 
-        return controller.isButtonConfirmarClicked();
+            return controller.isButtonConfirmarClicked();
+        } catch (IOException e) {
+            alerta(e.getMessage());
+            return false;
+        }
     }
 
-    public void handleFolhaPgto(ActionEvent actionEvent) throws IOException, SQLException {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(FuncionarioDialogController.class.getResource("../View/funcionarioFolhaPgto.fxml"));
-        AnchorPane page = (AnchorPane) loader.load();
+    public void handleFolhaPgto(ActionEvent actionEvent) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(FuncionarioDialogController.class.getResource("../View/funcionarioFolhaPgto.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
 
-        // Criando um Estágio de Diálogo (Stage Dialog)
-        Stage dialogStage = new Stage();
-        dialogStage.setTitle("Folha de Pagamentos");
+            // Criando um Estágio de Diálogo (Stage Dialog)
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Folha de Pagamentos");
 
-        Scene scene = new Scene(page);
-        dialogStage.setScene(scene);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
 
-        // Popular os dados da grid
-        FuncionarioDialogController controller = loader.getController();
-        controller.setDialogStage(dialogStage);
-        controller.folhaPgto(observableListFuncionario);
+            // Popular os dados da grid
+            FuncionarioDialogController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            controller.folhaPgto(observableListFuncionario);
 
-        // Mostra o Dialog e espera até que o usuário o feche
-        dialogStage.showAndWait();
+            // Mostra o Dialog e espera até que o usuário o feche
+            dialogStage.showAndWait();
+        } catch (IOException | SQLException e) {
+            alerta(e.getMessage());
+        }
     }
 }
