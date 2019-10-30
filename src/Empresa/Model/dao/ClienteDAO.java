@@ -75,7 +75,7 @@ public class ClienteDAO implements InterfaceDAO {
      * @return true se a operação foi concluída com sucesso, false se não
      */
     public boolean remover(Cliente cli) throws SQLException {
-        String sql = "DELETE FROM cliente WHERE id=?";
+        String sql = "DELETE FROM cliente WHERE idPessoa=?";
         PreparedStatement stmt = connection.prepareStatement(sql);
         stmt.setInt(1, cli.getId());
         return stmt.execute();
