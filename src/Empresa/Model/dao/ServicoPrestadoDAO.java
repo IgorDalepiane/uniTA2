@@ -9,6 +9,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ServicoPrestadoDAO implements InterfaceDAO {
     private Connection connection;
@@ -24,7 +26,7 @@ public class ServicoPrestadoDAO implements InterfaceDAO {
     }
 
     public boolean inserir(ServicoPrestado servP) throws SQLException, ParseException {
-        String sql = "INSERT INTO servicoprestado (idCliente, idServ, idFunc, data, horaInicio, horaFim,idEmp) VALUES(?,?,?,?,?,?,"+Session.get().getId()+")";
+        String sql = "INSERT INTO servicoprestado (idCliente, idServ, idFunc, data, horaInicio, horaFim,idEmp) VALUES(?,?,?,?,?,?," + Session.get().getId() + ")";
         PreparedStatement stmt = connection.prepareStatement(sql);
         stmt.setInt(1, servP.getCliente().getId());
         stmt.setInt(2, servP.getServico().getId());
@@ -39,8 +41,14 @@ public class ServicoPrestadoDAO implements InterfaceDAO {
         return false;
     }
 
-    public boolean remover(ServicoPrestado servP) {
-        return false;
+    public boolean remover(ServicoPrestado servP) throws SQLException {
+        String sql = "DELETE FROM servicoprestado WHERE idEmp=" + Session.get().getId() + " AND idCliente=? AND data=? AND horaInicio = ?";
+
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        stmt.setInt(1, servP.getCliente().getId());
+        stmt.setDate(2, Date.valueOf(servP.getData()));
+        stmt.setTime(3, servP.getHrInicial());
+        return stmt.execute();
     }
 
     public ServicoPrestado buscar(ServicoPrestado servP) {

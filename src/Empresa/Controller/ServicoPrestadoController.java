@@ -129,100 +129,143 @@ public class ServicoPrestadoController implements Initializable {
         alert.show();
     }
 
-    public void handleBtnInserir(ActionEvent actionEvent) throws IOException, SQLException {
-        ServicoPrestado servicoPrestado = new ServicoPrestado();
-        boolean buttonConfirmarClicked = mostraCadastroServPres(servicoPrestado, 1);
-        if (buttonConfirmarClicked) {
-            //Conexao com as DAOs Utilizadas
-            servicoPrestadoDAO.setConnection(connection);
-            servProdDAO.setConnection(connection);
-            //Insere o servico no banco
-            try {
-                servicoPrestadoDAO.inserir(servicoPrestado);
-            } catch (MySQLIntegrityConstraintViolationException | ParseException e) {
-                alerta("Servico já prestado.");
-            }
-            //Atualiza a tabela
-            populaTabela();
-        }
-    }
-
-    public void handleBtnAlterar(ActionEvent actionEvent) throws IOException {
-
-    }
-
-    public void handleBtnRemover(ActionEvent actionEvent) {
-
-    }
-    public void handleBtnAddProd(ActionEvent actionEvent) throws IOException, SQLException {
-        ServicoPrestado servicoPrestado = (ServicoPrestado) tableView.getSelectionModel().getSelectedItem();
-        if (servicoPrestado != null) {
-            Serv_Prod serv_prod = new Serv_Prod();
-            serv_prod.setCli(servicoPrestado.getCliente());
-            serv_prod.setData(servicoPrestado.getData());
-            serv_prod.setEmp(servicoPrestado.getEmpresa());
-            serv_prod.setHrInicio(servicoPrestado.getHrInicial());
-
-            boolean buttonConfirmarClicked = mostraProdUti(serv_prod);
+    public void handleBtnInserir(ActionEvent actionEvent){
+        try {
+            ServicoPrestado servicoPrestado = new ServicoPrestado();
+            boolean buttonConfirmarClicked = mostraCadastroServPres(servicoPrestado, 1);
             if (buttonConfirmarClicked) {
+                //Conexao com as DAOs Utilizadas
+                servicoPrestadoDAO.setConnection(connection);
+                servProdDAO.setConnection(connection);
+                //Insere o servico no banco
                 try {
-                    servProdDAO.setConnection(connection);
-                    //Insere o servico no banco
-                    servProdDAO.inserir(serv_prod);
-                } catch (com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException e) {
-                    alerta("Produto já adicionado");
+                    servicoPrestadoDAO.inserir(servicoPrestado);
+                } catch (MySQLIntegrityConstraintViolationException | ParseException e) {
+                    alerta("Servico já prestado.");
                 }
-
                 //Atualiza a tabela
                 populaTabela();
             }
-        } else {
-            alerta("Por favor, escolha um serviço na Tabela!");
+        } catch (SQLException e) {
+            alerta(e.getMessage());
         }
     }
-    public boolean mostraProdUti(Serv_Prod serv_prod) throws IOException, SQLException {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(ServicoPresProdDialogController.class.getResource("../View/servicoPresProdDialog.fxml"));
-        AnchorPane page = (AnchorPane) loader.load();
-        // Criando um Estágio de Diálogo (Stage Dialog)
-        Stage dialogStage = new Stage();
-        dialogStage.setTitle("Produto Utilizado");
-        Scene scene = new Scene(page);
-        dialogStage.setScene(scene);
 
-        // Setando o funcionario no Controller.
-        ServicoPresProdDialogController controller = loader.getController();
-        controller.setDialogStage(dialogStage);
-        controller.setServProd(serv_prod);
+//    public void handleBtnAlterar(ActionEvent actionEvent) throws IOException {
+//
+//    }
 
-        // Mostra o Dialog e espera até que o usuário o feche
-        dialogStage.showAndWait();
+    public void handleBtnRemover(ActionEvent actionEvent) {
+        try {
+            ServicoPrestado servicoPrestado = (ServicoPrestado) tableView.getSelectionModel().getSelectedItem();
+            if (servicoPrestado != null) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Confirmação de exclusão");
+                alert.setHeaderText("Deseja excluir este serviço prestado?");
 
-        return controller.isButtonConfirmarClicked();
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.OK){
+                    servicoPrestadoDAO.setConnection(connection);
+
+                    servicoPrestadoDAO.remover(servicoPrestado);
+
+                    //Atualiza a tabela
+                    populaTabela();
+                } else {
+                    alert.close();
+                }
+
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Por favor, escolha um cliente na Tabela!");
+                alert.show();
+            }
+        } catch (SQLException e) {
+            alerta(e.getMessage());
+        }
     }
-    public boolean mostraCadastroServPres(ServicoPrestado servicoPres, int state) throws IOException, SQLException {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(ServicoPrestadoDialogController.class.getResource("../View/servicoPrestadoDialog.fxml"));
-        AnchorPane page = (AnchorPane) loader.load();
+    public void handleBtnAddProd(ActionEvent actionEvent) {
+        try {
+            ServicoPrestado servicoPrestado = (ServicoPrestado) tableView.getSelectionModel().getSelectedItem();
+            if (servicoPrestado != null) {
+                Serv_Prod serv_prod = new Serv_Prod();
+                serv_prod.setCli(servicoPrestado.getCliente());
+                serv_prod.setData(servicoPrestado.getData());
+                serv_prod.setEmp(servicoPrestado.getEmpresa());
+                serv_prod.setHrInicio(servicoPrestado.getHrInicial());
 
-        // Criando um Estágio de Diálogo (Stage Dialog)
-        Stage dialogStage = new Stage();
-        dialogStage.setTitle("Cadastro de Serviço Prestado");
+                boolean buttonConfirmarClicked = mostraProdUti(serv_prod);
+                if (buttonConfirmarClicked) {
+                    try {
+                        servProdDAO.setConnection(connection);
+                        //Insere o servico no banco
+                        servProdDAO.inserir(serv_prod);
+                    } catch (MySQLIntegrityConstraintViolationException e) {
+                        alerta("Produto já adicionado");
+                    }
 
-        Scene scene = new Scene(page);
-        dialogStage.setScene(scene);
+                    //Atualiza a tabela
+                    populaTabela();
+                }
+            } else {
+                alerta("Por favor, escolha um serviço na Tabela!");
+            }
+        } catch (SQLException e) {
+            alerta(e.getMessage());
+        }
+    }
+    public boolean mostraProdUti(Serv_Prod serv_prod){
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(ServicoPresProdDialogController.class.getResource("../View/servicoPresProdDialog.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
+            // Criando um Estágio de Diálogo (Stage Dialog)
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Produto Utilizado");
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
 
-        // Setando o funcionario no Controller.
-        ServicoPrestadoDialogController controller = loader.getController();
-        //estados diferentes para cadastrar e alterar
-        controller.setDialogStage(dialogStage, state);
-        controller.setServPres(servicoPres);
+            // Setando o funcionario no Controller.
+            ServicoPresProdDialogController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            controller.setServProd(serv_prod);
 
-        // Mostra o Dialog e espera até que o usuário o feche
-        dialogStage.showAndWait();
+            // Mostra o Dialog e espera até que o usuário o feche
+            dialogStage.showAndWait();
 
-        return controller.isButtonConfirmarClicked();
+            return controller.isButtonConfirmarClicked();
+        } catch (IOException | SQLException e) {
+           alerta(e.getMessage());
+           return false;
+        }
+    }
+    public boolean mostraCadastroServPres(ServicoPrestado servicoPres, int state){
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(ServicoPrestadoDialogController.class.getResource("../View/servicoPrestadoDialog.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
 
+            // Criando um Estágio de Diálogo (Stage Dialog)
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Cadastro de Serviço Prestado");
+
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            // Setando o funcionario no Controller.
+            ServicoPrestadoDialogController controller = loader.getController();
+            //estados diferentes para cadastrar e alterar
+            controller.setDialogStage(dialogStage, state);
+            controller.setServPres(servicoPres);
+
+            // Mostra o Dialog e espera até que o usuário o feche
+            dialogStage.showAndWait();
+
+            return controller.isButtonConfirmarClicked();
+        } catch (IOException | SQLException e) {
+            alerta(e.getMessage());
+            return false;
+        }
     }
 
 }
